@@ -1,0 +1,32 @@
+main: com.gmail.evstike.fates.Fates
+name: AdvancedWeapons
+version: beta-0.4
+api-version: 1.13
+description: This is a test!
+commands:
+   enchgui:
+      description: A menu of enchantments
+      permission: advancedweapons.enchgui
+      aliases: [ench, enchants, awenchants]
+   weapons:
+      description: A menu of custom weapons
+      permission: advancedweapons.weapons
+      aliases: [aweapons, awweapons] 
+   ignite:
+      description: Ignite a player on fire
+      permission: advancedweapons.ignite
+   hideme:
+      description: Hide from a player
+      permission: advancedweapons.hideme
+   showme:
+      description: Become visible to a player
+      permission: advancedweapons.showme
+   advancedweapons:
+      description: Plugin information
+   dust:
+      description: Magical dusts
+   ce:
+      description: Custom enchantments
+      aliases: [customenchants, awenchantments]
+   runes:
+      description: Magical runes
