@@ -1,0 +1,19 @@
+# CustomEnchantment Config
+  rush-i:
+    name: '&eRush I'
+    lore:
+      - ""
+      - ""
+      - ""
+    chance: 10
+    cost: 1
+    type: weapon
+  rush-ii:
+    name: '&eRush II'
+    lore:
+      - ""
+      - ""
+      - ""
+    chance: 10
+    cost: 1
+    type: weapon

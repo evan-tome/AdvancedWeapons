@@ -1,5 +1,107 @@
-#AdvancedWeapons Config
-
-weaponeffects: true
-version: evstink
-
+# AdvancedWeapons Config
+# Messages
+reload-msg: '&6[AdvancedWeapons] &aPlugin reloaded.'
+# Enable/Disable
+update-check: true
+durability: false
+cake: true
+slayer-msg: true
+dropper-msg: true
+fireball-msg: true
+# Dust
+dust-cost: 100
+dust-material: GOLD_INGOT
+dust-trade: 1
+# Weapons
+weapon:
+  the-destroyer:
+    cost: 8
+  the-slayer:
+    cost: 10
+  the-dropper:
+    cost: 5
+  fireball-launcher:
+    cost: 3
+# Enchants
+enchant:
+  rush-i:
+    chance: 10
+    cost: 1
+    type: weapon
+  rush-ii:
+    chance: 10
+    cost: 4
+    type: weapon
+  rush-iii:
+    chance: 10
+    cost: 8
+    type: weapon
+  bounce-i:
+    chance: 10
+    cost: 1
+    type: weapon
+  bounce-ii:
+    chance: 10
+    cost: 4
+    type: weapon
+  bounce-iii:
+    chance: 10
+    cost: 8
+    type: weapon
+  hyper-i:
+    chance: 10
+    cost: 1
+    type: weapon
+  hyper-ii:
+    chance: 10
+    cost: 4
+    type: weapon
+  hyper-iii:
+    chance: 10
+    cost: 8
+    type: weapon
+  plague-i:
+    chance: 10
+    cost: 1
+    msg: true
+    type: weapon
+  plague-ii:
+    chance: 10
+    cost: 4
+    msg: true
+    type: weapon
+  plague-iii:
+    chance: 10
+    cost: 8
+    msg: true
+    type: weapon
+  end-ender-i:
+    chance: 100
+    cost: 1
+    msg: true
+    type: weapon
+  end-ender-ii:
+    chance: 100
+    cost: 4
+    msg: true
+    type: weapon
+  end-ender-iii:
+    chance: 100
+    cost: 8
+    msg: true
+    type: weapon
+  tolerance-i:
+    chance: 25
+    cost: 1
+    msg: true
+    type: armor
+  tolerance-ii:
+    chance: 25
+    cost: 4
+    msg: true
+    type: armor
+  tolerance-iii:
+    chance: 25
+    cost: 8
+    msg: true
+    type: armor
