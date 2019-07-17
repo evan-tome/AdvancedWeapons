@@ -1,6 +1,6 @@
 # AdvancedWeapons Config
 # Messages
-reload-msg: '&6[AdvancedWeapons] &aPlugin reloaded.'
+reload-msg: '§6[AdvancedWeapons] §aPlugin reloaded.'
 # Enable/Disable
 update-check: true
 durability: false
@@ -25,82 +25,160 @@ weapon:
 # Enchants
 enchant:
   rush-i:
+    name: "§eRush I"
+    lore:
+      - "§7Gives you a quick rush of speed."
+      - "§7Speed I - 4s"
     chance: 10
     cost: 1
     type: weapon
   rush-ii:
+    name: "§eRush II"
+    lore:
+      - "§7Gives you a quick rush of speed."
+      - "§7Speed I - 6s"
     chance: 10
     cost: 4
     type: weapon
   rush-iii:
+    name: "§eRush III"
+    lore:
+      - "§7Gives you a quick rush of speed."
+      - "§7Speed I - 8s"
     chance: 10
     cost: 8
     type: weapon
   bounce-i:
+    name: "§eBounce I"
+    lore:
+      - "§7Lets you jump to new heights."
+      - "§7Bounce I - 4s"
     chance: 10
     cost: 1
     type: weapon
   bounce-ii:
+    name: "§eBounce II"
+    lore:
+      - "§7Lets you jump to new heights."
+      - "§7Bounce I - 6s"
     chance: 10
     cost: 4
     type: weapon
   bounce-iii:
+    name: "§eBounce III"
+    lore:
+      - "§7Lets you jump to new heights."
+      - "§7Bounce II - 8s"
     chance: 10
     cost: 8
     type: weapon
   hyper-i:
+    name: "§eHyper I"
+    lore:
+      - "§7Hit faster when hyper."
+      - "§7Haste I - 4s"
     chance: 10
     cost: 1
     type: weapon
   hyper-ii:
+    name: "§eHyper II"
+    lore:
+      - "§7Hit faster when hyper."
+      - "§7Haste I - 6s"
     chance: 10
     cost: 4
     type: weapon
   hyper-iii:
+    name: "§eHyper III"
+    lore:
+      - "§7Hit faster when hyper."
+      - "§7Haste II - 8s"
     chance: 10
     cost: 8
     type: weapon
   plague-i:
+    name: "§ePlague I"
+    lore:
+        - "§7Inflicts poison on your enemies."
+        - "§7Poison I - 4s"
     chance: 10
     cost: 1
     msg: true
     type: weapon
   plague-ii:
+    name: "§ePlague II"
+    lore:
+      - "§7Inflicts poison on your enemies."
+      - "§7Speed I - 8s"
     chance: 10
     cost: 4
     msg: true
     type: weapon
   plague-iii:
+    name: "§ePlague III"
+    lore:
+      - "§7Inflicts poison on your enemies."
+      - "§7Poison II - 8s"
     chance: 10
     cost: 8
     msg: true
     type: weapon
   end-ender-i:
+    name: "§eEnd Ender I"
+    lore:
+      - "§7Deals more damage to endermen"
+      - "§7and endermites"
+      - "§7+1 damage"
     chance: 100
     cost: 1
     msg: true
     type: weapon
   end-ender-ii:
+    name: "§eEnd Ender II"
+    lore:
+      - "§7Deals more damage to endermen"
+      - "§7and endermites"
+      - "§7+1.5 damage"
     chance: 100
     cost: 4
     msg: true
     type: weapon
   end-ender-iii:
+    name: "§eEnd Ender III"
+    lore:
+      - "§7Deals more damage to endermen"
+      - "§7and endermites"
+      - "§7+2 damage"
     chance: 100
     cost: 8
     msg: true
     type: weapon
   tolerance-i:
+    name: "§eTolerance I"
+    lore:
+      - "§7Gives resistance after taking more"
+      - "§7than a certain amount of damage."
+      - "§78+ damage required"
     chance: 25
     cost: 1
     msg: true
     type: armor
   tolerance-ii:
+    name: "§eTolerance II"
+    lore:
+      - "§7Gives resistance after taking more"
+      - "§7than a certain amount of damage."
+      - "§78+ damage required"
     chance: 25
     cost: 4
     msg: true
     type: armor
   tolerance-iii:
+    name: "§eTolerance III"
+    lore:
+      - "§7Gives resistance after taking more"
+      - "§7than a certain amount of damage."
+      - "§78+ damage required"
     chance: 25
     cost: 8
     msg: true
