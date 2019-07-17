@@ -15,9 +15,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class Fates extends JavaPlugin implements Listener {
 
-	private File customConfigFile;
-	private FileConfiguration customConfig;
-
 	@Override
 	public void onEnable() {
     	getLogger().info("AdvancedWeapons has been enabled!");
@@ -51,27 +48,6 @@ public class Fates extends JavaPlugin implements Listener {
     	final FileConfiguration config = this.getConfig();  	
     	config.options().copyDefaults(true);  	
     	this.saveConfig();
-
-		createCustomConfig();
-	}
-
-	public FileConfiguration getCustomConfig() {
-		return this.customConfig;
-	}
-
-	private void createCustomConfig() {
-		customConfigFile = new File(getDataFolder(), "customenchantments.yml");
-		if (!customConfigFile.exists()) {
-			customConfigFile.getParentFile().mkdirs();
-			saveResource("customenchantments.yml", false);
-		}
-
-		customConfig= new YamlConfiguration();
-		try {
-			customConfig.load(customConfigFile);
-		} catch (IOException | InvalidConfigurationException e) {
-			e.printStackTrace();
-		}
 
 		Logger log = getLogger();
 		log.info("AdvancedWeapons is using bStats.");
