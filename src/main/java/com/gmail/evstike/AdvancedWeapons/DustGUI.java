@@ -3,6 +3,7 @@ package com.gmail.evstike.AdvancedWeapons;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -19,6 +20,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 
+@SuppressWarnings("deprecation")
 public class DustGUI implements CommandExecutor, Listener {
 
 	Fates plugin;
@@ -116,8 +118,9 @@ public class DustGUI implements CommandExecutor, Listener {
 		List<String> Lore5 = new ArrayList<String>();
 		con1Meta.setDisplayName(ChatColor.GREEN + "Trade for Dust");
 		int quant = plugin.getConfig().getInt("dust-trade");
-		String dia = plugin.getConfig().getString("dust-material").replace("_", " ");
-		Lore5.add(ChatColor.GRAY + "Convert §b" + dia + "S" + " §7to dust.");
+		String dia = StringUtils.capitaliseAllWords(plugin.getConfig()
+				.getString("dust-material").toLowerCase().replace("_", " "));
+		Lore5.add(ChatColor.GRAY + "Convert §b" + dia + "s" + " §7to dust.");
 		Lore5.add("");
 		Lore5.add(ChatColor.AQUA + "" + quant + "x " + dia);
 		con1Meta.setLore(Lore5);

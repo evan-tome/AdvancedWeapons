@@ -110,8 +110,36 @@ public class API {
         }
         return false;
     }
+    public boolean isWeapon(Player player) {
+    	if(player.getInventory().getItemInHand().getType().toString().toLowerCase()
+							.contains("sword")||player.getInventory().getItemInHand().getType().toString().toLowerCase()
+							.contains("_axe")) {
+    	    return true;
+        }
+    	return false;
+        }
+    public boolean isArmor(Player player) {
+        if(player.getInventory().getItemInHand().getType().toString().toLowerCase()
+                .contains("helmet")||player.getInventory().getItemInHand().getType().toString().toLowerCase()
+                .contains("chestplate")||player.getInventory().getItemInHand().getType().toString().toLowerCase()
+                .contains("leggings")||player.getInventory().getItemInHand().getType().toString().toLowerCase()
+                .contains("boots")){
+            return true;
+        }
+        return false;
+    }
+    public boolean isTool(Player player) {
+        if(player.getInventory().getItemInHand().getType().toString().toLowerCase()
+                .contains("pickaxe")||player.getInventory().getItemInHand().getType().toString().toLowerCase()
+                .contains("_axe")||player.getInventory().getItemInHand().getType().toString().toLowerCase()
+                .contains("shovel")||player.getInventory().getItemInHand().getType().toString().toLowerCase()
+                .contains("shears")){
+            return true;
+        }
+        return false;
+    }
 
-    //ENCHANTMENT
+        //ENCHANTMENT
     public void activateEnchantment(Player p, PotionEffect pot) {
         p.addPotionEffect(pot);
     }

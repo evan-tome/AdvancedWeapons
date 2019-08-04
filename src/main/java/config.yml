@@ -30,7 +30,7 @@ enchant:
       - "§7Gives you a quick rush of speed."
       - "§7Speed I - 4s"
     chance: 10
-    cost: 1
+    cost: 2
     type: weapon
   rush-ii:
     name: "§eRush II"
@@ -54,7 +54,7 @@ enchant:
       - "§7Lets you jump to new heights."
       - "§7Bounce I - 4s"
     chance: 10
-    cost: 1
+    cost: 2
     type: weapon
   bounce-ii:
     name: "§eBounce II"
@@ -78,7 +78,7 @@ enchant:
       - "§7Hit faster when hyper."
       - "§7Haste I - 4s"
     chance: 10
-    cost: 1
+    cost: 2
     type: weapon
   hyper-ii:
     name: "§eHyper II"
@@ -102,7 +102,7 @@ enchant:
         - "§7Inflicts poison on your enemies."
         - "§7Poison I - 4s"
     chance: 10
-    cost: 1
+    cost: 2
     msg: true
     type: weapon
   plague-ii:
@@ -130,7 +130,7 @@ enchant:
       - "§7and endermites"
       - "§7+1 damage"
     chance: 100
-    cost: 1
+    cost: 2
     msg: true
     type: weapon
   end-ender-ii:
@@ -160,7 +160,7 @@ enchant:
       - "§7than a certain amount of damage."
       - "§78+ damage required"
     chance: 25
-    cost: 1
+    cost: 2
     msg: true
     type: armor
   tolerance-ii:

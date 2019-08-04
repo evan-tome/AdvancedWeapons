@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -141,6 +142,8 @@ public class WeaponEnchants extends API implements Listener {
 				ItemStack i = attacker.getInventory().getItemInHand();
 				ItemMeta im = i.getItemMeta();
 				int dur = i.getDurability();
+				String mob = StringUtils.capitaliseAllWords(e.getEntityType().getName()
+						.toLowerCase().replace("_", " "));
 
 				if (i.getType() != Material.AIR) {
 					if (im.hasLore()) {
@@ -150,8 +153,8 @@ public class WeaponEnchants extends API implements Listener {
 									if (!(defender.hasPotionEffect(PotionEffectType.POISON))) {
 										defender.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 100, 0));
 										if (plugin.getConfig().getBoolean("enchant.plague-i.msg") == true) {
-											attacker.sendMessage(ChatColor.GOLD + "You infected a " + ChatColor.GREEN
-													+ e.getEntityType().getName().replace("_", " "));
+											attacker.sendMessage(ChatColor.GOLD + "You infected a "
+													+ ChatColor.GREEN + mob);
 											if (config.getBoolean("durability") == true) {
 												i.setDurability((short) (dur + 1));
 											}
@@ -168,8 +171,8 @@ public class WeaponEnchants extends API implements Listener {
 							if (!(defender.hasPotionEffect(PotionEffectType.POISON))) {
 								defender.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 120, 0));
 								if (plugin.getConfig().getBoolean("enchant.plague-ii.msg") == true) {
-									attacker.sendMessage(ChatColor.GOLD + "You infected a " + ChatColor.GREEN
-											+ e.getEntityType().getName().replace("_", " "));
+									attacker.sendMessage(ChatColor.GOLD + "You infected a "
+											+ ChatColor.GREEN + mob);
 									if (config.getBoolean("durability") == true) {
 										i.setDurability((short) (dur + 1));
 									}
@@ -184,8 +187,8 @@ public class WeaponEnchants extends API implements Listener {
 							if (!(defender.hasPotionEffect(PotionEffectType.POISON))) {
 								defender.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 160, 1));
 								if (plugin.getConfig().getBoolean("enchant.plague-iii.msg") == true) {
-									attacker.sendMessage(ChatColor.GOLD + "You infected a " + ChatColor.GREEN
-											+ e.getEntityType().getName().replace("_", " "));
+									attacker.sendMessage(ChatColor.GOLD + "You infected a "
+											+ ChatColor.GREEN + mob);
 									if (config.getBoolean("durability") == true) {
 										i.setDurability((short) (dur + 1));
 									}
@@ -202,8 +205,8 @@ public class WeaponEnchants extends API implements Listener {
 							if (chance("end-ender-i")) {
 								defender.damage(1);
 								if (plugin.getConfig().getBoolean("enchant.end-ender-i.msg") == true) {
-									attacker.sendMessage(ChatColor.GOLD + "You hit an " + ChatColor.GREEN
-											+ e.getEntityType().getName().replace("_", " "));
+									attacker.sendMessage(ChatColor.GOLD + "You hit an "
+											+ ChatColor.GREEN + mob);
 									if (config.getBoolean("durability") == true) {
 										i.setDurability((short) (dur + 1));
 									}
@@ -219,8 +222,8 @@ public class WeaponEnchants extends API implements Listener {
 							if (chance("end-ender-ii")) {
 								defender.damage(1.5);
 								if (plugin.getConfig().getBoolean("enchant.end-ender-ii.msg") == true) {
-									attacker.sendMessage(ChatColor.GOLD + "You hit an " + ChatColor.GREEN
-											+ e.getEntityType().getName().replace("_", " "));
+									attacker.sendMessage(ChatColor.GOLD + "You hit an "
+											+ ChatColor.GREEN + mob);
 									if (config.getBoolean("durability") == true) {
 										i.setDurability((short) (dur + 1));
 									}
@@ -236,8 +239,8 @@ public class WeaponEnchants extends API implements Listener {
 							if (chance("end-ender-iii")) {
 								defender.damage(2);
 								if (plugin.getConfig().getBoolean("enchant.end-ender-iii.msg") == true) {
-									attacker.sendMessage(ChatColor.GOLD + "You hit an " + ChatColor.GREEN
-											+ e.getEntityType().getName().replace("_", " "));
+									attacker.sendMessage(ChatColor.GOLD + "You hit an "
+											+ ChatColor.GREEN + mob);
 									if (config.getBoolean("durability") == true) {
 										i.setDurability((short) (dur + 1));
 									}
