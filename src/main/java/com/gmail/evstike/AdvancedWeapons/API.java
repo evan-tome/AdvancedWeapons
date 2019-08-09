@@ -1,16 +1,14 @@
 package com.gmail.evstike.AdvancedWeapons;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
-
-import java.io.*;
-import java.util.logging.Level;
 
 @SuppressWarnings("deprecation")
 public class API {
@@ -21,7 +19,8 @@ public class API {
         plugin = instance;
     }
 
-    public API() {
+    public API(){
+
     }
 
     //VERSIONS
@@ -110,36 +109,39 @@ public class API {
         }
         return false;
     }
+
     public boolean isWeapon(Player player) {
-    	if(player.getInventory().getItemInHand().getType().toString().toLowerCase()
-							.contains("sword")||player.getInventory().getItemInHand().getType().toString().toLowerCase()
-							.contains("_axe")) {
-    	    return true;
-        }
-    	return false;
-        }
-    public boolean isArmor(Player player) {
-        if(player.getInventory().getItemInHand().getType().toString().toLowerCase()
-                .contains("helmet")||player.getInventory().getItemInHand().getType().toString().toLowerCase()
-                .contains("chestplate")||player.getInventory().getItemInHand().getType().toString().toLowerCase()
-                .contains("leggings")||player.getInventory().getItemInHand().getType().toString().toLowerCase()
-                .contains("boots")){
-            return true;
-        }
-        return false;
-    }
-    public boolean isTool(Player player) {
-        if(player.getInventory().getItemInHand().getType().toString().toLowerCase()
-                .contains("pickaxe")||player.getInventory().getItemInHand().getType().toString().toLowerCase()
-                .contains("_axe")||player.getInventory().getItemInHand().getType().toString().toLowerCase()
-                .contains("shovel")||player.getInventory().getItemInHand().getType().toString().toLowerCase()
-                .contains("shears")){
+        if (player.getInventory().getItemInHand().getType().toString().toLowerCase()
+                .contains("sword") || player.getInventory().getItemInHand().getType().toString().toLowerCase()
+                .contains("_axe")) {
             return true;
         }
         return false;
     }
 
-        //ENCHANTMENT
+    public boolean isArmor(Player player) {
+        if (player.getInventory().getItemInHand().getType().toString().toLowerCase()
+                .contains("helmet") || player.getInventory().getItemInHand().getType().toString().toLowerCase()
+                .contains("chestplate") || player.getInventory().getItemInHand().getType().toString().toLowerCase()
+                .contains("leggings") || player.getInventory().getItemInHand().getType().toString().toLowerCase()
+                .contains("boots")) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isTool(Player player) {
+        if (player.getInventory().getItemInHand().getType().toString().toLowerCase()
+                .contains("pickaxe") || player.getInventory().getItemInHand().getType().toString().toLowerCase()
+                .contains("_axe") || player.getInventory().getItemInHand().getType().toString().toLowerCase()
+                .contains("shovel") || player.getInventory().getItemInHand().getType().toString().toLowerCase()
+                .contains("shears")) {
+            return true;
+        }
+        return false;
+    }
+
+    //ENCHANTMENT
     public void activateEnchantment(Player p, PotionEffect pot) {
         p.addPotionEffect(pot);
     }
@@ -151,6 +153,17 @@ public class API {
 
         EnchantmentNumbers(String s) {
         }
+    }
+
+    //COMMAND
+    public boolean hasCommandPerm(CommandSender sender, Command cmd, String commandLabel, FileConfiguration f) {
+        if(sender instanceof Player) {
+            if (!sender.hasPermission("advancedweapons." + cmd.getName())) {
+                sender.sendMessage(f.getString("no-permission-msg").replace("{cmd}", commandLabel));
+                return true;
+            }
+            }
+            return false;
     }
 }
 

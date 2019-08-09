@@ -1,6 +1,6 @@
 main: com.gmail.evstike.AdvancedWeapons.Fates
 name: AdvancedWeapons
-version: 1.2.6
+version: 1.2.6.03
 author: miner328
 softdepend: [ActionBarAPI]
 api-version: 1.13
@@ -8,43 +8,36 @@ description: Conquer enemies with custom enchanted gear and powerful magical ite
 commands:
    advancedweapons:
       description: Plugin information
-      permission: advancedweapons.info
       aliases: [aw, advweapons, advweap, aweapons]
    enchgui:
       description: Select enchantments from a menu
-      permission: advancedweapons.enchgui
       aliases: [ench, enchants, awenchants]
    weapons:
       description: Receive magical weapons
-      permission: advancedweapons.weapons
       aliases: [awweapons, buyweapons, aweapon] 
    machines:
       description: Power up ancient machinery
-      permission: advancedweapons.machines
       aliases: [amachines, awmachines] 
    ignite:
       description: Ignite a player on fire
-      permission: advancedweapons.ignite
       aliases: [awignite, fire, light]
+   hidden:
+      description: Completely hide yourself from a certain player
+      aliases: [awhidden, ahidden, hide, ahide, awhide]
    hideme:
       description: Completely hide yourself from a certain player
-      permission: advancedweapons.hideme
       aliases: [ahideme, ahide, awhideme]
    showme:
       description: Show yourself to a player that you're hidden to
-      permission: advancedweapons.showme
       aliases: [ashowme, ashow, awshowme]
    dust:
       description: Access your dust vault
-      permission: advancedweapons.dust
       aliases: [adust, awdust, dustvault]
    ce:
       description: Enchant your items with custom enchantments
-      permission: advancedweapons.ce
       aliases: [customenchants, awenchantments, awce]
    coinflip:
       description: Challenge someone to a coinflip match
-      permission: advancedweapons.coinflip
       aliases: [cflip, awcoinflip, acoinflip]
 permissions:
     advancedweapons.*:
@@ -57,8 +50,7 @@ permissions:
             advancedweapons.weapons: true
             advancedweapons.machines: true
             advancedweapons.enchgui: true
-            advancedweapons.hideme: true
-            advancedweapons.showme: true
+            advancedweapons.hidden: true
             advancedweapons.ignite: true
             advancedweapons.admin: true
             advancedweapons.reload: true
@@ -69,12 +61,11 @@ permissions:
         default: op
         children:
             advancedweapons.enchgui: true
-            advancedweapons.hideme: true
-            advancedweapons.showme: true
+            advancedweapons.hidden: true
             advancedweapons.ignite: true
             advancedweapons.reload: true
             advancedweapons.permissions: true
-    advancedweapons.info:
+    advancedweapons.advancedweapons:
         description: /advancedweapons
         default: true
     advancedweapons.ce:
@@ -92,15 +83,12 @@ permissions:
     advancedweapons.enchgui:
         description: /enchgui
         default: op
-    advancedweapons.hideme:
-        description: /hideme
-        default: op
-    advancedweapons.showme:
-        description: /showme
+    advancedweapons.hidden:
+        description: /hidden
         default: op
     advancedweapons.ignite:
         description: /ignite
-        default: false
+        default: op
     advancedweapons.reload:
         description: /advancedweapons reload
         default: op

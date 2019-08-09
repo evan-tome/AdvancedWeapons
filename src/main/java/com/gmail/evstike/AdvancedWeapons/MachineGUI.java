@@ -20,7 +20,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MachineGUI implements CommandExecutor, Listener {
+public class MachineGUI extends API implements CommandExecutor, Listener {
 
     Fates plugin;
 
@@ -28,17 +28,19 @@ public class MachineGUI implements CommandExecutor, Listener {
         plugin = instance;
     }
         public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+            if (hasCommandPerm(sender, cmd, commandLabel, plugin.getConfig()) == false) {
             if (cmd.getName().equalsIgnoreCase("machines")) {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
                     openGUI(player);
-                return false;
+                    return false;
                 }
                 if (!(sender instanceof Player)) {
                     sender.sendMessage("§cError: §4Only Players can use this command!");
                     return true;
                 }
             }
+        }
             return false;
         }
 

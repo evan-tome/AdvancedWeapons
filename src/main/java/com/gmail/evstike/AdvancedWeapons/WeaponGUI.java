@@ -26,20 +26,21 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-		if (cmd.getName().equalsIgnoreCase("weapons")) {
-			if (sender instanceof Player) {
-				Player player = (Player) sender;
-				openGUI(player);
-				return false;
-			}
-			if (!(sender instanceof Player)) {
-				sender.sendMessage("§cError: §4Only Players can use this command!");
-				return true;
+		if (hasCommandPerm(sender, cmd, commandLabel, plugin.getConfig()) == false) {
+			if (cmd.getName().equalsIgnoreCase("weapons")) {
+				if (sender instanceof Player) {
+					Player player = (Player) sender;
+					openGUI(player);
+					return false;
+				}
+				if (!(sender instanceof Player)) {
+					sender.sendMessage("§cError: §4Only Players can use this command!");
+					return true;
+				}
 			}
 		}
 		return false;
 	}
-
 
 	private void openGUI(Player player) {
 	    Inventory inv = Bukkit.createInventory(null, 9, "Weapons");

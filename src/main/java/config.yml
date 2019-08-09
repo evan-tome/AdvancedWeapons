@@ -1,6 +1,7 @@
 # AdvancedWeapons Config
 # Messages
 reload-msg: '§6[AdvancedWeapons] §aPlugin reloaded.'
+no-permission-msg: '§cYou do not have permission to use §4/{cmd}§c.'
 # Enable/Disable
 update-check: true
 durability: false

@@ -34,49 +34,51 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-        if (cmd.getName().equalsIgnoreCase("enchgui")) {
-            if (sender instanceof Player) {
-                Player player = (Player) sender;
-                if (args.length != 2) {
-                    player.sendMessage("§cError: §4/"+commandLabel+" [level] [safe/unsafe].");
-                    return false;
-                }
-                if (args.length == 2) {
-                    if (!isInt(args[0])) {
-                        player.sendMessage("§cError: §4Please specify an enchantment level.");
+        if (hasCommandPerm(sender, cmd, commandLabel, plugin.getConfig()) == false) {
+            if (cmd.getName().equalsIgnoreCase("enchgui")) {
+                if (sender instanceof Player) {
+                    Player player = (Player) sender;
+                    if (args.length != 2) {
+                        player.sendMessage("§cError: §4/" + commandLabel + " [level] [safe/unsafe].");
                         return false;
                     }
-                }
-                if (args.length == 2) {
-                    if (!(args[1].equalsIgnoreCase("safe") || args[1].equalsIgnoreCase("unsafe"))) {
-                        player.sendMessage("§cError: §4/"+commandLabel+" [level] [safe/unsafe].");
-                        return false;
+                    if (args.length == 2) {
+                        if (!isInt(args[0])) {
+                            player.sendMessage("§cError: §4Please specify an enchantment level.");
+                            return false;
+                        }
                     }
-                }
-                if (args.length == 2) {
-                    if (isInt(args[0]) && args[1].equalsIgnoreCase("safe")) {
+                    if (args.length == 2) {
+                        if (!(args[1].equalsIgnoreCase("safe") || args[1].equalsIgnoreCase("unsafe"))) {
+                            player.sendMessage("§cError: §4/" + commandLabel + " [level] [safe/unsafe].");
+                            return false;
+                        }
+                    }
+                    if (args.length == 2) {
+                        if (isInt(args[0]) && args[1].equalsIgnoreCase("safe")) {
 
-                        int num = Integer.parseInt(args[0]);
-                        plugin.getConfig().set("data." + player.getUniqueId(), num);
-                        openGUI(player);
-                        return false;
+                            int num = Integer.parseInt(args[0]);
+                            plugin.getConfig().set("data." + player.getUniqueId(), num);
+                            openGUI(player);
+                            return false;
+                        }
                     }
-                }
-                if (args.length == 2) {
-                    if (isInt(args[0]) && args[1].equalsIgnoreCase("unsafe")) {
+                    if (args.length == 2) {
+                        if (isInt(args[0]) && args[1].equalsIgnoreCase("unsafe")) {
 
-                        int num = Integer.parseInt(args[0]);
-                        plugin.getConfig().set("data." + player.getUniqueId(), num);
-                        openUnsafeGUI(player);
-                        return false;
+                            int num = Integer.parseInt(args[0]);
+                            plugin.getConfig().set("data." + player.getUniqueId(), num);
+                            openUnsafeGUI(player);
+                            return false;
+                        }
                     }
                 }
             }
+            if (!(sender instanceof Player)) {
+                sender.sendMessage("§cError: §4Only Players can use this command!");
+                return true;
+            }
         }
-        if (!(sender instanceof Player)) {
-            sender.sendMessage("§cError: §4Only Players can use this command!");
-            return true;
-    }
 	return false;
     }
 

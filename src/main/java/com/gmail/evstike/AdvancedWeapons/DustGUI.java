@@ -21,7 +21,7 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 
 @SuppressWarnings("deprecation")
-public class DustGUI implements CommandExecutor, Listener {
+public class DustGUI extends API implements CommandExecutor, Listener {
 
 	Fates plugin;
 
@@ -30,22 +30,24 @@ public class DustGUI implements CommandExecutor, Listener {
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-		if (cmd.getName().equalsIgnoreCase("dust")) {
-			if (sender instanceof Player) {
-				Player player = (Player) sender;
-				openGUI(player);
-				if (!plugin.getConfig().contains("dust." + player.getUniqueId())) {
-					plugin.getConfig().createSection("dust." + player.getUniqueId());
-					plugin.saveConfig();
-					plugin.reloadConfig();
-					return false;
-				}
-			}
-			if (!(sender instanceof Player)) {
-				sender.sendMessage("§cError: §4Only Players can use this command!");
-				return true;
-			}
-		}
+        if(hasCommandPerm(sender, cmd, commandLabel, plugin.getConfig())==false) {
+            if (cmd.getName().equalsIgnoreCase("dust")) {
+                if (sender instanceof Player) {
+                    Player player = (Player) sender;
+                    openGUI(player);
+                    if (!plugin.getConfig().contains("dust." + player.getUniqueId())) {
+                        plugin.getConfig().createSection("dust." + player.getUniqueId());
+                        plugin.saveConfig();
+                        plugin.reloadConfig();
+                        return false;
+                    }
+                }
+                if (!(sender instanceof Player)) {
+                    sender.sendMessage("§cError: §4Only Players can use this command!");
+                    return true;
+                }
+            }
+        }
 		return false;
 	}
 
