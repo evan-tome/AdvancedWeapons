@@ -1,28 +1,28 @@
 package com.gmail.evstike.AdvancedWeapons;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
+import com.google.common.collect.Lists;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.google.common.collect.Lists;
-import org.yaml.snakeyaml.DumperOptions;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings("deprecation")
 public class EnchantGUI extends API implements CommandExecutor, Listener, TabCompleter {
@@ -32,6 +32,8 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
     public EnchantGUI(Fates instance) {
         plugin = instance;
     }
+
+    public static int num;
 
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         if (hasCommandPerm(sender, cmd, commandLabel, plugin.getConfig()) == false) {
@@ -57,8 +59,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                     if (args.length == 2) {
                         if (isInt(args[0]) && args[1].equalsIgnoreCase("safe")) {
 
-                            int num = Integer.parseInt(args[0]);
-                            plugin.getConfig().set("data." + player.getUniqueId(), num);
+                            num = Integer.parseInt(args[0]);
                             openGUI(player);
                             return false;
                         }
@@ -66,8 +67,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                     if (args.length == 2) {
                         if (isInt(args[0]) && args[1].equalsIgnoreCase("unsafe")) {
 
-                            int num = Integer.parseInt(args[0]);
-                            plugin.getConfig().set("data." + player.getUniqueId(), num);
+                            num = Integer.parseInt(args[0]);
                             openUnsafeGUI(player);
                             return false;
                         }
@@ -81,13 +81,9 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
         }
 	return false;
     }
-
 //SAFE
 private void openGUI(Player player) {
     Inventory inv = Bukkit.createInventory(null, 45, "Enchantment Menu");
-    
-  	FileConfiguration conf = plugin.getConfig();
-  	int num = conf.getInt("data."+player.getUniqueId());
   	
   	ItemStack i = player.getInventory().getItemInHand();
   	
@@ -606,9 +602,6 @@ private void openGUI(Player player) {
 private void openUnsafeGUI(Player player) {
     Inventory inv = Bukkit.createInventory(null, 45, "Enchantment Menu");
 
-    FileConfiguration conf = plugin.getConfig();
-    int num = conf.getInt("data." + player.getUniqueId());
-
     //SHARPNESS
     ItemStack sharp = new ItemStack(UMaterial.DIAMOND_SWORD.getMaterial());
     ItemMeta sharpMeta = sharp.getItemMeta();
@@ -875,11 +868,19 @@ public void onInventoryClick(InventoryClickEvent event) {
             .equalsIgnoreCase("Enchantment Menu"))
         return;
     Player player = (Player) event.getWhoClicked();
-  	FileConfiguration conf = plugin.getConfig();
-  	int num = conf.getInt("data."+player.getUniqueId());
     event.setCancelled(true);
-    if(event.getCurrentItem()==null || event.getCurrentItem().getType()==Material.AIR||!event.getCurrentItem().hasItemMeta()){
+    if (event.getCurrentItem() == null || event.getCurrentItem().getType() == Material.AIR || !event.getCurrentItem().hasItemMeta()) {
         return;
+    }
+    Map<Enchantment, Integer> itemEnchants = player.getInventory().getItemInHand().getItemMeta().getEnchants();
+    String n = event.getCurrentItem().getItemMeta().getDisplayName();
+    String name = ChatColor.stripColor(n).toLowerCase().replace(" ", "_").replace("_("+num+")","");
+
+    if (event.getClickedInventory().getType().equals(InventoryType.CHEST)){
+    for (Enchantment ench : itemEnchants.keySet()) {
+        player.getInventory().getItemInHand().getItemMeta().addEnchant(Enchantment.getByKey(NamespacedKey.minecraft(name)), num, true);
+        player.sendMessage(name);
+    }
     }
 switch (UMaterial.match(event.getCurrentItem())) {
     case DIAMOND_SWORD:
@@ -1100,8 +1101,6 @@ switch (UMaterial.match(event.getCurrentItem())) {
 switch (UMaterial.match(event.getCurrentItem())) {
 case BARRIER:
 	player.closeInventory();
-  	plugin.getConfig().set("data."+player.getUniqueId(), null);
-  	plugin.saveConfig();
     }
     }
 public List<String> onTabComplete(CommandSender sender, Command cmd, String commandLabel, String[] args) {
