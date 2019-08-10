@@ -1,6 +1,6 @@
 main: com.gmail.evstike.AdvancedWeapons.Fates
 name: AdvancedWeapons
-version: 1.2.7 beta-02
+version: 1.2.7 beta-05
 author: miner328
 softdepend: [ActionBarAPI]
 api-version: 1.13
