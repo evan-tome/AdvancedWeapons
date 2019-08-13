@@ -40,8 +40,8 @@ public class Info extends API implements CommandExecutor, TabCompleter {
 				}
 
 				List<String> a = Arrays.asList("help", "pages", "enchants", "commands",
-						"dust", "discord", "author", "guide", "version",
-						"download", "permissions", "admin", "reload");
+						"dust", "discord", "author", "guide", "ver", "version",
+						"download", "github", "git", "permissions", "admin", "reload");
 				if (args.length == 1) {
 					if (!a.contains(args[0].toLowerCase())) {
 						sender.sendMessage(ChatColor.GOLD + ("Unknown page §c" + '"' + args[0] + '"' + "§6. Please specify a page."));
@@ -62,6 +62,7 @@ public class Info extends API implements CommandExecutor, TabCompleter {
 					sender.sendMessage("§a- §6guide");
 					sender.sendMessage("§a- §6author");
 					sender.sendMessage("§a- §6version");
+					sender.sendMessage("§a- §6github");
 					sender.sendMessage("§a- §6download");
 					if (sender.hasPermission("advancedweapons.admin")) {
 						sender.sendMessage("§a- §badmin");
@@ -175,6 +176,13 @@ public class Info extends API implements CommandExecutor, TabCompleter {
 					sender.sendMessage("§6-=============================-");
 					return true;
 				}
+			if (args[0].equalsIgnoreCase("github") || args[0].equalsIgnoreCase("git")) {
+				sender.sendMessage("§6-=Github=-");
+				sender.sendMessage("§6Want to help improve AdvancedWeapons? Head to");
+				sender.sendMessage("§ahttps://github.com/Evstike/AdvancedWeapons/");
+				sender.sendMessage("§6-=============================-");
+				return true;
+			}
 				if (args[0].equalsIgnoreCase("reload")) {
 					if (sender.hasPermission("advancedweapons.reload")) {
 						Logger log = plugin.getLogger();
@@ -221,7 +229,7 @@ public class Info extends API implements CommandExecutor, TabCompleter {
 		public List<String> onTabComplete (CommandSender sender, Command cmd, String commandLabel, String[]args){
 			if (cmd.getName().equalsIgnoreCase("advancedweapons")) {
 				List<String> a = Arrays.asList("help", "pages", "enchants", "commands",
-						"dust", "discord", "author", "guide", "version",
+						"dust", "discord", "author", "guide", "version", "github",
 						"download");
 
 				List<String> b = Arrays.asList("admin", "permissions", "reload");

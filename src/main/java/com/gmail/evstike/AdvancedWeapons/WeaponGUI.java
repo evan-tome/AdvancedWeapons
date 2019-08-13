@@ -128,10 +128,10 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
 		//Inventory set
 		inv.setItem(0, dest);
 		inv.setItem(1, slay);
-		if (!serverIs18()) {
+		if (serverIs19()) {
 			inv.setItem(2, drop);
 		}
-		if (serverIs18()) {
+		if (!serverIs19()) {
 			inv.setItem(2, comp);
 		}
 

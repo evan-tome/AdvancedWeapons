@@ -10,6 +10,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @SuppressWarnings("deprecation")
 public class API {
 
@@ -19,10 +22,8 @@ public class API {
         plugin = instance;
     }
 
-    public API(){
-
+    public API() {
     }
-
     //VERSIONS
     public boolean serverIs114() {
         if (Bukkit.getVersion().contains("1.14")) {
@@ -157,13 +158,13 @@ public class API {
 
     //COMMAND
     public boolean hasCommandPerm(CommandSender sender, Command cmd, String commandLabel, FileConfiguration f) {
-        if(sender instanceof Player) {
+        if (sender instanceof Player) {
             if (!sender.hasPermission("advancedweapons." + cmd.getName())) {
                 sender.sendMessage(f.getString("no-permission-msg").replace("{cmd}", commandLabel));
                 return true;
             }
-            }
-            return false;
+        }
+        return false;
     }
 }
 

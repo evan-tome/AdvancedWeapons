@@ -1,6 +1,7 @@
 package com.gmail.evstike.AdvancedWeapons;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,6 +14,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -42,6 +44,8 @@ public class WeaponFunctions implements Listener {
 	public void onPlayerUse(PlayerInteractEvent event) {
 		Player p = (Player) event.getPlayer();
 		FileConfiguration conf = plugin.getConfig();
+		List<Action> actions = Arrays.asList(Action.LEFT_CLICK_AIR, Action.RIGHT_CLICK_AIR, Action.LEFT_CLICK_BLOCK, Action.RIGHT_CLICK_BLOCK);
+		if(actions.contains(event.getAction())){
 
 		ItemStack i = p.getInventory().getItemInHand();
 		ItemMeta im = i.getItemMeta();
@@ -157,7 +161,7 @@ public class WeaponFunctions implements Listener {
 						fireball.setShooter(p);
 						lfireball.add(fireball.getUniqueId());
 						lfire.add(fireball.getUniqueId());
-						if(!serverIs18()) {
+						if (!serverIs18()) {
 
 							p.spawnParticle(Particle.FLAME, loc, 1);
 						}
@@ -217,6 +221,7 @@ public class WeaponFunctions implements Listener {
 						}
 					}
 				}
+			}
 			}
 		}
 	}
