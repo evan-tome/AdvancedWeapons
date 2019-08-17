@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Effect;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -17,7 +18,7 @@ public class Fates extends JavaPlugin implements Listener {
 
 	@Override
 	public void onEnable() {
-    	getLogger().info("AdvancedWeapons has been enabled!");
+    	getLogger().info("AdvancedWeapons has been enabled");
     	Bukkit.getServer().getPluginManager().registerEvents(this, this);
     	Bukkit.getServer().getPluginManager().registerEvents(new EnchantGUI(this), this);
     	Bukkit.getServer().getPluginManager().registerEvents(new WeaponGUI(this), this);
@@ -37,6 +38,7 @@ public class Fates extends JavaPlugin implements Listener {
     	getCommand("advancedweapons").setExecutor(new Info(this));
     	getCommand("advancedweapons").setTabCompleter(new Info(this));
     	getCommand("ignite").setExecutor(new Commands(this));
+		getCommand("hidden").setExecutor(new Commands(this));
     	getCommand("hideme").setExecutor(new Commands(this));
     	getCommand("showme").setExecutor(new Commands(this));
 		getCommand("machines").setExecutor(new MachineGUI(this));
@@ -49,8 +51,11 @@ public class Fates extends JavaPlugin implements Listener {
     	config.options().copyDefaults(true);  	
     	this.saveConfig();
 
+    	//logger
 		Logger log = getLogger();
-		log.info("AdvancedWeapons is using bStats.");
+		if(metrics.isEnabled()) {
+			log.info("AdvancedWeapons is using bStats");
+		}
 
 		if(Bukkit.getServer().getPluginManager().getPlugin("ActionBarAPI") != null) {
 			getLogger().info("ActionBarAPI detected");
@@ -61,8 +66,8 @@ public class Fates extends JavaPlugin implements Listener {
     	
     }
     @Override
-	public void onDisable() {	
-		getLogger().info("Disabling AdvancedWeapons.");
+	public void onDisable() {
+		//getLogger().info("Disabling AdvancedWeapons.");
 	}
 }
 
