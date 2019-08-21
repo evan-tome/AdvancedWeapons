@@ -114,22 +114,28 @@ public class Info extends API implements CommandExecutor, TabCompleter {
 				}
 				if (args[0].equalsIgnoreCase("permissions")) {
 					if (sender.hasPermission("advancedweapons.admin")) {
-						sender.sendMessage("§6-=Permissions=-");
-						sender.sendMessage("§a- §badvancedweapons.info");
-						sender.sendMessage("§a- §badvancedweapons.ce");
-						sender.sendMessage("§a- §badvancedweapons.weapons");
-						sender.sendMessage("§a- §badvancedweapons.dust");
-						sender.sendMessage("§a- §badvancedweapons.coinflip");
-						sender.sendMessage("§a- §badvancedweapons.enchantgui");
-						sender.sendMessage("§a- §badvancedweapons.ignite");
-						sender.sendMessage("§a- §badvancedweapons.hideme");
-						sender.sendMessage("§a- §badvancedweapons.showme");
-						sender.sendMessage("§a- §badvancedweapons.admin");
-						sender.sendMessage("§a- §badvancedweapons.*");
-						sender.sendMessage("§6-===============-");
-						return true;
-					}
-				}
+						if (args[0].equalsIgnoreCase("permissions")) {
+							if (sender.hasPermission("advancedweapons.admin")) {
+								sender.sendMessage("§6-=Permissions=-");
+								for (Permission perm : Bukkit.getServer().getPluginManager().getPlugin("AdvancedWeapons")
+										.getDescription().getPermissions()) {
+									sender.sendMessage("§a- §b"+perm.toString());
+									//sender.sendMessage("§a- §badvancedweapons.advancedweapons");
+									//sender.sendMessage("§a- §badvancedweapons.ce");
+									//sender.sendMessage("§a- §badvancedweapons.weapons");
+									//sender.sendMessage("§a- §badvancedweapons.dust");
+									//sender.sendMessage("§a- §badvancedweapons.coinflip");
+									//sender.sendMessage("§a- §badvancedweapons.enchantgui");
+									//sender.sendMessage("§a- §badvancedweapons.ignite");
+									//sender.sendMessage("§a- §badvancedweapons.hideme");
+									//sender.sendMessage("§a- §badvancedweapons.showme");
+									//sender.sendMessage("§a- §badvancedweapons.admin");
+									//sender.sendMessage("§a- §badvancedweapons.*");
+									sender.sendMessage("§6-===============-");
+									return true;
+								}
+							}
+						}
 				if (args[0].equalsIgnoreCase("admin")) {
 					if (sender.hasPermission("advancedweapons.admin")) {
 						sender.sendMessage("§6-=Admin Pages=-");
