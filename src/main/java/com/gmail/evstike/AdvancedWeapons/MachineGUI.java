@@ -6,17 +6,15 @@ import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +25,7 @@ public class MachineGUI extends API implements CommandExecutor, Listener {
     public MachineGUI(Fates instance) {
         plugin = instance;
     }
+
         public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
             if (hasCommandPerm(sender, cmd, commandLabel, plugin.getConfig()) == false) {
             if (cmd.getName().equalsIgnoreCase("machines")) {
@@ -49,12 +48,12 @@ public class MachineGUI extends API implements CommandExecutor, Listener {
             Inventory inv = Bukkit.createInventory(null, 9, "Machines");
 
             //Items
-            ItemStack comp = new ItemStack(UMaterial.RED_STAINED_GLASS_PANE.getItemStack());
+            ItemStack comp = new ItemStack(XMaterial.RED_STAINED_GLASS_PANE.parseItem());
             ItemMeta compMeta = comp.getItemMeta();
-            ItemStack un = new ItemStack(UMaterial.YELLOW_STAINED_GLASS_PANE.getItemStack());
+            ItemStack un = new ItemStack(XMaterial.YELLOW_STAINED_GLASS_PANE.parseItem());
             ItemMeta unMeta = un.getItemMeta();
-            ItemStack dest = new ItemStack(UMaterial.DIAMOND_SWORD.getMaterial());
-            ItemMeta destMeta = dest.getItemMeta();
+            ItemStack wall = new ItemStack(XMaterial.COBBLESTONE_WALL.parseMaterial(), 15);
+            ItemMeta wallMeta = wall.getItemMeta();
 
             //Item meta
             List<String> Lore0 = new ArrayList<String>();
@@ -74,30 +73,28 @@ public class MachineGUI extends API implements CommandExecutor, Listener {
             Lores.add("");
             Lores.add("§cThis item has not");
             Lores.add("§cbeen released yet.");
-            Lores.add("§7It will be coming soon");
+            Lores.add("§7It will be available");
             Lores.add("§7in a future update.");
             Lores.add("");
             unMeta.setLore(Lores);
             un.setItemMeta(unMeta);
 
+            //Port-a-Wall
             List<String> Lore = new ArrayList<String>();
-            destMeta.setDisplayName(ChatColor.RED + "The Destroyer");
-            int num = plugin.getConfig().getInt(ChatColor.stripColor("weapon."+
-                    destMeta.getDisplayName().toLowerCase().replace(" ","-")+".cost"));
-            destMeta.addEnchant(Enchantment.DAMAGE_ALL, 3, true);
-            destMeta.addEnchant(Enchantment.FIRE_ASPECT, 2, true);
-            Lore.add("§7Rush I");
+            wallMeta.setDisplayName(ChatColor.AQUA + "Port-a-Wall");
+            int num = plugin.getConfig().getInt(ChatColor.stripColor("machine." +
+                    wallMeta.getDisplayName().toLowerCase().replace(" ", "-") + ".cost"));
             Lore.add("");
-            Lore.add("§7This sword from the infernal");
-            Lore.add("§7depths emits fire when swung.");
+            Lore.add("§7Instantly constructs a wall of");
+            Lore.add("§7Cobblestone to block the way.");
             Lore.add("");
             Lore.add("§b" + num +"x "+"§7DUST");
-            destMeta.setLore(Lore);
-            dest.setItemMeta(destMeta);
+            wallMeta.setLore(Lore);
+            wall.setItemMeta(wallMeta);
 
             //Inventory set
-            inv.setItem(0, un);
-            //inv.setItem(1, dest);
+            inv.setItem(0, wall);
+            inv.setItem(1, un);
 
             player.openInventory(inv);
 
@@ -118,42 +115,41 @@ public class MachineGUI extends API implements CommandExecutor, Listener {
 
                 return;
             }
-            switch (event.getCurrentItem().getType()) {
-                case DIAMOND_SWORD:
+            if(event.getClickedInventory().getType()== InventoryType.CHEST) {
+                switch (XMaterial.matchXMaterial(event.getCurrentItem())) {
+                    case COBBLESTONE_WALL:
 
-                    try{
+                        try {
 
-                        List<String> Lore = new ArrayList<String>();
-                        ItemStack dest = new ItemStack(UMaterial.DIAMOND_SWORD.getMaterial(), 1);
-                        ItemMeta destMeta = dest.getItemMeta();
-                        destMeta.setDisplayName(ChatColor.RED + "The Destroyer");
-                        Lore.add("§7Rush I");
-                        destMeta.setLore(Lore);
-                        dest.setItemMeta(destMeta);
-                        int num = plugin.getConfig().getInt(ChatColor.stripColor("weapon."+
-                                destMeta.getDisplayName().toLowerCase().replace(" ","-")+".cost"));
-                        List<String> Loret = new ArrayList<String>();
-                        ItemStack glow = new ItemStack(UMaterial.GUNPOWDER.getMaterial(),num);
-                        ItemMeta glowMeta = glow.getItemMeta();
-                        glowMeta.setDisplayName(ChatColor.GREEN + "Dust");
-                        Loret.add("§7This dust has magical properties");
-                        Loret.add("§7which make it a valuable currency.");
-                        glowMeta.setLore(Loret);
-                        glow.setItemMeta(glowMeta);
+                            List<String> Lore = new ArrayList<String>();
+                            ItemStack wall = new ItemStack(XMaterial.COBBLESTONE_WALL.parseMaterial(), 15);
+                            ItemMeta wallMeta = wall.getItemMeta();
+                            wallMeta.setDisplayName(ChatColor.AQUA + "Port-a-Wall");
+                            wallMeta.setLore(Lore);
+                            wall.setItemMeta(wallMeta);
+                            int num = plugin.getConfig().getInt(ChatColor.stripColor("machine." +
+                                    wallMeta.getDisplayName().toLowerCase().replace(" ", "-") + ".cost"));
+                            List<String> Loret = new ArrayList<String>();
+                            ItemStack glow = new ItemStack(XMaterial.GUNPOWDER.parseMaterial(), num);
+                            ItemMeta glowMeta = glow.getItemMeta();
+                            glowMeta.setDisplayName(ChatColor.GREEN + "Dust");
+                            Loret.add("§7This Dust has magical properties");
+                            Loret.add("§7which make it a valuable currency.");
+                            glowMeta.setLore(Loret);
+                            glow.setItemMeta(glowMeta);
 
-                        if(player.getInventory().containsAtLeast(glow,num)){
-                            player.getInventory().removeItem(glow);
-                            dest.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 3);
-                            dest.addUnsafeEnchantment(Enchantment.FIRE_ASPECT, 2);
-                            player.getInventory().addItem(dest);
+                            if (player.getInventory().containsAtLeast(glow, num)) {
+                                player.getInventory().removeItem(glow);
+                                player.getInventory().addItem(wall);
 
-                        }else{
+                            } else {
 
+                            }
+
+                        } catch (Exception ignored) {
+                            player.closeInventory();
                         }
-
-                    }catch(Exception ignored){
-                        player.closeInventory();
-                    }
+                }
             }
         }
     }

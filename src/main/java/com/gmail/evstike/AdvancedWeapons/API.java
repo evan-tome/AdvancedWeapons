@@ -6,12 +6,12 @@ import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.potion.PotionEffect;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.File;
 
 @SuppressWarnings("deprecation")
 public class API {
@@ -24,9 +24,24 @@ public class API {
 
     public API() {
     }
+
     //VERSIONS
+    public boolean serverIs116() {
+        if (Bukkit.getVersion().contains("1.16")) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean serverIs115() {
+        if (Bukkit.getVersion().contains("1.15") || serverIs116()) {
+            return true;
+        }
+        return false;
+    }
+
     public boolean serverIs114() {
-        if (Bukkit.getVersion().contains("1.14")) {
+        if (Bukkit.getVersion().contains("1.14") || serverIs115()) {
             return true;
         }
         return false;
@@ -143,33 +158,63 @@ public class API {
     }
 
     //ENCHANTMENT
-    public void activateEnchantment(Player p, PotionEffect pot) {
-        p.addPotionEffect(pot);
-    }
+    public int enchlevel(Player p, String s, ItemStack i) {
+        for (String l : i.getItemMeta().getLore()) {
 
-    public enum EnchantmentNumbers {
-        I("1"),
-        II("2"),
-        III("3");
+            if (ChatColor.stripColor(l).equals(ChatColor.stripColor(s))) {
+                String test = ChatColor.stripColor(l);
+                String lastWord = test.substring(test.lastIndexOf(" ") + 1);
 
-        EnchantmentNumbers(String s) {
+                if (lastWord.equals(ChatColor.stripColor("I"))) {
+                    return 1;
+                }
+                if (lastWord.equals(ChatColor.stripColor("II"))) {
+                    return 2;
+                }
+                if (lastWord.equals(ChatColor.stripColor("III"))) {
+                    return 3;
+                }
+                if (lastWord.equals(ChatColor.stripColor("IV"))) {
+                    return 4;
+                }
+                if (lastWord.equals(ChatColor.stripColor("V"))) {
+                    return 5;
+                }
+            }
         }
+        return 0;
     }
 
     //COMMAND
     public boolean hasCommandPerm(CommandSender sender, Command cmd, String commandLabel, FileConfiguration f) {
         if (sender instanceof Player) {
             if (!sender.hasPermission("advancedweapons." + cmd.getName())) {
-                sender.sendMessage(f.getString("no-permission-msg").replace("{cmd}", commandLabel));
+                sender.sendMessage(f.getString("no-permission-msg").replace('&', '§').replace("{cmd}", commandLabel));
                 return true;
             }
         }
         return false;
     }
+
+    public static boolean isInt(String s) {
+        try {
+            Integer.parseInt(s);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
+    public static int getAmount(Player arg0, ItemStack arg1) {
+        if (arg1 == null)
+            return 0;
+        int amount = 0;
+        for (int i = 0; i < 36; i++) {
+            ItemStack slot = arg0.getInventory().getItem(i);
+            if (slot == null || !slot.isSimilar(arg1))
+                continue;
+            amount += slot.getAmount();
+        }
+        return amount;
+    }
 }
-
-
-
-
-
-

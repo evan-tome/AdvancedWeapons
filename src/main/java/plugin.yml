@@ -1,100 +1,94 @@
 main: com.gmail.evstike.AdvancedWeapons.Fates
 name: AdvancedWeapons
-version: 1.2.7
+version: 1.4.3-dev
 author: miner328
 softdepend: [ActionBarAPI]
 api-version: 1.13
 description: Conquer enemies with custom enchanted gear and powerful magical items.
 commands:
-   advancedweapons:
-      description: Plugin information
-      aliases: [aw, advweapons, advweap, aweapons]
-   enchgui:
-      description: Select enchantments from a menu
-      aliases: [ench, enchants, awenchants]
-   weapons:
-      description: Receive magical weapons
-      aliases: [awweapons, buyweapons, aweapon] 
-   machines:
-      description: Power up ancient machinery
-      aliases: [amachines, awmachines] 
-   ignite:
-      description: Ignite a player on fire
-      aliases: [awignite, fire, light]
-   hidden:
-      description: Completely hide yourself from a certain player
-      aliases: [awhidden, ahidden, hide, ahide, awhide]
-   hideme:
-      description: Completely hide yourself from a certain player
-      aliases: [ahideme, ahide, awhideme]
-   showme:
-      description: Show yourself to a player that you're hidden to
-      aliases: [ashowme, ashow, awshowme]
-   dust:
-      description: Access your dust vault
-      aliases: [adust, awdust, dustvault]
-   ce:
-      description: Enchant your items with custom enchantments
-      aliases: [customenchants, awenchantments, awce]
-   coinflip:
-      description: Challenge someone to a coinflip match
-      aliases: [cflip, awcoinflip, acoinflip]
+  advancedweapons:
+    description: Plugin information
+    aliases: [aw, advweapons]
+  enchgui:
+    description: Select enchantments from a menu
+    aliases: [awenchgui, ench, enchants]
+  weapons:
+    description: Receive magical weapons
+    aliases: [awweapons, buyweapons]
+  machines:
+    description: Power up ancient machinery
+    aliases: [awmachines, buymachines]
+  ignite:
+    description: Ignite a player on fire
+    aliases: [awignite, fire]
+  hidden:
+    description: Completely hide yourself from players
+    aliases: [awhidden, hide]
+  dust:
+    description: Access your dust vault
+    aliases: [awdust, dustvault]
+  ce:
+    description: Enchant your items with custom enchantments
+    aliases: [awce, awenchantments, customenchants]
+  coinflip:
+    description: Challenge someone to a coinflip match
+    aliases: [cflip, awcoinflip]
 permissions:
-    advancedweapons.*:
-        description: All AdvancedWeapons permission nodes
-        default: op
-        children:
-            advancedweapons.ce: true
-            advancedweapons.info: true
-            advancedweapons.dust: true
-            advancedweapons.weapons: true
-            advancedweapons.machines: true
-            advancedweapons.enchgui: true
-            advancedweapons.hidden: true
-            advancedweapons.ignite: true
-            advancedweapons.admin: true
-            advancedweapons.reload: true
-            advancedweapons.permissions: true
-            advancedweapons.coinflip: true
-    advancedweapons.admin:
-        description: Admin commands
-        default: op
-        children:
-            advancedweapons.enchgui: true
-            advancedweapons.hidden: true
-            advancedweapons.ignite: true
-            advancedweapons.reload: true
-            advancedweapons.permissions: true
-    advancedweapons.advancedweapons:
-        description: /advancedweapons
-        default: true
-    advancedweapons.ce:
-        description: /ce
-        default: true
-    advancedweapons.weapons:
-        description: /weapons
-        default: true
-    advancedweapons.machines:
-        description: /machines
-        default: true
-    advancedweapons.dust:
-        description: /dust
-        default: true
-    advancedweapons.enchgui:
-        description: /enchgui
-        default: op
-    advancedweapons.hidden:
-        description: /hidden
-        default: op
-    advancedweapons.ignite:
-        description: /ignite
-        default: op
-    advancedweapons.reload:
-        description: /advancedweapons reload
-        default: op
-    advancedweapons.permissions:
-        description: /advancedweapons permissions
-        default: op
-    advancedweapons.coinflip:
-        description: /coinflip
-        default: true
+  advancedweapons.*:
+    description: All AdvancedWeapons permission nodes
+    default: op
+    children:
+      advancedweapons.ce: true
+      advancedweapons.advancedweapons: true
+      advancedweapons.dust: true
+      advancedweapons.weapons: true
+      advancedweapons.machines: true
+      advancedweapons.enchgui: true
+      advancedweapons.hidden: true
+      advancedweapons.ignite: true
+      advancedweapons.admin: true
+      advancedweapons.reload: true
+      advancedweapons.permissions: true
+      advancedweapons.coinflip: true
+  advancedweapons.admin:
+    description: Admin commands
+    default: op
+    children:
+      advancedweapons.enchgui: true
+      advancedweapons.hidden: true
+      advancedweapons.ignite: true
+      advancedweapons.reload: true
+      advancedweapons.permissions: true
+  advancedweapons.advancedweapons:
+    description: /advancedweapons
+    default: true
+  advancedweapons.ce:
+    description: /ce
+    default: true
+  advancedweapons.weapons:
+    description: /weapons
+    default: true
+  advancedweapons.machines:
+    description: /machines
+    default: true
+  advancedweapons.dust:
+    description: /dust
+    default: true
+  advancedweapons.enchgui:
+    description: /enchgui
+    default: op
+  advancedweapons.hidden:
+    description: /hidden
+    default: op
+  advancedweapons.ignite:
+    description: /ignite
+    default: op
+  advancedweapons.reload:
+    description: /advancedweapons reload
+    default: op
+  advancedweapons.permissions:
+    description: /advancedweapons permissions
+    default: op
+  advancedweapons.coinflip:
+    description: /coinflip
+    default: true
