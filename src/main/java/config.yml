@@ -1,186 +1,404 @@
 # AdvancedWeapons Config
 # Messages
-reload-msg: '§6[AdvancedWeapons] §aPlugin reloaded.'
-no-permission-msg: '§cYou do not have permission to use §4/{cmd}§c.'
-# Enable/Disable
+reset-msg: "&6[AdvancedWeapons] &aConfig reset."
+reload-msg: "&6[AdvancedWeapons] &aConfig reloaded."
+update-msg: "&6[AdvancedWeapons] &aConfig updated."
+no-permission-msg: "&cYou do not have permission to use &4/{cmd}&c."
+# Features
 update-check: true
 durability: false
 cake: true
-slayer-msg: true
-dropper-msg: true
-fireball-msg: true
 # Dust
+enable-dust-cost: true
 dust-cost: 100
+enable-dust-material: true
 dust-material: GOLD_INGOT
 dust-trade: 1
+dust-inventory-amount: true
+dust-obtainable:
+  - DIAMOND_ORE:50
+  - EMERALD_ORE:40
+  - LAPIS_ORE:25
+  - REDSTONE_ORE:20
+  - GOLD_ORE:15
+  - IRON_ORE:10
+  - COAL_ORE:5
 # Weapons
 weapon:
   the-destroyer:
-    cost: 8
+    cost: 12
   the-slayer:
-    cost: 10
+    msg: true
+    cost: 12
   the-dropper:
-    cost: 5
+    msg: true
+    cost: 6
   fireball-launcher:
-    cost: 3
-# Enchants
+    msg: true
+    cost: 5
+  the-skeletal-sword:
+    msg: true
+    cost: 8
+  ice-chunk:
+    msg: true
+    cost: 6
+# Machines
+machine:
+  port-a-wall:
+    cost: 10
+# Custom Enchantments
 enchant:
   rush-i:
-    name: "§eRush I"
+    name: "&eRush I"
     lore:
-      - "§7Gives you a quick rush of speed."
-      - "§7Speed I - 4s"
+      - "&7Gives you a quick rush of speed."
+      - "&7Speed I - 4s"
     chance: 10
     cost: 2
     type: weapon
+    events:
+      - interact
+    function: potion
+    effects:
+      - SPEED
+    duration: 4
+    amplifier: 0
   rush-ii:
-    name: "§eRush II"
+    name: "&eRush II"
     lore:
-      - "§7Gives you a quick rush of speed."
-      - "§7Speed I - 6s"
+      - "&7Gives you a quick rush of speed."
+      - "&7Speed I - 6s"
     chance: 10
     cost: 4
     type: weapon
+    events:
+      - interact
+    function: potion
+    effects:
+      - SPEED
+    duration: 6
+    amplifier: 0
   rush-iii:
-    name: "§eRush III"
+    name: "&eRush III"
     lore:
-      - "§7Gives you a quick rush of speed."
-      - "§7Speed I - 8s"
+      - "&7Gives you a quick rush of speed."
+      - "&7Speed I - 8s"
     chance: 10
     cost: 8
     type: weapon
+    events:
+      - interact
+    function: potion
+    effects:
+      - SPEED
+    duration: 8
+    amplifier: 0
   bounce-i:
-    name: "§eBounce I"
+    name: "&eBounce I"
     lore:
-      - "§7Lets you jump to new heights."
-      - "§7Bounce I - 4s"
-    chance: 10
+      - "&7Lets you jump to new heights."
+      - "&7Bounce I - 4s"
+    chance: 1
     cost: 2
     type: weapon
+    events:
+      - interact
+    function: potion
+    effects:
+      - JUMP
+    duration: 4
+    amplifier: 0
   bounce-ii:
-    name: "§eBounce II"
+    name: "&eBounce II"
     lore:
-      - "§7Lets you jump to new heights."
-      - "§7Bounce I - 6s"
+      - "&7Lets you jump to new heights."
+      - "&7Bounce I - 6s"
     chance: 10
     cost: 4
     type: weapon
+    events:
+      - interact
+    function: potion
+    effects:
+      - JUMP
+    duration: 6
+    amplifier: 0
   bounce-iii:
-    name: "§eBounce III"
+    name: "&eBounce III"
     lore:
-      - "§7Lets you jump to new heights."
-      - "§7Bounce II - 8s"
+      - "&7Lets you jump to new heights."
+      - "&7Bounce I - 8s"
     chance: 10
     cost: 8
     type: weapon
+    events:
+      - interact
+    function: potion
+    effects:
+      - JUMP
+    duration: 8
+    amplifier: 0
   hyper-i:
-    name: "§eHyper I"
+    name: "&eHyper I"
     lore:
-      - "§7Hit faster when hyper."
-      - "§7Haste I - 4s"
+      - "&7Hit faster when hyper."
+      - "&7Haste I - 4s"
     chance: 10
     cost: 2
     type: weapon
+    events:
+      - interact
+    function: potion
+    effects:
+      - FAST_DIGGING
+    duration: 4
+    amplifier: 0
   hyper-ii:
-    name: "§eHyper II"
+    name: "&eHyper II"
     lore:
-      - "§7Hit faster when hyper."
-      - "§7Haste I - 6s"
-    chance: 10
+      - "&7Hit faster when hyper."
+      - "&7Haste I - 6s"
+    chance: 1
     cost: 4
     type: weapon
+    events:
+      - interact
+    function: potion
+    effects:
+      - FAST_DIGGING
+    duration: 6
+    amplifier: 0
   hyper-iii:
-    name: "§eHyper III"
+    name: "&eHyper III"
     lore:
-      - "§7Hit faster when hyper."
-      - "§7Haste II - 8s"
+      - "&7Hit faster when hyper."
+      - "&7Haste I - 8s"
     chance: 10
     cost: 8
     type: weapon
+    events:
+      - interact
+    function: potion
+    effects:
+      - FAST_DIGGING
+    duration: 8
+    amplifier: 0
   plague-i:
-    name: "§ePlague I"
+    name: "&ePlague I"
     lore:
-        - "§7Inflicts poison on your enemies."
-        - "§7Poison I - 4s"
+      - "&7Inflicts poison on your enemies."
+      - "&7Poison I - 4s"
     chance: 10
     cost: 2
-    msg: true
     type: weapon
+    events:
+      - attackother
+    function: potion
+    effects:
+      - POISON
+    duration: 4
+    amplifier: 0
+    immune:
+      - poison
   plague-ii:
-    name: "§ePlague II"
+    name: "&ePlague II"
     lore:
-      - "§7Inflicts poison on your enemies."
-      - "§7Speed I - 8s"
+      - "&7Inflicts poison on your enemies."
+      - "&7Poison I - 8s"
     chance: 10
     cost: 4
-    msg: true
     type: weapon
+    events:
+      - attackother
+    function: potion
+    effects:
+      - POISON
+    duration: 6
+    amplifier: 0
+    immune:
+      - poison
   plague-iii:
-    name: "§ePlague III"
+    name: "&ePlague III"
     lore:
-      - "§7Inflicts poison on your enemies."
-      - "§7Poison II - 8s"
+      - "&7Inflicts poison on your enemies."
+      - "&7Poison I - 8s"
     chance: 10
     cost: 8
-    msg: true
     type: weapon
+    events:
+      - attackother
+    function: potion
+    effects:
+      - POISON
+    duration: 8
+    amplifier: 0
+    immune:
+      - poison
   end-ender-i:
-    name: "§eEnd Ender I"
+    name: "&eEnd Ender I"
     lore:
-      - "§7Deals more damage to endermen"
-      - "§7and endermites"
-      - "§7+1 damage"
+      - "&7Deals more damage to endermen"
+      - "&7and endermites"
+      - "&7+1 damage"
     chance: 100
     cost: 2
-    msg: true
     type: weapon
+    events:
+      - attackother
+    function: damage
+    effects:
+      - 1
+    affected:
+      - ENDERMAN
+      - ENDERMITE
   end-ender-ii:
-    name: "§eEnd Ender II"
+    name: "&eEnd Ender II"
     lore:
-      - "§7Deals more damage to endermen"
-      - "§7and endermites"
-      - "§7+1.5 damage"
+      - "&7Deals more damage to endermen"
+      - "&7and endermites"
+      - "&7+1.5 damage"
     chance: 100
     cost: 4
-    msg: true
     type: weapon
+    events:
+      - attackother
+    function: damage
+    effects:
+      - 1.5
+    affected:
+      - ENDERMAN
+      - ENDERMITE
   end-ender-iii:
-    name: "§eEnd Ender III"
+    name: "&eEnd Ender III"
     lore:
-      - "§7Deals more damage to endermen"
-      - "§7and endermites"
-      - "§7+2 damage"
+      - "&7Deals more damage to endermen"
+      - "&7and endermites"
+      - "&7+2 damage"
     chance: 100
     cost: 8
-    msg: true
     type: weapon
-  tolerance-i:
-    name: "§eTolerance I"
+    events:
+      - attackother
+    function: damage
+    effects:
+      - 2
+    affected:
+      - ENDERMAN
+      - ENDERMITE
+  butcher-i:
+    name: "&eButcher I"
     lore:
-      - "§7Gives resistance after taking more"
-      - "§7than a certain amount of damage."
-      - "§78+ damage required"
+      - "&7Deals more damage"
+      - "&7to farm animals."
+      - "&7+0.5 damage"
+    chance: 100
+    cost: 2
+    type: weapon
+    events:
+      - attackother
+    function: damage
+    effects:
+      - 0.5
+    affected:
+      - COW
+      - PIG
+      - SHEEP
+      - CHICKEN
+      - HORSE
+      - DONKEY
+      - MULE
+  butcher-ii:
+    name: "&eButcher II"
+    lore:
+      - "&7Deals more damage"
+      - "&7to farm animals."
+      - "&7+1 damage"
+    chance: 100
+    cost: 4
+    type: weapon
+    events:
+      - attackother
+    function: damage
+    effects:
+      - 1
+    affected:
+      - COW
+      - PIG
+      - SHEEP
+      - CHICKEN
+      - HORSE
+      - DONKEY
+      - MULE
+  butcher-iii:
+    name: "&eButcher III"
+    lore:
+      - "&7Deals more damage"
+      - "&7to farm animals."
+      - "&7+1.5 damage"
+    chance: 100
+    cost: 4
+    type: weapon
+    events:
+      - attackother
+    function: damage
+    effects:
+      - 1.5
+    affected:
+      - COW
+      - PIG
+      - SHEEP
+      - CHICKEN
+      - HORSE
+      - DONKEY
+      - MULE
+  tolerance-i:
+    name: "&eTolerance I"
+    lore:
+      - "&7Gives resistance after taking more"
+      - "&7than a certain amount of damage."
+      - "&7Resistance I at 40% health - 4s"
     chance: 25
     cost: 2
-    msg: true
     type: armor
+    events:
+      - armorself
+    function: potion
+    effects:
+      - DAMAGE_RESISTANCE
+    duration: 4
+    amplifier: 0
+    thresholdself: 40
   tolerance-ii:
-    name: "§eTolerance II"
+    name: "&eTolerance II"
     lore:
-      - "§7Gives resistance after taking more"
-      - "§7than a certain amount of damage."
-      - "§78+ damage required"
+      - "&7Gives resistance after taking more"
+      - "&7than a certain amount of damage."
+      - "&7Resistance I at 40% health - 6s"
     chance: 25
     cost: 4
-    msg: true
     type: armor
+    events:
+      - armorself
+    function: potion
+    effects:
+      - DAMAGE_RESISTANCE
+    duration: 6
+    amplifier: 0
+    thresholdself: 40
   tolerance-iii:
-    name: "§eTolerance III"
+    name: "&eTolerance III"
     lore:
-      - "§7Gives resistance after taking more"
-      - "§7than a certain amount of damage."
-      - "§78+ damage required"
+      - "&7Gives resistance after taking more"
+      - "&7than a certain amount of damage."
+      - "&7Resistance I at 40% health - 8s"
     chance: 25
     cost: 8
-    msg: true
     type: armor
+    events:
+      - armorself
+    function: potion
+    effects:
+      - DAMAGE_RESISTANCE
+    duration: 8
+    amplifier: 0
+    thresholdself: 40

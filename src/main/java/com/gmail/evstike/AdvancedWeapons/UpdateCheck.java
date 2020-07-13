@@ -74,7 +74,6 @@ public class UpdateCheck implements Listener {
                 HttpURLConnection httpURLConnection = (HttpsURLConnection) new URL(String.format(SPIGOT_URL, this.resourceId)).openConnection();
                 httpURLConnection.setRequestMethod("GET");
                 httpURLConnection.setRequestProperty(HttpHeaders.USER_AGENT, "Mozilla/5.0");
-
                 String fetchedVersion = Resources.toString(httpURLConnection.getURL(), Charset.defaultCharset());
 
                 boolean latestVersion = fetchedVersion.equalsIgnoreCase(this.currentVersion);
@@ -88,20 +87,22 @@ public class UpdateCheck implements Listener {
     }
 
     @EventHandler
-    public void pJoin(PlayerJoinEvent e) {
+    public void playerJoin(PlayerJoinEvent e) {
         if (javaPlugin.getConfig().getBoolean("update-check") == true) {
-            if (e.getPlayer().isOp()) {
+            if (e.getPlayer().isOp()||e.getPlayer().hasPermission("advancedweapons.admin")) {
                 UpdateCheck
                         .of(javaPlugin)
                         .resourceId(67760)
                         .handleResponse((versionResponse, version) -> {
                             switch (versionResponse) {
                                 case FOUND_NEW:
-                                    e.getPlayer().sendMessage(ChatColor.GREEN + "New version of AdvancedWeapons was found: " + version);
-                                    Bukkit.getLogger().info("New version of AdvancedWeapons was found: " + version);
+                                    if (!javaPlugin.getDescription().getVersion().contains("dev")) {
+                                        e.getPlayer().sendMessage(ChatColor.GREEN + "New version of AdvancedWeapons was found: " + version);
+                                        Bukkit.getLogger().info("New version of AdvancedWeapons was found: " + version);
+                                    }
                                     break;
                                 case LATEST:
-                                    Bukkit.getLogger().info("You are on the latest version of AdvancedWeapons: " + version);
+                                    Bukkit.getLogger().info("You are using the latest version of AdvancedWeapons: " + version);
                                     break;
                                 case UNAVAILABLE:
                                     Bukkit.getLogger().info("Unable to perform an update check.");
@@ -112,7 +113,7 @@ public class UpdateCheck implements Listener {
     }
 
     @EventHandler
-    public void cJoin(PluginEnableEvent e) {
+    public void pluginEnable(PluginEnableEvent e) {
         if (javaPlugin.getConfig().getBoolean("update-check") == true) {
             if (e.getPlugin() == javaPlugin) {
                 UpdateCheck
@@ -121,10 +122,12 @@ public class UpdateCheck implements Listener {
                         .handleResponse((versionResponse, version) -> {
                             switch (versionResponse) {
                                 case FOUND_NEW:
-                                    Bukkit.getLogger().warning("[AdvancedWeapons] New version of AdvancedWeapons was found: " + version);
+                                    if (!javaPlugin.getDescription().getVersion().contains("dev")) {
+                                        Bukkit.getLogger().warning("[AdvancedWeapons] New version of AdvancedWeapons was found: " + version);
+                                    }
                                     break;
                                 case LATEST:
-                                    Bukkit.getLogger().info("You are on the latest version of AdvancedWeapons: " + version);
+                                    Bukkit.getLogger().info("You are using the latest version of AdvancedWeapons: " + version);
                                     break;
                                 case UNAVAILABLE:
                                     Bukkit.getLogger().info("Unable to perform an update check.");

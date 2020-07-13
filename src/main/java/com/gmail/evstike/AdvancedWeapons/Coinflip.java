@@ -1,15 +1,12 @@
 package com.gmail.evstike.AdvancedWeapons;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,6 +16,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+@SuppressWarnings("deprecation")
 public class Coinflip extends API implements CommandExecutor, Listener {
 
 	Fates plugin;
@@ -30,6 +33,11 @@ public class Coinflip extends API implements CommandExecutor, Listener {
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 		if (hasCommandPerm(sender, cmd, commandLabel, plugin.getConfig()) == false) {
 			if (cmd.getName().equalsIgnoreCase("coinflip")) {
+
+				File filename = plugin.createFile("playerdata.yml");
+				FileConfiguration nameconfig = plugin.createYamlFile(filename);
+				plugin.saveYamlFile(nameconfig, filename);
+
 				if (!(sender instanceof Player)) {
 
 					sender.sendMessage("§cError: §4Only Players can use this command!");
@@ -45,7 +53,8 @@ public class Coinflip extends API implements CommandExecutor, Listener {
 				}
 
 				@SuppressWarnings("deprecation")
-				Player target = Bukkit.getServer().getPlayer(args[0]);
+				FileConfiguration config = plugin.getConfig();
+				Player target = Bukkit.getServer().getPlayerExact(args[0]);
 				if (target == null) {
 					sender.sendMessage("§cError: §4Player " + args[0] + " not found.");
 					return true;
@@ -55,11 +64,12 @@ public class Coinflip extends API implements CommandExecutor, Listener {
 					// yourself.");
 					// return false;
 				}
-				sender.sendMessage("§6You have sent a coinflip request to §a" + args[0] + ".");
+				String name = target.getName();
+				sender.sendMessage("§6You have sent a coinflip request to §a" + name + ".");
 				sender.sendMessage("§6You are Heads");
 				target.sendMessage("§6You have received a coinflip request from §a" + sender.getName() + ".");
 				target.sendMessage("§6You are Tails");
-				plugin.getConfig().set("coinflip.challenger", sender.getName());
+				config.set("challenger", sender.getName());
 				plugin.saveConfig();
 				plugin.reloadConfig();
 				openGUI(target);
@@ -71,26 +81,66 @@ public class Coinflip extends API implements CommandExecutor, Listener {
 
 		private void openGUI (Player player){
 			Inventory inv = Bukkit.createInventory(null, 9, "Coinflip");
+			FileConfiguration config = plugin.getConfig();
+			String d = config.getString("challenger");
 
-			String d = plugin.getConfig().getString("coinflip.challenger");
+			File filename = plugin.createFile("playerdata.yml");
+			FileConfiguration nameconfig = plugin.createYamlFile(filename);
+			plugin.saveYamlFile(nameconfig, filename);
+
 			@SuppressWarnings("deprecation")
 			Player challenger = Bukkit.getPlayer(d);
-			ItemStack yes = new ItemStack(UMaterial.LIME_DYE.getItemStack());
+			ItemStack yes = new ItemStack(XMaterial.LIME_STAINED_GLASS_PANE.parseItem());
 			ItemMeta yesMeta = yes.getItemMeta();
 			List<String> Lore = new ArrayList<String>();
 
-			ItemStack no = new ItemStack(UMaterial.RED_DYE.getItemStack());
+			ItemStack no = new ItemStack(XMaterial.RED_STAINED_GLASS_PANE.parseItem());
 			ItemMeta noMeta = no.getItemMeta();
 
+			ItemStack coin = new ItemStack(XMaterial.SUNFLOWER.parseMaterial());
+			ItemMeta coinMeta = coin.getItemMeta();
+
 			List<String> Lore3 = new ArrayList<String>();
-			ItemStack stats = new ItemStack(UMaterial.PLAYER_HEAD_ITEM.getItemStack());
+			ItemStack stats = new ItemStack(XMaterial.PLAYER_HEAD.parseItem());
 			SkullMeta statsMeta = (SkullMeta) stats.getItemMeta();
 			statsMeta.setDisplayName(ChatColor.GOLD + "Your Stats");
-			Lore3.add("§7" + plugin.getConfig().getInt("coinflip." + player.getName()) + " wins");
+			Lore3.add("§7" + nameconfig.getInt("playerdata." + player.getUniqueId() + ".coinflip.wins") + " wins");
+			if(nameconfig.getConfigurationSection("playerdata." + player.getUniqueId())!=null) {
+				double wl = nameconfig.getDouble("playerdata." + player.getUniqueId() + ".coinflip.wins")
+						/nameconfig.getDouble("playerdata." + player.getUniqueId() + ".coinflip.losses");
+				Lore3.add("§7W/L " + wl);
+			}
+
 			statsMeta.setLore(Lore3);
-			statsMeta.setOwningPlayer(player);
+			if(serverIs112()) {
+				statsMeta.setOwningPlayer(player);
+			}
+			if(!serverIs112()) {
+				statsMeta.setOwner(player.getName());
+			}
 			stats.setItemMeta(statsMeta);
 			inv.setItem(0, stats);
+
+			List<String> Lore4 = new ArrayList<String>();
+			ItemStack statsc = new ItemStack(XMaterial.PLAYER_HEAD.parseItem());
+			SkullMeta statscMeta = (SkullMeta) statsc.getItemMeta();
+			statscMeta.setDisplayName(ChatColor.GOLD + "Challenger's Stats");
+			Lore4.add("§7" + nameconfig.getInt("playerdata." + challenger.getUniqueId() + ".coinflip.wins") + " wins");
+			if(nameconfig.getConfigurationSection("playerdata." + challenger.getUniqueId())!=null) {
+				double wl = nameconfig.getDouble("playerdata." + challenger.getUniqueId() + ".coinflip.wins")
+						/nameconfig.getDouble("playerdata." + challenger.getUniqueId() + ".coinflip.losses");
+				Lore4.add("§7W/L " + wl);
+			}
+
+			statscMeta.setLore(Lore4);
+			if(serverIs112()) {
+				statscMeta.setOwningPlayer(challenger);
+			}
+			if(!serverIs112()) {
+				statscMeta.setOwner(challenger.getName());
+			}
+			statsc.setItemMeta(statscMeta);
+			inv.setItem(8, statsc);
 
 			yesMeta.setDisplayName(ChatColor.GREEN + "Accept Coinflip");
 			Lore.add("§7Click to start your coinflip");
@@ -105,7 +155,11 @@ public class Coinflip extends API implements CommandExecutor, Listener {
 			noMeta.setLore(Lore2);
 			no.setItemMeta(noMeta);
 
+			coinMeta.setDisplayName(ChatColor.GOLD + "Coinflip");
+			coin.setItemMeta(coinMeta);
+
 			inv.setItem(2, yes);
+			inv.setItem(4, coin);
 			inv.setItem(6, no);
 
 			player.openInventory(inv);
@@ -114,6 +168,7 @@ public class Coinflip extends API implements CommandExecutor, Listener {
 		@SuppressWarnings({"deprecation"})
 		@EventHandler
 		private void onInventoryClick (InventoryClickEvent event){
+			FileConfiguration config = plugin.getConfig();
 			if (!ChatColor.stripColor(event.getView().getTitle()).equalsIgnoreCase("Coinflip"))
 				return;
 			Player player = (Player) event.getWhoClicked();
@@ -124,56 +179,65 @@ public class Coinflip extends API implements CommandExecutor, Listener {
 
 				return;
 			}
+			File filename = plugin.createFile("playerdata.yml");
+			FileConfiguration nameconfig = plugin.createYamlFile(filename);
+			plugin.saveYamlFile(nameconfig, filename);
+
 			if (event.getRawSlot() == 2) {
-				String d = plugin.getConfig().getString("coinflip.challenger");
-				Player d2 = Bukkit.getPlayer(d);
+				String chal = config.getString("challenger");
+				Player challenger = Bukkit.getPlayer(chal);
 				Random rand = new Random();
 				int n = rand.nextInt(2) + 1;
 				player.closeInventory();
-				d2.sendMessage(ChatColor.GREEN + player.getName() + " accepted the coinflip.");
+				challenger.sendMessage(ChatColor.GREEN + player.getName() + " accepted the coinflip.");
+
 				if (n == 1) {
-					d2.sendMessage(ChatColor.GOLD + "Rolled §aHeads [You].");
+					challenger.sendMessage(ChatColor.GOLD + "Rolled §aHeads [You].");
 					player.sendMessage(ChatColor.GOLD + "Rolled §cHeads.");
-					d2.sendMessage(ChatColor.GREEN + "You won the coinflip match.");
+					challenger.sendMessage(ChatColor.GREEN + "You won the coinflip match.");
 					player.sendMessage(ChatColor.RED + "You lost the coinflip match.");
-					if (!plugin.getConfig().contains("coinflip." + d2.getName())) {
-						plugin.getConfig().set("coinflip." + d2.getName(), "1");
-						plugin.saveConfig();
-						plugin.reloadConfig();
+					//WINCHAL
+					if(!nameconfig.contains("playerdata." + challenger.getUniqueId() + ".coinflip.wins")) {
+						nameconfig.createSection("playerdata." + challenger.getUniqueId() + ".coinflip.wins");
 					}
-					if (plugin.getConfig().contains("coinflip." + d2.getName())) {
-						int win = plugin.getConfig().getInt("coinflip." + d2.getName());
-						plugin.getConfig().set("coinflip." + d2.getName(), win + 1);
-						plugin.saveConfig();
-						plugin.reloadConfig();
+					nameconfig.set("playerdata." + challenger.getUniqueId() + ".coinflip.wins",
+							nameconfig.getInt("playerdata." + challenger.getUniqueId() + ".coinflip.wins") + 1);
+					//LOSSPLAY
+					if(!nameconfig.contains("playerdata." + player.getUniqueId() + ".coinflip.losses")) {
+						nameconfig.createSection("playerdata." + player.getUniqueId() + ".coinflip.losses");
 					}
+					nameconfig.set("playerdata." + player.getUniqueId() + ".coinflip.losses",
+							nameconfig.getInt("playerdata." + player.getUniqueId() + ".coinflip.losses") + 1);
+					plugin.saveYamlFile(nameconfig, filename);
 				}
 				if (n == 2) {
-					d2.sendMessage(ChatColor.GOLD + "Rolled §cTails.");
+					challenger.sendMessage(ChatColor.GOLD + "Rolled §cTails.");
 					player.sendMessage(ChatColor.GOLD + "Rolled §aTails [You].");
 					player.sendMessage(ChatColor.GREEN + "You won the coinflip match.");
-					d2.sendMessage(ChatColor.RED + "You lost the coinflip match.");
-					if (!plugin.getConfig().contains("coinflip." + player.getName())) {
-						int win = plugin.getConfig().getInt("coinflip." + player.getName());
-						plugin.getConfig().set("coinflip." + player.getName(), win + 1);
-						plugin.saveConfig();
-						plugin.reloadConfig();
+					challenger.sendMessage(ChatColor.RED + "You lost the coinflip match.");
+					//WINPLAY
+					if(!nameconfig.contains("playerdata." + player.getUniqueId() + ".coinflip.wins")) {
+						nameconfig.createSection("playerdata." + player.getUniqueId() + ".coinflip.wins");
 					}
-					if (plugin.getConfig().contains("coinflip." + player.getName())) {
-						int win = plugin.getConfig().getInt("coinflip." + player.getName());
-						plugin.getConfig().set("coinflip." + player.getName(), win + 1);
-						plugin.saveConfig();
-						plugin.reloadConfig();
+					nameconfig.set("playerdata." + player.getUniqueId() + ".coinflip.wins",
+							nameconfig.getInt("playerdata." + player.getUniqueId() + ".coinflip.wins") + 1);
+					//LOSSCHAL
+					if(!nameconfig.contains("playerdata." + challenger.getUniqueId() + ".coinflip.losses")) {
+						nameconfig.createSection("playerdata." + challenger.getUniqueId() + ".coinflip.losses");
 					}
+					nameconfig.set("playerdata." + challenger.getUniqueId() + ".coinflip.losses",
+							nameconfig.getInt("playerdata." + challenger.getUniqueId() + ".coinflip.losses") + 1);
+					plugin.saveYamlFile(nameconfig, filename);
 				}
 			}
 			if (event.getRawSlot() == 6) {
-				String d = plugin.getConfig().getString("coinflip.challenger");
-				Player d2 = Bukkit.getPlayer(d);
+				String chal = config.getString("challenger");
+				Player challenger = Bukkit.getPlayer(chal);
 				player.closeInventory();
 				player.sendMessage(ChatColor.RED + "You cancelled the coinflip.");
-				d2.sendMessage(ChatColor.RED + player.getName() + " has cancelled the coinflip.");
-				plugin.saveConfig();
+				challenger.sendMessage(ChatColor.RED + player.getName() + " has cancelled the coinflip.");
+				config.set("challenger", null);
+				//plugin.saveConfig();
 				plugin.reloadConfig();
 			}
 		}

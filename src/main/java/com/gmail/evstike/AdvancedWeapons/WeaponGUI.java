@@ -48,16 +48,20 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
 		Inventory inv = Bukkit.createInventory(null, 9, "Weapons");
 
 		//Items
-		ItemStack comp = new ItemStack(UMaterial.RED_STAINED_GLASS_PANE.getItemStack());
+		ItemStack comp = new ItemStack(XMaterial.RED_STAINED_GLASS_PANE.parseItem());
 		ItemMeta compMeta = comp.getItemMeta();
-		ItemStack dest = new ItemStack(UMaterial.DIAMOND_SWORD.getMaterial());
+		ItemStack dest = new ItemStack(XMaterial.DIAMOND_SWORD.parseMaterial());
 		ItemMeta destMeta = dest.getItemMeta();
-		ItemStack slay = new ItemStack(UMaterial.DIAMOND_AXE.getMaterial());
+		ItemStack slay = new ItemStack(XMaterial.DIAMOND_AXE.parseMaterial());
 		ItemMeta slayMeta = slay.getItemMeta();
-		ItemStack drop = new ItemStack(UMaterial.STICK.getMaterial());
+		ItemStack drop = new ItemStack(XMaterial.STICK.parseMaterial());
 		ItemMeta dropMeta = drop.getItemMeta();
-		ItemStack rod = new ItemStack(UMaterial.BLAZE_ROD.getMaterial());
+		ItemStack rod = new ItemStack(XMaterial.BLAZE_ROD.parseMaterial());
 		ItemMeta rodMeta = rod.getItemMeta();
+		ItemStack bo = new ItemStack(XMaterial.BONE.parseMaterial());
+		ItemMeta boMeta = bo.getItemMeta();
+		ItemStack snow = new ItemStack(XMaterial.SNOWBALL.parseMaterial());
+		ItemMeta snowMeta = snow.getItemMeta();
 
 		//Item meta
 		List<String> Lore0 = new ArrayList<String>();
@@ -92,9 +96,11 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
 				slayMeta.getDisplayName().toLowerCase().replace(" ", "-") + ".cost"));
 		slayMeta.addEnchant(Enchantment.DAMAGE_UNDEAD, 3, true);
 		slayMeta.addEnchant(Enchantment.FIRE_ASPECT, 2, true);
+		Lore2.add("§7Butcher II");
 		Lore2.add("");
 		Lore2.add("§7This deadly axe is rumoured");
-		Lore2.add("§7to heal its user at low health.");
+		Lore2.add("§7to heal its user at low health");
+		Lore2.add("§7in exchange for durability.");
 		Lore2.add("");
 		Lore2.add("§b" + num2 + "x " + "§7DUST");
 		slayMeta.setLore(Lore2);
@@ -107,6 +113,7 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
 		Lore3.add("");
 		Lore3.add("§7This silly stick drops levitating");
 		Lore3.add("§7bullets while its user is crouching.");
+		Lore3.add("§75 ammo");
 		Lore3.add("");
 		Lore3.add("§b" + num3 + "x " + "§7DUST");
 		dropMeta.setLore(Lore3);
@@ -119,11 +126,37 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
 		Lore4.add("");
 		Lore4.add("§7This rod of flames shoots fireballs");
 		Lore4.add("§7while its user is crouching.");
+		Lore4.add("§75 ammo");
 		Lore4.add("");
 		Lore4.add("§b" + num4 + "x " + "§7DUST");
 		rodMeta.setLore(Lore4);
 		rod.setItemMeta(rodMeta);
 
+		List<String> Lore5 = new ArrayList<String>();
+		boMeta.setDisplayName(ChatColor.RED + "The Skeletal Sword");
+		int num5 = plugin.getConfig().getInt(ChatColor.stripColor("weapon." +
+				boMeta.getDisplayName().toLowerCase().replace(" ", "-") + ".cost"));
+		Lore5.add("");
+		Lore5.add("§7This fragile sword summons something");
+		Lore5.add("§7spooky when a soul is offered.");
+		Lore5.add("§75 ammo");
+		Lore5.add("");
+		Lore5.add("§b" + num5 + "x " + "§7DUST");
+		boMeta.setLore(Lore5);
+		bo.setItemMeta(boMeta);
+
+		List<String> Lore6 = new ArrayList<String>();
+		snowMeta.setDisplayName(ChatColor.RED + "Ice Chunk");
+		int num6 = plugin.getConfig().getInt(ChatColor.stripColor("weapon." +
+				snowMeta.getDisplayName().toLowerCase().replace(" ", "-") + ".cost"));
+		Lore6.add("");
+		Lore6.add("§7This frozen chunk of ice");
+		Lore6.add("§7freezes those who are hit by it.");
+		Lore6.add("§76 ammo");
+		Lore6.add("");
+		Lore6.add("§b" + num6 + "x " + "§7DUST");
+		snowMeta.setLore(Lore6);
+		snow.setItemMeta(snowMeta);
 
 		//Inventory set
 		inv.setItem(0, dest);
@@ -136,6 +169,8 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
 		}
 
 		inv.setItem(3, rod);
+		inv.setItem(4, bo);
+		inv.setItem(5, snow);
 
 		player.openInventory(inv);
 
@@ -157,13 +192,13 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
 			return;
 		}
 		if (event.getClickedInventory().getType().equals(InventoryType.CHEST)) {
-			switch (event.getCurrentItem().getType()) {
+			switch (XMaterial.matchXMaterial(event.getCurrentItem())) {
 				case DIAMOND_SWORD:
 
 					try {
 
 						List<String> Lore = new ArrayList<String>();
-						ItemStack dest = new ItemStack(UMaterial.DIAMOND_SWORD.getMaterial(), 1);
+						ItemStack dest = new ItemStack(XMaterial.DIAMOND_SWORD.parseMaterial(), 1);
 						ItemMeta destMeta = dest.getItemMeta();
 						destMeta.setDisplayName(ChatColor.RED + "The Destroyer");
 						Lore.add("§7Rush I");
@@ -172,10 +207,10 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
 						int num = plugin.getConfig().getInt(ChatColor.stripColor("weapon." +
 								destMeta.getDisplayName().toLowerCase().replace(" ", "-") + ".cost"));
 						List<String> Loret = new ArrayList<String>();
-						ItemStack glow = new ItemStack(UMaterial.GUNPOWDER.getMaterial(), num);
+						ItemStack glow = new ItemStack(XMaterial.GUNPOWDER.parseMaterial(), num);
 						ItemMeta glowMeta = glow.getItemMeta();
 						glowMeta.setDisplayName(ChatColor.GREEN + "Dust");
-						Loret.add("§7This dust has magical properties");
+						Loret.add("§7This Dust has magical properties");
 						Loret.add("§7which make it a valuable currency.");
 						glowMeta.setLore(Loret);
 						glow.setItemMeta(glowMeta);
@@ -185,33 +220,36 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
 							dest.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 3);
 							dest.addUnsafeEnchantment(Enchantment.FIRE_ASPECT, 2);
 							player.getInventory().addItem(dest);
+							return;
 
 						} else {
-
+							player.sendMessage("§cYou don't have enough Dust to purchase this.");
 						}
 
 					} catch (Exception ignored) {
 						player.closeInventory();
+						return;
 					}
 			}
-
-			switch (event.getCurrentItem().getType()) {
+			switch (XMaterial.matchXMaterial(event.getCurrentItem())) {
 				case DIAMOND_AXE:
 
 					try {
 
-
-						ItemStack slay = new ItemStack(UMaterial.DIAMOND_AXE.getMaterial(), 1);
+						List<String> Lore = new ArrayList<String>();
+						ItemStack slay = new ItemStack(XMaterial.DIAMOND_AXE.parseMaterial(), 1);
 						ItemMeta slayMeta = slay.getItemMeta();
 						slayMeta.setDisplayName(ChatColor.RED + "The Slayer");
+						Lore.add("§7Butcher II");
+						slayMeta.setLore(Lore);
 						slay.setItemMeta(slayMeta);
 						int num = plugin.getConfig().getInt(ChatColor.stripColor("weapon." +
 								slayMeta.getDisplayName().toLowerCase().replace(" ", "-") + ".cost"));
 						List<String> Loret = new ArrayList<String>();
-						ItemStack glow = new ItemStack(UMaterial.GUNPOWDER.getMaterial(), num);
+						ItemStack glow = new ItemStack(XMaterial.GUNPOWDER.parseMaterial(), num);
 						ItemMeta glowMeta = glow.getItemMeta();
 						glowMeta.setDisplayName(ChatColor.GREEN + "Dust");
-						Loret.add("§7This dust has magical properties");
+						Loret.add("§7This Dust has magical properties");
 						Loret.add("§7which make it a valuable currency.");
 						glowMeta.setLore(Loret);
 						glow.setItemMeta(glowMeta);
@@ -221,23 +259,24 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
 							slay.addUnsafeEnchantment(Enchantment.DAMAGE_UNDEAD, 3);
 							slay.addUnsafeEnchantment(Enchantment.FIRE_ASPECT, 2);
 							player.getInventory().addItem(slay);
+							return;
 
 						} else {
-
+							player.sendMessage("§cYou don't have enough Dust to purchase this.");
 						}
 
 					} catch (Exception ignored) {
 						player.closeInventory();
+						return;
 					}
 			}
-
-			switch (event.getCurrentItem().getType()) {
+			switch (XMaterial.matchXMaterial(event.getCurrentItem())) {
 				case STICK:
 
 					try {
 
 						List<String> Lore3 = new ArrayList<String>();
-						ItemStack sig = new ItemStack(UMaterial.STICK.getMaterial(), 1);
+						ItemStack sig = new ItemStack(XMaterial.STICK.parseMaterial(), 1);
 						ItemMeta sigMeta = sig.getItemMeta();
 						sigMeta.setDisplayName(ChatColor.RED + "The Dropper");
 						Lore3.add("§75");
@@ -246,10 +285,10 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
 						int num = plugin.getConfig().getInt(ChatColor.stripColor("weapon." +
 								sigMeta.getDisplayName().toLowerCase().replace(" ", "-") + ".cost"));
 						List<String> Loret = new ArrayList<String>();
-						ItemStack glow = new ItemStack(UMaterial.GUNPOWDER.getMaterial(), num);
+						ItemStack glow = new ItemStack(XMaterial.GUNPOWDER.parseMaterial(), num);
 						ItemMeta glowMeta = glow.getItemMeta();
 						glowMeta.setDisplayName(ChatColor.GREEN + "Dust");
-						Loret.add("§7This dust has magical properties");
+						Loret.add("§7This Dust has magical properties");
 						Loret.add("§7which make it a valuable currency.");
 						glowMeta.setLore(Loret);
 						glow.setItemMeta(glowMeta);
@@ -257,22 +296,24 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
 						if (player.getInventory().containsAtLeast(glow, num)) {
 							player.getInventory().removeItem(glow);
 							player.getInventory().addItem(sig);
+							return;
 
 						} else {
-
+							player.sendMessage("§cYou don't have enough Dust to purchase this.");
 						}
 
 					} catch (Exception ignored) {
 						player.closeInventory();
+						return;
 					}
 			}
-			switch (event.getCurrentItem().getType()) {
+			switch (XMaterial.matchXMaterial(event.getCurrentItem())) {
 				case BLAZE_ROD:
 
 					try {
 
 						List<String> Lore4 = new ArrayList<String>();
-						ItemStack rod = new ItemStack(UMaterial.BLAZE_ROD.getMaterial(), 1);
+						ItemStack rod = new ItemStack(XMaterial.BLAZE_ROD.parseMaterial(), 1);
 						ItemMeta rodMeta = rod.getItemMeta();
 						rodMeta.setDisplayName(ChatColor.RED + "Fireball Launcher");
 						Lore4.add("§75");
@@ -281,10 +322,10 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
 						int num = plugin.getConfig().getInt(ChatColor.stripColor("weapon." +
 								rodMeta.getDisplayName().toLowerCase().replace(" ", "-") + ".cost"));
 						List<String> Loret = new ArrayList<String>();
-						ItemStack glow = new ItemStack(UMaterial.GUNPOWDER.getMaterial(), num);
+						ItemStack glow = new ItemStack(XMaterial.GUNPOWDER.parseMaterial(), num);
 						ItemMeta glowMeta = glow.getItemMeta();
 						glowMeta.setDisplayName(ChatColor.GREEN + "Dust");
-						Loret.add("§7This dust has magical properties");
+						Loret.add("§7This Dust has magical properties");
 						Loret.add("§7which make it a valuable currency.");
 						glowMeta.setLore(Loret);
 						glow.setItemMeta(glowMeta);
@@ -292,8 +333,10 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
 						if (player.getInventory().containsAtLeast(glow, num)) {
 							player.getInventory().removeItem(glow);
 							player.getInventory().addItem(rod);
+							return;
 
 						} else {
+							player.sendMessage("§cYou don't have enough Dust to purchase this.");
 
 							//Fireball Shooter
 							//if(i == Material.BLAZE_ROD){
@@ -308,13 +351,82 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
 
 					} catch (Exception ignored) {
 						player.closeInventory();
+						return;
+					}
+			}
+			switch (XMaterial.matchXMaterial(event.getCurrentItem())) {
+				case BONE:
+
+					try {
+
+						List<String> Lore5 = new ArrayList<String>();
+						ItemStack bo = new ItemStack(XMaterial.BONE.parseMaterial(), 1);
+						ItemMeta boMeta = bo.getItemMeta();
+						boMeta.setDisplayName(ChatColor.RED + "The Skeletal Sword");
+						Lore5.add("§75");
+						boMeta.setLore(Lore5);
+						bo.setItemMeta(boMeta);
+						int num = plugin.getConfig().getInt(ChatColor.stripColor("weapon." +
+								boMeta.getDisplayName().toLowerCase().replace(" ", "-") + ".cost"));
+						List<String> Loret = new ArrayList<String>();
+						ItemStack glow = new ItemStack(XMaterial.GUNPOWDER.parseMaterial(), num);
+						ItemMeta glowMeta = glow.getItemMeta();
+						glowMeta.setDisplayName(ChatColor.GREEN + "Dust");
+						Loret.add("§7This Dust has magical properties");
+						Loret.add("§7which make it a valuable currency.");
+						glowMeta.setLore(Loret);
+						glow.setItemMeta(glowMeta);
+
+						if (player.getInventory().containsAtLeast(glow, num)) {
+							player.getInventory().removeItem(glow);
+							player.getInventory().addItem(bo);
+							return;
+
+						} else {
+							player.sendMessage("§cYou don't have enough Dust to purchase this.");
+						}
+					} catch (Exception ignored) {
+						player.closeInventory();
+						return;
+					}
+			}
+			switch (XMaterial.matchXMaterial(event.getCurrentItem())) {
+				case SNOWBALL:
+
+					try {
+						List<String> Lore6 = new ArrayList<String>();
+						ItemStack snow = new ItemStack(XMaterial.SNOWBALL.parseMaterial(), 6);
+						ItemMeta snowMeta = snow.getItemMeta();
+						snowMeta.setDisplayName(ChatColor.RED + "Ice Chunk");
+						snowMeta.setLore(Lore6);
+						snow.setItemMeta(snowMeta);
+						int num = plugin.getConfig().getInt(ChatColor.stripColor("weapon." +
+								snowMeta.getDisplayName().toLowerCase().replace(" ", "-") + ".cost"));
+						List<String> Loret = new ArrayList<String>();
+						ItemStack glow = new ItemStack(XMaterial.GUNPOWDER.parseMaterial(), num);
+						ItemMeta glowMeta = glow.getItemMeta();
+						glowMeta.setDisplayName(ChatColor.GREEN + "Dust");
+						Loret.add("§7This Dust has magical properties");
+						Loret.add("§7which make it a valuable currency.");
+						glowMeta.setLore(Loret);
+						glow.setItemMeta(glowMeta);
+
+						if (player.getInventory().containsAtLeast(glow, num)) {
+							player.getInventory().removeItem(glow);
+							player.getInventory().addItem(snow);
+							return;
+
+						} else {
+							player.sendMessage("§cYou don't have enough Dust to purchase this.");
+						}
+					} catch (Exception ignored) {
+						player.closeInventory();
+						return;
 					}
 			}
 		}
 	}
 }
-
-
 			 								
 
 
