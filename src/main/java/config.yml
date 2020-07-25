@@ -46,6 +46,8 @@ weapon:
 machine:
   port-a-wall:
     cost: 10
+  autominer:
+    cost: 30
 # Custom Enchantments
 enchant:
   rush-i:

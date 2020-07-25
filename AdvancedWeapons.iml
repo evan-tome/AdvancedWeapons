@@ -12,5 +12,6 @@
     <orderEntry type="library" name="ActionBarAPI-1.5.4" level="project" />
     <orderEntry type="library" name="org.jetbrains:annotations:16.0.2" level="project" />
     <orderEntry type="library" name="spigot-1.16.1" level="project" />
+    <orderEntry type="library" name="Downloads" level="project" />
   </component>
 </module>
