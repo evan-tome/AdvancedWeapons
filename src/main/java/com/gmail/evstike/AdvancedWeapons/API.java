@@ -10,6 +10,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.File;
 
@@ -216,5 +217,12 @@ public class API {
             amount += slot.getAmount();
         }
         return amount;
+    }
+    public ItemStack autominer() {
+        ItemStack autominer = new ItemStack(XMaterial.HOPPER.parseMaterial());
+        ItemMeta autominerMeta = autominer.getItemMeta();
+        autominerMeta.setDisplayName("§bAutoMiner");
+        autominer.setItemMeta(autominerMeta);
+        return autominer;
     }
 }

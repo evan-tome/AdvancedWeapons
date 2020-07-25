@@ -54,6 +54,8 @@ public class MachineGUI extends API implements CommandExecutor, Listener {
             ItemMeta unMeta = un.getItemMeta();
             ItemStack wall = new ItemStack(XMaterial.COBBLESTONE_WALL.parseMaterial(), 15);
             ItemMeta wallMeta = wall.getItemMeta();
+            ItemStack drill = new ItemStack(XMaterial.HOPPER.parseMaterial(), 1);
+            ItemMeta drillMeta = drill.getItemMeta();
 
             //Item meta
             List<String> Lore0 = new ArrayList<String>();
@@ -79,10 +81,12 @@ public class MachineGUI extends API implements CommandExecutor, Listener {
             unMeta.setLore(Lores);
             un.setItemMeta(unMeta);
 
-            //Port-a-Wall
             List<String> Lore = new ArrayList<String>();
+            int num;
+
+            //Port-a-Wall
             wallMeta.setDisplayName(ChatColor.AQUA + "Port-a-Wall");
-            int num = plugin.getConfig().getInt(ChatColor.stripColor("machine." +
+            num = plugin.getConfig().getInt(ChatColor.stripColor("machine." +
                     wallMeta.getDisplayName().toLowerCase().replace(" ", "-") + ".cost"));
             Lore.add("");
             Lore.add("§7Instantly constructs a wall of");
@@ -91,10 +95,23 @@ public class MachineGUI extends API implements CommandExecutor, Listener {
             Lore.add("§b" + num +"x "+"§7DUST");
             wallMeta.setLore(Lore);
             wall.setItemMeta(wallMeta);
+            Lore.clear();
+
+            //AutoMiner
+            drillMeta.setDisplayName(ChatColor.AQUA + "AutoMiner");
+            num = plugin.getConfig().getInt(ChatColor.stripColor("machine." +
+                    drillMeta.getDisplayName().toLowerCase().replace(" ", "-") + ".cost"));
+            Lore.add("");
+            Lore.add("§7Automatically mines materials");
+            Lore.add("§7over time and collects them.");
+            Lore.add("");
+            Lore.add("§b" + num +"x "+"§7DUST");
+            drillMeta.setLore(Lore);
+            drill.setItemMeta(drillMeta);
 
             //Inventory set
             inv.setItem(0, wall);
-            inv.setItem(1, un);
+            inv.setItem(1, drill);
 
             player.openInventory(inv);
 
@@ -118,9 +135,7 @@ public class MachineGUI extends API implements CommandExecutor, Listener {
             if(event.getClickedInventory().getType()== InventoryType.CHEST) {
                 switch (XMaterial.matchXMaterial(event.getCurrentItem())) {
                     case COBBLESTONE_WALL:
-
                         try {
-
                             List<String> Lore = new ArrayList<String>();
                             ItemStack wall = new ItemStack(XMaterial.COBBLESTONE_WALL.parseMaterial(), 15);
                             ItemMeta wallMeta = wall.getItemMeta();
@@ -141,11 +156,35 @@ public class MachineGUI extends API implements CommandExecutor, Listener {
                             if (player.getInventory().containsAtLeast(glow, num)) {
                                 player.getInventory().removeItem(glow);
                                 player.getInventory().addItem(wall);
-
                             } else {
-
                             }
+                        } catch (Exception ignored) {
+                            player.closeInventory();
+                        }
+                    case HOPPER:
+                        try {
+                            List<String> Lore = new ArrayList<String>();
+                            ItemStack drill = new ItemStack(XMaterial.HOPPER.parseMaterial(), 1);
+                            ItemMeta drillMeta = drill.getItemMeta();
+                            drillMeta.setDisplayName(ChatColor.AQUA + "AutoMiner");
+                            drillMeta.setLore(Lore);
+                            drill.setItemMeta(drillMeta);
+                            int num = plugin.getConfig().getInt(ChatColor.stripColor("machine." +
+                                    drillMeta.getDisplayName().toLowerCase().replace(" ", "-") + ".cost"));
+                            List<String> Loret = new ArrayList<String>();
+                            ItemStack glow = new ItemStack(XMaterial.GUNPOWDER.parseMaterial(), num);
+                            ItemMeta glowMeta = glow.getItemMeta();
+                            glowMeta.setDisplayName(ChatColor.GREEN + "Dust");
+                            Loret.add("§7This Dust has magical properties");
+                            Loret.add("§7which make it a valuable currency.");
+                            glowMeta.setLore(Loret);
+                            glow.setItemMeta(glowMeta);
 
+                            if (player.getInventory().containsAtLeast(glow, num)) {
+                                player.getInventory().removeItem(glow);
+                                player.getInventory().addItem(drill);
+                            } else {
+                            }
                         } catch (Exception ignored) {
                             player.closeInventory();
                         }

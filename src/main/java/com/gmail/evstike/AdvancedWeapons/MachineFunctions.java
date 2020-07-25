@@ -132,7 +132,7 @@ public class MachineFunctions extends API implements Listener {
         if (serverIs114()) {
             m2 = XMaterial.BLAST_FURNACE.parseMaterial();
         }
-        s = ChatColor.AQUA + "Drill";
+        s = ChatColor.AQUA + "AutoMiner";
 
         if (event.getBlockPlaced().getType().equals(XMaterial.HOPPER.parseMaterial())) {
             if (im.hasDisplayName()) {
@@ -152,7 +152,7 @@ public class MachineFunctions extends API implements Listener {
                         return;
                     }
 
-                    newMachine(id, "Drill", p, true, XMaterial.HOPPER.parseMaterial());
+                    newMachine(id, "AutoMiner", p, true, XMaterial.HOPPER.parseMaterial());
 
                     bl.setType(XMaterial.AIR.parseMaterial());
                     blockPlace(bl, XMaterial.HOPPER.parseMaterial(), id, p, it);
@@ -171,7 +171,7 @@ public class MachineFunctions extends API implements Listener {
                         Block block = bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 1);
                         Block blocks = bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 2);
                         XBlock.setDirection(blocks, BlockFace.WEST);
-                        XBlock.setColor(block, DyeColor.RED);
+                        XBlock.setColor(block, DyeColor.YELLOW);
                         if (serverIs113()) {
                             setBlock(blocks, m2, BlockFace.WEST);
                         }
@@ -234,7 +234,7 @@ public class MachineFunctions extends API implements Listener {
                         FileConfiguration mconfig = plugin.createYamlFile(mname);
                         for (String key : minvC.getKeys(false)) {
                             ConfigurationSection section = minvC.getConfigurationSection(key);
-                            if (section.getString("type").equals("Drill")) {
+                            if (section.getString("type").equals("AutoMiner")) {
                                 if (section.getInt("fuel") >= 4) {
                                     List<String> l = section.getStringList("list");
                                     for (String s : l) {
@@ -245,7 +245,7 @@ public class MachineFunctions extends API implements Listener {
                                         if (i <= 64) {
                                             Random rand = new Random();
                                             int n = rand.nextInt(100) + 1;
-                                            if (n <= 90) {
+                                            if (n <= matChance(l.indexOf(s))) {
                                                 l.set(l.indexOf(s), firstWord + ":" + i);
                                             }
                                             if (getLastWord(l.get(0)) == 64 || getLastWord(l.get(1)) == 64 ||
@@ -265,7 +265,7 @@ public class MachineFunctions extends API implements Listener {
                             }
                         }
                     }
-                }, 0L, 180L);
+                }, 0L, 360L);
     }
     public int getLastWord(String s) {
         String[] words = s.split(":");
@@ -409,5 +409,23 @@ public class MachineFunctions extends API implements Listener {
             default:
                 return "X";
         }
+    }
+    private int matChance(int i) {
+
+        int chance = 0;
+        if (i == 0) {
+            chance = 40;
+        }
+        if (i == 1) {
+            chance = 50;
+        }
+        if (i == 2) {
+            chance = 70;
+        }
+        if (i == 3) {
+            chance = 90;
+        }
+
+        return chance;
     }
 }
