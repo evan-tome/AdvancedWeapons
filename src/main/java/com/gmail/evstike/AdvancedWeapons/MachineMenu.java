@@ -1,15 +1,6 @@
 package com.gmail.evstike.AdvancedWeapons;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import org.bukkit.Axis;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.DyeColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.BlockData;
@@ -31,24 +22,17 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.Dye;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 @SuppressWarnings("deprecation")
 public class MachineMenu extends API implements Listener {
     Fates plugin;
 
     public MachineMenu(Fates instance) {
         this.plugin = instance;
-    }
-
-    private ItemStack dust() {
-        List<String> Lore = new ArrayList();
-        ItemStack glow = new ItemStack(XMaterial.GUNPOWDER.parseMaterial(), 1);
-        ItemMeta glowMeta = glow.getItemMeta();
-        glowMeta.setDisplayName(ChatColor.GREEN + "Dust");
-        Lore.add("§7This Dust has magical properties");
-        Lore.add("§7which make it a valuable currency.");
-        glowMeta.setLore(Lore);
-        glow.setItemMeta(glowMeta);
-        return glow;
     }
 
     @EventHandler(
@@ -67,34 +51,45 @@ public class MachineMenu extends API implements Listener {
             Location l = bl.getLocation();
             ItemStack i = p.getInventory().getItemInHand();
             for (String key : mconfig.getKeys(false)) {
-                    ConfigurationSection item = mconfig.getConfigurationSection(key);
-                     List<String> list = item.getStringList("list");
-                    if (list.contains(this.c(l))) {
+                ConfigurationSection item = mconfig.getConfigurationSection(key);
+                List<String> list = item.getStringList("list");
+                if (list.contains(this.c(l))) {
 
-                        if (bl.getType().equals(XMaterial.FURNACE.parseMaterial()) || bl.getType().equals(XMaterial.BLAST_FURNACE.parseMaterial())) {
-                            event.setCancelled(true);
-                            if (!config.isConfigurationSection(key)) {
-                                config.createSection(key);
-                                config.set(key + ".type", mconfig.getString(key + ".type"));
-                                config.set(key + ".location", mconfig.getStringList(key + ".list").get(4));
-                                config.set(key + ".fuel", 8);
-                                config.createSection(key + ".list");
-                                List<String> s = config.getStringList(key + ".list");
-                                s.add(this.m(0).name() + ":0");
-                                s.add(this.m(1).name() + ":0");
-                                s.add(this.m(2).name() + ":0");
-                                s.add(this.m(3).name() + ":0");
-                                config.set(key + ".list", s);
-                                this.plugin.saveYamlFile(config, name);
-                                Block block = this.str2loc(mconfig.getStringList(key + ".list").get(3), key);
-                                XBlock.setColor(block, DyeColor.LIME);
+                    if (bl.getType().equals(XMaterial.FURNACE.parseMaterial()) || bl.getType().equals(XMaterial.BLAST_FURNACE.parseMaterial())) {
+                        event.setCancelled(true);
+                        if (!config.isConfigurationSection(key)) {
+                            config.createSection(key);
+                            config.set(key + ".type", mconfig.getString(key + ".type"));
+                            config.set(key + ".location", mconfig.getStringList(key + ".list").get(4));
+                            config.set(key + ".fuel", 8);
+                            config.createSection(key + ".list");
+                            List<String> s = config.getStringList(key + ".list");
+                            s.add(this.m(0).name() + ":0");
+                            s.add(this.m(1).name() + ":0");
+                            s.add(this.m(2).name() + ":0");
+                            s.add(this.m(3).name() + ":0");
+                            config.set(key + ".list", s);
+                            this.plugin.saveYamlFile(config, name);
+                            Block block = this.str2loc(mconfig.getStringList(key + ".list").get(3), key);
+                            XBlock.setColor(block, DyeColor.YELLOW);
+                        }
+                        boolean open = false;
+                        for (Player pl : Bukkit.getOnlinePlayers()) {
+                            if (pl.getOpenInventory().getTitle().equals(key + " - Machine")) {
+                                open = true;
                             }
+                        }
+                        if (!open) {
                             this.openGUI(p, key);
+                            open = false;
+                        }
+                        if (open) {
+                            p.sendMessage("§cThis Machine is currently in use.");
                         }
                     }
-
-                if (bl.getType().equals(XMaterial.HOPPER.parseMaterial())) {
-                    event.setCancelled(true);
+                    if (bl.getType().equals(XMaterial.HOPPER.parseMaterial())) {
+                        event.setCancelled(true);
+                    }
                 }
             }
         }
@@ -107,6 +102,7 @@ public class MachineMenu extends API implements Listener {
         File name = this.plugin.createFile("machineinv.yml");
         FileConfiguration config = this.plugin.createYamlFile(name);
         this.plugin.saveYamlFile(config, name);
+        
         Inventory inv = Bukkit.createInventory(null, 27, s + " - Machine");
         ItemStack b = new ItemStack(XMaterial.IRON_BARS.parseMaterial());
         ItemMeta bMeta = b.getItemMeta();
@@ -131,16 +127,17 @@ public class MachineMenu extends API implements Listener {
         int i4 = config.getConfigurationSection(s).getInt("fuel");
         fMeta.setDisplayName("§aMachine Fuel");
         Lore.add("§7Powers up the Machine.");
-        Lore.add("§b" + i4 + "/8 §7fuel.");
+        Lore.add("§b" + i4 + "/8 §7fuel remaining.");
         Lore.add("");
         fMeta.setLore(Lore);
         f.setItemMeta(fMeta);
         Lore.clear();
 
         nfMeta.setDisplayName("§cMachine Fuel");
-        Lore.add("§7Fill up the Machine with fuel.");
-        Lore.add("§c" + i4 + "/8 §7fuel.");
+        Lore.add("§7Powers up the Machine.");
+        Lore.add("§c" + i4 + "/8 §7fuel remaining.");
         Lore.add("");
+        Lore.add("§cFUEL CANNOT BE REFILLED");
         nfMeta.setLore(Lore);
         nf.setItemMeta(nfMeta);
         Lore.clear();
@@ -170,14 +167,9 @@ public class MachineMenu extends API implements Listener {
                 List<String> lore = new ArrayList();
                 ItemStack is = new ItemStack((XMaterial.matchXMaterial(firstWord).get()).parseMaterial(), i);
                 ItemMeta isM = is.getItemMeta();
-                if (is.getAmount() == is.getMaxStackSize()) {
-                    lore.add("§aClick to collect these materials.");
-                }
-                if (is.getAmount() < is.getMaxStackSize()) {
-                    lore.add("§cCollect when stack is full.");
-                    lore.add("§7" + is.getAmount() + "/" + is.getMaxStackSize());
-                }
-
+                lore.add("§aClick to collect this material.");
+                lore.add("§cCollecting will deplete fuel.");
+                lore.add("§7" + is.getAmount() + "/" + is.getMaxStackSize());
                 isM.setLore(lore);
                 is.setItemMeta(isM);
                 inv.setItem(i2, is);
@@ -240,117 +232,122 @@ public class MachineMenu extends API implements Listener {
         String s = t[0];
         if (!ChatColor.stripColor(event.getView().getTitle()).equals(s + " - AdvancedWeapons") && !ChatColor.stripColor(event.getView().getTitle()).equals(s + " - Machine"))
             return;
-
+    
         Player player = (Player) event.getWhoClicked();
-        event.setCancelled(true);
-
-        if (event.getCurrentItem() == null || event.getCurrentItem().getType() == Material.AIR || !event.getCurrentItem().hasItemMeta()) {
-
-            return;
-        }
-
-        if (event.getClickedInventory().getType().equals(InventoryType.CHEST)) {
-            if (event.getCurrentItem() != null && event.getCurrentItem().getType() != XMaterial.AIR.parseMaterial() && event.getCurrentItem().hasItemMeta()) {
-                File name = this.plugin.createFile("machineinv.yml");
-                FileConfiguration config = this.plugin.createYamlFile(name);
-                this.plugin.saveYamlFile(config, name);
-                int i = config.getConfigurationSection(s).getInt("fuel") + 1;
-
-                List<String> Lore = new ArrayList();
-                ItemStack nf = new ItemStack(XMaterial.RED_STAINED_GLASS_PANE.parseItem());
-                ItemMeta nfMeta = nf.getItemMeta();
-                nfMeta.setDisplayName("§cMachine Fuel");
-                Lore.add("§7Fill up the Machine with fuel.");
-                Lore.add("§c" + i + "/8 §7fuel.");
-                Lore.add("");
-                nfMeta.setLore(Lore);
-                nf.setItemMeta(nfMeta);
-                Lore.clear();
-
-                File mname = this.plugin.createFile("machines.yml");
-                FileConfiguration mconfig = this.plugin.createYamlFile(mname);
-                this.plugin.saveYamlFile(mconfig, mname);
-                int fuel = config.getInt(s + ".fuel");
-                if (ChatColor.stripColor(event.getView().getTitle()).equals(s + " - Machine")) {
-                    Inventory inv = event.getClickedInventory();
-                    if (inv.getType() == InventoryType.CHEST) {
-                        switch (XMaterial.matchXMaterial(event.getCurrentItem())) {
-                            case LIGHT_GRAY_STAINED_GLASS_PANE:
-                                if (event.getCursor().isSimilar(this.dust()) && fuel < 4) {
-                                    player.getItemOnCursor().setAmount(player.getItemOnCursor().getAmount() - 1);
-                                    config.set(s + ".fuel", fuel + 1);
-                                    this.plugin.saveYamlFile(config, name);
-                                    Block block = this.str2loc(mconfig.getStringList(s + ".list").get(3), s);
-                                    if (fuel == 0) {
-                                        inv.setItem(18, nf);
-                                        XBlock.setColor(block, DyeColor.ORANGE);
-                                    }
-
-                                    if (fuel == 1) {
-                                        inv.setItem(19, nf);
-                                        XBlock.setColor(block, DyeColor.ORANGE);
-                                    }
-
-                                    if (fuel == 2) {
-                                        inv.setItem(20, nf);
-                                        XBlock.setColor(block, DyeColor.ORANGE);
-                                    }
-
-                                    if (fuel == 3) {
-                                        inv.setItem(11, nf);
-                                        XBlock.setColor(block, DyeColor.YELLOW);
-                                    }
-                                }
-                        }
-
+        if (event.getInventory().getHolder() == null) {
+            event.setCancelled(true);
+    
+            if (event.getCurrentItem() == null || event.getCurrentItem().getType() == Material.AIR || !event.getCurrentItem().hasItemMeta()) {
+        
+                return;
+            }
+    
+            if (event.getClickedInventory().getType().equals(InventoryType.CHEST)) {
+                if (event.getCurrentItem() != null && event.getCurrentItem().getType() != XMaterial.AIR.parseMaterial() && event.getCurrentItem().hasItemMeta()) {
+                    File name = this.plugin.createFile("machineinv.yml");
+                    FileConfiguration config = this.plugin.createYamlFile(name);
+                    this.plugin.saveYamlFile(config, name);
+                    int i = config.getConfigurationSection(s).getInt("fuel") - 1;
+            
+                    List<String> Lore = new ArrayList();
+                    ItemStack nf = new ItemStack(XMaterial.RED_STAINED_GLASS_PANE.parseItem());
+                    ItemMeta nfMeta = nf.getItemMeta();
+                    nfMeta.setDisplayName("§cMachine Fuel");
+                    Lore.add("§7Powers up the Machine.");
+                    Lore.add("§c" + i + "/8 §7fuel.");
+                    Lore.add("");
+                    Lore.add("§cFUEL CANNOT BE REFILLED");
+                    nfMeta.setLore(Lore);
+                    nf.setItemMeta(nfMeta);
+                    Lore.clear();
+            
+                    File mname = this.plugin.createFile("machines.yml");
+                    FileConfiguration mconfig = this.plugin.createYamlFile(mname);
+                    this.plugin.saveYamlFile(mconfig, mname);
+                    if (ChatColor.stripColor(event.getView().getTitle()).equals(s + " - Machine")) {
+                        Inventory inv = event.getClickedInventory();
+                
                         ItemStack c2 = new ItemStack(XMaterial.LIGHT_GRAY_STAINED_GLASS_PANE.parseItem());
                         ItemMeta c2Meta = c2.getItemMeta();
                         c2Meta.setDisplayName("§aMined materials will appear in this slot.");
                         c2Meta.setLore(Lore);
                         c2.setItemMeta(c2Meta);
                         Lore.clear();
-
-                        if ((event.getRawSlot() == 13 || event.getRawSlot() == 14 || event.getRawSlot() == 15 || event.getRawSlot() == 16) && event.getCurrentItem().getType() != XMaterial.LIGHT_GRAY_STAINED_GLASS_PANE.parseMaterial() && event.getCurrentItem().getAmount() == 64) {
-                            player.getInventory().addItem(invItem(event.getCurrentItem()));
+                
+                        if ((event.getRawSlot() == 13 || event.getRawSlot() == 14 || event.getRawSlot() == 15 || event.getRawSlot() == 16) && event.getCurrentItem().getType() != XMaterial.LIGHT_GRAY_STAINED_GLASS_PANE.parseMaterial()) {
                             ConfigurationSection section = config.getConfigurationSection(s);
                             List<String> l = section.getStringList("list");
-
+                    
                             for (String ss : l) {
                                 String[] words = ss.split(":");
                                 String firstWord = words[0];
-
-                                if (firstWord.equals(event.getCurrentItem().getType().name())) {
-
+                        
+                                if (firstWord.equals(event.getCurrentItem().getType().name()) ||
+                                        (event.getCurrentItem().getType() == XMaterial.LAPIS_LAZULI.parseMaterial())) {
+                            
+                                    player.getInventory().addItem(invItem(event.getCurrentItem()));
                                     event.getClickedInventory().setItem(event.getRawSlot(), c2);
                                     Block block = this.str2loc(mconfig.getStringList(s + ".list").get(3), s);
-
+                            
                                     int i4 = section.getInt("fuel") - 1;
+                            
+                                    if (i4 == 0) {
+                                        inv.setItem(18, nf);
+                                        machineBreak(s);
+                                        config.set(s, null);
+                                        plugin.saveYamlFile(config, name);
+                                        player.closeInventory();
+                                    }
+                            
+                                    if (i4 == 1) {
+                                        inv.setItem(19, nf);
+                                    }
+                            
+                                    if (i4 == 2) {
+                                        inv.setItem(20, nf);
+                                    }
+                            
                                     if (i4 == 3) {
                                         inv.setItem(11, nf);
-                                        XBlock.setColor(block, DyeColor.ORANGE);
                                     }
-
-                                    if (i4 == 2) {
-                                        inv.setItem(11, nf);
-                                        inv.setItem(20, nf);
-                                        XBlock.setColor(block, DyeColor.ORANGE);
+                                    if (i4 == 4) {
+                                        inv.setItem(2, nf);
                                     }
-
-                                    if (i4 == 1) {
-                                        inv.setItem(11, nf);
-                                        inv.setItem(20, nf);
-                                        inv.setItem(19, nf);
-                                        XBlock.setColor(block, DyeColor.ORANGE);
+                                    if (i4 == 5) {
+                                        inv.setItem(1, nf);
                                     }
-
-                                    if (i4 == 0) {
-                                        inv.setItem(11, nf);
-                                        inv.setItem(20, nf);
-                                        inv.setItem(19, nf);
-                                        inv.setItem(18, nf);
-                                        XBlock.setColor(block, DyeColor.RED);
+                                    if (i4 == 6) {
+                                        inv.setItem(0, nf);
                                     }
-
+                                    if (i4 == 7) {
+                                        inv.setItem(9, nf);
+                                    }
+                                    for (ItemStack it : event.getClickedInventory().getContents()) {
+                                        if (it.hasItemMeta()) {
+                                            ItemMeta itMeta = it.getItemMeta();
+                                            if (itMeta.hasLore()) {
+                                                List<String> lo = itMeta.getLore();
+                                                if (it.getType().equals(XMaterial.YELLOW_STAINED_GLASS_PANE.parseMaterial())) {
+                                                    lo.set(1, "§b" + i + "/8 §7fuel.");
+                                                }
+                                                if (it.getType().equals(XMaterial.RED_STAINED_GLASS_PANE.parseMaterial())) {
+                                                    lo.set(1, "§b" + i + "/8 §7fuel.");
+                                                }
+                                                itMeta.setLore(lo);
+                                                it.setItemMeta(itMeta);
+                                            }
+                                        }
+                                    }
+                                    if (inv.getItem(13).getAmount() < inv.getItem(13).getMaxStackSize()) {
+                                        if (inv.getItem(14).getAmount() < inv.getItem(14).getMaxStackSize()) {
+                                            if (inv.getItem(15).getAmount() < inv.getItem(15).getMaxStackSize()) {
+                                                if (inv.getItem(16).getAmount() < inv.getItem(16).getMaxStackSize()) {
+                                                    XBlock.setColor(block, DyeColor.YELLOW);
+                                                }
+                                            }
+                                        }
+                                    }
+                            
                                     int i2 = l.indexOf(ss);
                                     int i3 = section.getInt("fuel") - 1;
                                     l.set(i2, firstWord + ":0");
@@ -364,7 +361,7 @@ public class MachineMenu extends API implements Listener {
                         }
                     }
                 }
-
+        
             }
         }
     }
@@ -466,5 +463,22 @@ public class MachineMenu extends API implements Listener {
             default:
                 return "X";
         }
+    }
+    public void machineBreak(String key) {
+
+        File mname = plugin.createFile("machines.yml");
+        FileConfiguration mconfig = plugin.createYamlFile(mname);
+        File name = plugin.createFile("machineinv.yml");
+        FileConfiguration config = plugin.createYamlFile(name);
+
+        ConfigurationSection item = mconfig.getConfigurationSection(key);
+        List<String> list = item.getStringList("list");
+        for (String loc : list) {
+            str2loc(loc, key).setType(XMaterial.AIR.parseMaterial());
+        }
+        mconfig.set(key, null);
+        plugin.saveYamlFile(mconfig, mname);
+        config.set(key, null);
+        plugin.saveYamlFile(config, name);
     }
 }

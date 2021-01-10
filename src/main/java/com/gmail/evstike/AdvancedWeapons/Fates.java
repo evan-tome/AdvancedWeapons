@@ -1,27 +1,29 @@
 package com.gmail.evstike.AdvancedWeapons;
 
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitScheduler;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.logging.Logger;
+
 
 public class Fates extends JavaPlugin implements Listener {
 	public Fates() {
 	}
+	private static Economy econ = null;
 
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onEnable() {
-		this.getLogger().info("AdvancedWeapons has been enabled");
+        this.getLogger().info("AdvancedWeapons has been enabled");
 		Bukkit.getServer().getPluginManager().registerEvents(this, this);
 		Bukkit.getServer().getPluginManager().registerEvents(new EnchantGUI(this), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new WeaponGUI(this), this);
@@ -34,6 +36,7 @@ public class Fates extends JavaPlugin implements Listener {
 		Bukkit.getServer().getPluginManager().registerEvents(new WeaponFunctions(this), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new UpdateCheck(this), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new ConfigGUI(this), this);
+		Bukkit.getServer().getPluginManager().registerEvents(new Hidden(this), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new MachineFunctions(this), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new DustFunctions(this), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new MachineMenu(this), this);
@@ -95,13 +98,17 @@ public class Fates extends JavaPlugin implements Listener {
 		}
 		File mname = createFile("machines.yml");
 		FileConfiguration mconfig = createYamlFile(mname);
-		//File minv = createFile("machineinv.yml");
-		//FileConfiguration minvC = createYamlFile(minv);
+		File iname = createFile("machineinv.yml");
+		FileConfiguration iconfig = createYamlFile(iname);
+		File wname = createFile("customweapons.yml");
+		FileConfiguration wconfig = createYamlFile(wname);
+		
 		this.saveDefaultConfig();
 		this.reloadConfig();
 		saveYamlFile(nameconfig, name);
         saveYamlFile(mconfig, mname);
-		//saveYamlFile(minvC, minv);
+		saveYamlFile(iconfig, iname);
+		saveYamlFile(wconfig, wname);
 		if (metrics.isEnabled()) {
 			log.info("AdvancedWeapons is using bStats");
 		}
@@ -111,8 +118,42 @@ public class Fates extends JavaPlugin implements Listener {
 		}
 
 		if (Bukkit.getServer().getPluginManager().getPlugin("ActionBarAPI") == null) {
-			this.getLogger().info("ActionBarAPI has not been detected. Please install for full features");
+			this.getLogger().info("ActionBarAPI has not been detected. Install for optional features.");
 		}
+		if (!setupEconomy() ) {
+			log.severe("Vault could not find an economy.");
+			return;
+		}
+		if (this.getConfig().getBoolean("update-check")) {
+			if (!this.getDescription().getVersion().contains("-dev")) {
+				Logger logger = this.getLogger();
+
+				new UpdateCheck(this, 67760).getVersion(version -> {
+                    if (this.getDescription().getVersion().contains("-beta")) {
+                        logger.info("You are using a beta version of AdvancedWeapons");
+                    }
+					if (this.getDescription().getVersion().replace("-beta", "").equalsIgnoreCase(version)) {
+						logger.info("You are using the latest version of AdvancedWeapons: " + version);
+					} else {
+						logger.info("New version of AdvancedWeapons was found: " + version);
+					}
+				});
+			}
+		}
+	}
+	public boolean setupEconomy() {
+		if (getServer().getPluginManager().getPlugin("Vault") == null) {
+			return false;
+		}
+		RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+		if (rsp == null) {
+			return false;
+		}
+		econ = rsp.getProvider();
+		return econ != null;
+	}
+	public static Economy getEconomy() {
+		return econ;
 	}
 	File createTempFile(String filename) {
 

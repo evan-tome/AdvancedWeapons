@@ -1,7 +1,8 @@
 main: com.gmail.evstike.AdvancedWeapons.Fates
 name: AdvancedWeapons
-version: 1.4.3-dev
+version: 1.4.6
 author: miner328
+depend: [Vault]
 softdepend: [ActionBarAPI]
 api-version: 1.13
 description: Conquer enemies with custom enchanted gear and powerful magical items.
@@ -26,7 +27,7 @@ commands:
     aliases: [awhidden, hide]
   dust:
     description: Access your dust vault
-    aliases: [awdust, dustvault]
+    aliases: [awdust]
   ce:
     description: Enchant your items with custom enchantments
     aliases: [awce, awenchantments, customenchants]
@@ -43,12 +44,22 @@ permissions:
       advancedweapons.dust: true
       advancedweapons.weapons: true
       advancedweapons.machines: true
+      advancedweapons.coinflip: true
       advancedweapons.enchgui: true
       advancedweapons.hidden: true
       advancedweapons.ignite: true
       advancedweapons.admin: true
       advancedweapons.reload: true
       advancedweapons.permissions: true
+  advancedweapons.player:
+    description: Default AdvancedWeapons permission nodes
+    default: true
+    children:
+      advancedweapons.ce: true
+      advancedweapons.advancedweapons: true
+      advancedweapons.dust: true
+      advancedweapons.weapons: true
+      advancedweapons.machines: true
       advancedweapons.coinflip: true
   advancedweapons.admin:
     description: Admin commands
@@ -61,19 +72,22 @@ permissions:
       advancedweapons.permissions: true
   advancedweapons.advancedweapons:
     description: /advancedweapons
-    default: true
+    default: op
   advancedweapons.ce:
     description: /ce
-    default: true
+    default: op
   advancedweapons.weapons:
     description: /weapons
-    default: true
+    default: op
   advancedweapons.machines:
     description: /machines
-    default: true
+    default: op
   advancedweapons.dust:
     description: /dust
-    default: true
+    default: op
+  advancedweapons.coinflip:
+    description: /coinflip
+    default: op
   advancedweapons.enchgui:
     description: /enchgui
     default: op
@@ -89,6 +103,3 @@ permissions:
   advancedweapons.permissions:
     description: /advancedweapons permissions
     default: op
-  advancedweapons.coinflip:
-    description: /coinflip
-    default: true

@@ -3,7 +3,6 @@ package com.gmail.evstike.AdvancedWeapons;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.BlockState;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Directional;
 import org.bukkit.block.data.Orientable;
@@ -11,7 +10,6 @@ import org.bukkit.block.data.Rotatable;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -51,11 +49,11 @@ public class MachineFunctions extends API implements Listener {
     @SuppressWarnings({"deprecation"})
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockPlace(BlockPlaceEvent event) {
-
+    
         File mname = plugin.createFile("machines.yml");
         FileConfiguration mconfig = plugin.createYamlFile(mname);
         plugin.saveYamlFile(mconfig, mname);
-
+    
         Player p = event.getPlayer();
         Block bl = event.getBlockPlaced();
         Location l = bl.getLocation();
@@ -65,14 +63,14 @@ public class MachineFunctions extends API implements Listener {
         Material m1;
         Material m2;
         String s;
-
+    
         m = XMaterial.COBBLESTONE_WALL.parseMaterial();
         s = ChatColor.AQUA + "Port-a-Wall";
-
+    
         if (event.getBlockPlaced().getType().equals(XMaterial.COBBLESTONE_WALL.parseMaterial())) {
             if (im.hasDisplayName()) {
                 if (im.getDisplayName().equals(s)) {
-
+    
                     if (mconfig.getKeys(false).isEmpty()) {
                         id = "0";
                     } else {
@@ -84,14 +82,14 @@ public class MachineFunctions extends API implements Listener {
                     if (event.isCancelled()) {
                         return;
                     }
-
+    
                     newMachine(id, "Port-a-Wall", p, true, XMaterial.COBBLESTONE_WALL.parseMaterial());
-
+    
                     bl.setType(XMaterial.AIR.parseMaterial());
                     blockCheck(bl, m, id, p, it);
                     blockCheck(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 1, l.getBlockZ()), m, id, p, it);
                     blockCheck(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 2, l.getBlockZ()), m, id, p, it);
-
+    
                     if (getCardinalDirection(p).equals("N") || getCardinalDirection(p).equals("NW") ||
                             getCardinalDirection(p).equals("S") || getCardinalDirection(p).equals("SE")) {
                         blockCheck(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 2, l.getBlockZ() + 1), m, id, p, it);
@@ -133,56 +131,61 @@ public class MachineFunctions extends API implements Listener {
             m2 = XMaterial.BLAST_FURNACE.parseMaterial();
         }
         s = ChatColor.AQUA + "AutoMiner";
-
+    
         if (event.getBlockPlaced().getType().equals(XMaterial.HOPPER.parseMaterial())) {
             if (im.hasDisplayName()) {
                 if (im.getDisplayName().equals(s)) {
-
-                    if (mconfig.getKeys(false).isEmpty()) {
-                        id = "0";
+                    if (p.getWorld().getEnvironment() == World.Environment.NORMAL) {
+    
+                        if (mconfig.getKeys(false).isEmpty()) {
+                            id = "0";
+                        } else {
+                            for (String key : mconfig.getKeys(false)) {
+                                a = Integer.parseInt(mconfig.getConfigurationSection(key).getName());
+                            }
+                            if (!mconfig.getKeys(false).isEmpty()) {
+                                id = a + 1 + "";
+                            }
+                        }
+                        if (event.isCancelled()) {
+                            return;
+                        }
+    
+                        newMachine(id, "AutoMiner", p, true, XMaterial.HOPPER.parseMaterial());
+    
+                        bl.setType(XMaterial.AIR.parseMaterial());
+                        blockPlace(bl, XMaterial.HOPPER.parseMaterial(), id, p, it);
+                        blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 1, l.getBlockZ()), XMaterial.OAK_FENCE.parseMaterial(), id, p, it);
+                        blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 2, l.getBlockZ()), m, id, p, it);
+    
+                        blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 1), m1, id, p, it);
+                        blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 2), m2, id, p, it);
+                        blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 3), m, id, p, it);
+                        blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 1, l.getBlockZ() - 3), m, id, p, it);
+                        blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 1, l.getBlockZ() - 2), m, id, p, it);
+                        blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 2, l.getBlockZ() - 1), m, id, p, it);
+                        blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 2, l.getBlockZ() - 2), m, id, p, it);
+    
+                        if (verify) {
+                            Block block = bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 1);
+                            Block blocks = bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 2);
+                            XBlock.setDirection(blocks, BlockFace.WEST);
+                            XBlock.setColor(block, DyeColor.RED);
+                            if (serverIs113()) {
+                                setBlock(blocks, m2, BlockFace.WEST);
+                            }
+                            p.getWorld().playEffect(l, Effect.MOBSPAWNER_FLAMES, 0);
+                        }
+                        if (!verify) {
+                            event.setCancelled(true);
+                            p.sendMessage("§cCould not place.");
+                            blockBreak(l);
+                        }
+                        verify = true;
                     } else {
-                        for (String key : mconfig.getKeys(false)) {
-                            a = Integer.parseInt(mconfig.getConfigurationSection(key).getName());
-                        }
-                        if (!mconfig.getKeys(false).isEmpty()) {
-                            id = a + 1 + "";
-                        }
+                        p.sendMessage("§cThis Machine can only be placed in the Overworld.");
+                        event.getBlockPlaced().setType(XMaterial.AIR.parseMaterial());
                     }
-                    if (event.isCancelled()) {
-                        return;
-                    }
-
-                    newMachine(id, "AutoMiner", p, true, XMaterial.HOPPER.parseMaterial());
-
-                    bl.setType(XMaterial.AIR.parseMaterial());
-                    blockPlace(bl, XMaterial.HOPPER.parseMaterial(), id, p, it);
-                    blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 1, l.getBlockZ()), XMaterial.OAK_FENCE.parseMaterial(), id, p, it);
-                    blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 2, l.getBlockZ()), m, id, p, it);
-
-                    blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 1), m1, id, p, it);
-                    blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 2), m2, id, p, it);
-                    blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 3), m, id, p, it);
-                    blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 1, l.getBlockZ() - 3), m, id, p, it);
-                    blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 1, l.getBlockZ() - 2), m, id, p, it);
-                    blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 2, l.getBlockZ() - 1), m, id, p, it);
-                    blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 2, l.getBlockZ() - 2), m, id, p, it);
-
-                    if (verify) {
-                        Block block = bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 1);
-                        Block blocks = bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 2);
-                        XBlock.setDirection(blocks, BlockFace.WEST);
-                        XBlock.setColor(block, DyeColor.YELLOW);
-                        if (serverIs113()) {
-                            setBlock(blocks, m2, BlockFace.WEST);
-                        }
-                        p.getWorld().playEffect(l, Effect.MOBSPAWNER_FLAMES, 0);
-                    }
-                    if (!verify) {
-                        event.setCancelled(true);
-                        p.sendMessage("§cCould not place.");
-                        blockBreak(l);
-                    }
-                    verify = true;
                 }
             }
         }
@@ -235,23 +238,21 @@ public class MachineFunctions extends API implements Listener {
                         for (String key : minvC.getKeys(false)) {
                             ConfigurationSection section = minvC.getConfigurationSection(key);
                             if (section.getString("type").equals("AutoMiner")) {
-                                if (section.getInt("fuel") >= 4) {
-                                    List<String> l = section.getStringList("list");
-                                    for (String s : l) {
-                                        String[] words = s.split(":");
-                                        String firstWord = words[0];
-                                        String lastWord = s.substring(s.lastIndexOf(":") + 1);
-                                        int i = Integer.parseInt(lastWord) + 1;
-                                        if (i <= 64) {
-                                            Random rand = new Random();
-                                            int n = rand.nextInt(100) + 1;
-                                            if (n <= matChance(l.indexOf(s))) {
-                                                l.set(l.indexOf(s), firstWord + ":" + i);
-                                            }
-                                            if (getLastWord(l.get(0)) == 64 || getLastWord(l.get(1)) == 64 ||
-                                                    getLastWord(l.get(2)) == 64 || getLastWord(l.get(3)) == 64) {
-                                                y = true;
-                                            }
+                                List<String> l = section.getStringList("list");
+                                for (String s : l) {
+                                    String[] words = s.split(":");
+                                    String firstWord = words[0];
+                                    String lastWord = s.substring(s.lastIndexOf(":") + 1);
+                                    int i = Integer.parseInt(lastWord) + 1;
+                                    if (i <= 64) {
+                                        Random rand = new Random();
+                                        int n = rand.nextInt(100) + 1;
+                                        if (n <= matChance(l.indexOf(s))) {
+                                            l.set(l.indexOf(s), firstWord + ":" + i);
+                                        }
+                                        if (getLastWord(l.get(0)) == 64 || getLastWord(l.get(1)) == 64 ||
+                                                getLastWord(l.get(2)) == 64 || getLastWord(l.get(3)) == 64) {
+                                            y = true;
                                         }
                                     }
                                     section.set("list", l);
@@ -265,7 +266,7 @@ public class MachineFunctions extends API implements Listener {
                             }
                         }
                     }
-                }, 0L, 360L);
+                }, 0L, 480L);
     }
     public int getLastWord(String s) {
         String[] words = s.split(":");
@@ -414,16 +415,16 @@ public class MachineFunctions extends API implements Listener {
 
         int chance = 0;
         if (i == 0) {
-            chance = 40;
+            chance = 5;
         }
         if (i == 1) {
-            chance = 50;
+            chance = 15;
         }
         if (i == 2) {
-            chance = 70;
+            chance = 65;
         }
         if (i == 3) {
-            chance = 90;
+            chance = 80;
         }
 
         return chance;

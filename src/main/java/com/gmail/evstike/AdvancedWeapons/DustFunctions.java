@@ -1,18 +1,13 @@
 package com.gmail.evstike.AdvancedWeapons;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.Random;
 
 public class DustFunctions extends API implements Listener {
 
@@ -20,18 +15,6 @@ public class DustFunctions extends API implements Listener {
 
     public DustFunctions(Fates instance) {
         plugin = instance;
-    }
-
-    private ItemStack dust() {
-        List<String> Lore = new ArrayList<String>();
-        ItemStack glow = new ItemStack(XMaterial.GUNPOWDER.parseMaterial(), 1);
-        ItemMeta glowMeta = glow.getItemMeta();
-        glowMeta.setDisplayName(ChatColor.GREEN + "Dust");
-        Lore.add("§7This Dust has magical properties");
-        Lore.add("§7which make it a valuable currency.");
-        glowMeta.setLore(Lore);
-        glow.setItemMeta(glowMeta);
-        return glow;
     }
 
     @EventHandler
@@ -50,7 +33,7 @@ public class DustFunctions extends API implements Listener {
                 int n = rand.nextInt(100) + 1;
                 if (n <= w) {
                     event.getBlock().getLocation().getWorld().dropItemNaturally(
-                            event.getBlock().getLocation(), dust());
+                            event.getBlock().getLocation(), dust(plugin.getConfig().getStringList("dust-item")));
                     if (serverIs113()) {
                         event.getPlayer().spawnParticle(Particle.ENCHANTMENT_TABLE, event.getBlock().getLocation(), 4);
                     }

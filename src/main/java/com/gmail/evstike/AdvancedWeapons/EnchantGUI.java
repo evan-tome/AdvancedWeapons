@@ -974,57 +974,59 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             return;
 
         Player player = (Player) event.getWhoClicked();
-        event.setCancelled(true);
-
-        if (event.getCurrentItem() == null || event.getCurrentItem().getType() == XMaterial.AIR.parseMaterial()) {
-            return;
-        }
-        if(player.getInventory().getItemInHand().getType() == XMaterial.AIR.parseMaterial()) {
-            return;
-        }
-        Map<Enchantment, Integer> itemEnchants = player.getInventory().getItemInHand().getItemMeta().getEnchants();
-
-        if (event.getClickedInventory().getType().equals(InventoryType.CHEST)) {
-
-            if (event.getCurrentItem().getType() != XMaterial.BARRIER.parseMaterial() && event.getCurrentItem().getType() != XMaterial.EXPERIENCE_BOTTLE.parseMaterial()) {
-                if (event.getCurrentItem().hasItemMeta()) {
-                    if (event.getCurrentItem().getItemMeta().hasDisplayName()) {
-                        if (player.getInventory().getItemInHand().getType() != XMaterial.AIR.parseMaterial()) {
-
-                            for (Enchantment enchantment : event.getCurrentItem().getItemMeta().getEnchants().keySet()) {
-                                for (Enchantment ench : itemEnchants.keySet()) {
-
-                                    if (!ChatColor.stripColor(event.getView().getTitle()).equalsIgnoreCase("Unsafe Enchantment Menu")) {
-                                        if (player.getInventory().getItemInHand().getItemMeta().hasEnchants()) {
-                                            if (enchantment.conflictsWith(ench)) {
-                                                b = true;
+        if (event.getInventory().getHolder()==null) {
+            event.setCancelled(true);
+    
+            if (event.getCurrentItem() == null || event.getCurrentItem().getType() == XMaterial.AIR.parseMaterial()) {
+                return;
+            }
+            if (player.getInventory().getItemInHand().getType() == XMaterial.AIR.parseMaterial()) {
+                return;
+            }
+            Map<Enchantment, Integer> itemEnchants = player.getInventory().getItemInHand().getItemMeta().getEnchants();
+    
+            if (event.getClickedInventory().getType().equals(InventoryType.CHEST)) {
+        
+                if (event.getCurrentItem().getType() != XMaterial.BARRIER.parseMaterial() && event.getCurrentItem().getType() != XMaterial.EXPERIENCE_BOTTLE.parseMaterial()) {
+                    if (event.getCurrentItem().hasItemMeta()) {
+                        if (event.getCurrentItem().getItemMeta().hasDisplayName()) {
+                            if (player.getInventory().getItemInHand().getType() != XMaterial.AIR.parseMaterial()) {
+                        
+                                for (Enchantment enchantment : event.getCurrentItem().getItemMeta().getEnchants().keySet()) {
+                                    for (Enchantment ench : itemEnchants.keySet()) {
+                                
+                                        if (!ChatColor.stripColor(event.getView().getTitle()).equalsIgnoreCase("Unsafe Enchantment Menu")) {
+                                            if (player.getInventory().getItemInHand().getItemMeta().hasEnchants()) {
+                                                if (enchantment.conflictsWith(ench)) {
+                                                    b = true;
+                                                }
                                             }
                                         }
-                                        }
                                     }
-
+                            
                                     if (b == false) {
                                         ItemMeta meta = player.getInventory().getItemInHand().getItemMeta();
                                         meta.addEnchant(enchantment, num, true);
                                         player.getInventory().getItemInHand().setItemMeta(meta);
                                         b = false;
                                     }
-
+                            
                                     if (b == true) {
                                         b = false;
+                                    }
                                 }
                             }
                         }
                     }
                 }
+        
+                switch (XMaterial.matchXMaterial(event.getCurrentItem())) {
+                    case BARRIER:
+                        player.closeInventory();
+                        break;
+                }
             }
-
-        switch (XMaterial.matchXMaterial(event.getCurrentItem())) {
-            case BARRIER:
-                player.closeInventory();
-                break;
         }
-    }
 
 }
 

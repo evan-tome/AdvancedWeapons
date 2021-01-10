@@ -10,7 +10,6 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -40,7 +39,7 @@ public class Info extends ConfigGUI implements CommandExecutor, TabCompleter {
 			plugin.saveYamlFile(mconfig, mname);
 
 			List<String> a = Arrays.asList("help", "pages", "enchants", "commands", "dust", "discord", "author", "guide", "ver", "version", "download",
-					"github", "git", "permissions", "admin", "config", "reload", "rl");
+					"permissions", "admin", "config", "reload", "rl");
 
 			if (args.length == 0 || args.length == 1 && args[0].equals("help")) {
 				String ver = Bukkit.getServer().getPluginManager().getPlugin("AdvancedWeapons").getDescription().getVersion();
@@ -64,7 +63,6 @@ public class Info extends ConfigGUI implements CommandExecutor, TabCompleter {
 					sender.sendMessage("§a- §6guide");
 					sender.sendMessage("§a- §6author");
 					sender.sendMessage("§a- §6version");
-					sender.sendMessage("§a- §6github");
 					sender.sendMessage("§a- §6download");
 					if (sender.hasPermission("advancedweapons.admin")) {
 						sender.sendMessage("§a- §badmin");
@@ -130,6 +128,7 @@ public class Info extends ConfigGUI implements CommandExecutor, TabCompleter {
 				}
 				if (args[0].equalsIgnoreCase("permissions") && sender.hasPermission("advancedweapons.admin")) {
 					sender.sendMessage("§6-=Permissions=-");
+					sender.sendMessage("§a- §badvancedweapons.player");
 					sender.sendMessage("§a- §badvancedweapons.advancedweapons");
 					sender.sendMessage("§a- §badvancedweapons.ce");
 					sender.sendMessage("§a- §badvancedweapons.weapons");
@@ -185,12 +184,12 @@ public class Info extends ConfigGUI implements CommandExecutor, TabCompleter {
 					sender.sendMessage("§aAdvancedWeapons version §b" + ver.replace("]", ""));
 					sender.sendMessage("§6-================-");
 				}
-				if (args[0].equalsIgnoreCase("github") || args[0].equalsIgnoreCase("git")) {
-					sender.sendMessage("§6-=Github=-");
-					sender.sendMessage("§aWant to help improve AdvancedWeapons? Head to");
-					sender.sendMessage("§bhttps://github.com/Evstike/AdvancedWeapons/");
-					sender.sendMessage("§6-================-");
-				}
+				//if (args[0].equalsIgnoreCase("github") || args[0].equalsIgnoreCase("git")) {
+				//sender.sendMessage("§6-=Github=-");
+				//sender.sendMessage("§aWant to help improve AdvancedWeapons? Head to");
+				//sender.sendMessage("§bhttps://github.com/Evstike/AdvancedWeapons/");
+				//sender.sendMessage("§6-================-");
+				//}
 				if ((args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("rl")) && sender.hasPermission("advancedweapons.reload")) {
 					plugin.saveDefaultConfig();
 					plugin.reloadConfig();
@@ -226,11 +225,13 @@ public class Info extends ConfigGUI implements CommandExecutor, TabCompleter {
 					sender.sendMessage("§cYou don't have permission to perform this command.");
 				}
 			}
-			Random rand = new Random();
-			int n = rand.nextInt(100) + 1;
-			if (n <= 15) {
-				sender.sendMessage("§aNeed AdvancedWeapons support? Join our Discord:");
-				sender.sendMessage("§bhttps://discord.gg/gUKbxJm");
+			if (plugin.getConfig().getBoolean("discord-message")) {
+				Random rand = new Random();
+				int n = rand.nextInt(100) + 1;
+				if (n <= 15) {
+					sender.sendMessage("§aNeed AdvancedWeapons support? Join our Discord:");
+					sender.sendMessage("§bhttps://discord.gg/gUKbxJm");
+				}
 			}
 		}
 		return false;
@@ -246,7 +247,7 @@ public class Info extends ConfigGUI implements CommandExecutor, TabCompleter {
 				return null;
 			}
 		} else {
-			List<String> a = Arrays.asList("help", "pages", "enchants", "commands", "dust", "discord", "author", "guide", "version", "github", "download");
+			List<String> a = Arrays.asList("help", "pages", "enchants", "commands", "dust", "discord", "author", "guide", "version", "download");
 			List<String> b = Arrays.asList("admin", "permissions", "reload", "config");
 			List<String> f = Lists.newArrayList();
 			if (args.length == 1) {

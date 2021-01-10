@@ -3,12 +3,9 @@ package com.gmail.evstike.AdvancedWeapons;
 import com.connorlinfoot.actionbarapi.ActionBarAPI;
 import org.bukkit.*;
 import org.bukkit.block.data.BlockData;
-import org.bukkit.block.data.type.Bed;
-import org.bukkit.block.data.type.Snow;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.*;
@@ -18,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,18 +24,18 @@ import java.util.UUID;
 
 @SuppressWarnings("deprecation")
 public class WeaponFunctions extends API implements Listener {
-
+    
     Fates plugin;
-
+    
     public WeaponFunctions(Fates instance) {
         plugin = instance;
     }
-
+    
     public static List<UUID> lfireball = new ArrayList<UUID>();
     public static List<UUID> lfire = new ArrayList<UUID>();
-
+    
     public static List<UUID> lsnowball = new ArrayList<UUID>();
-
+    
     @SuppressWarnings({"deprecation"})
     @EventHandler
     public void onPlayerUse(PlayerInteractEvent event) {
@@ -45,16 +43,16 @@ public class WeaponFunctions extends API implements Listener {
         ItemStack i = p.getInventory().getItemInHand();
         ItemMeta im = i.getItemMeta();
         FileConfiguration conf = plugin.getConfig();
-
+        
         List<Action> actions = Arrays.asList(Action.LEFT_CLICK_AIR, Action.RIGHT_CLICK_AIR, Action.LEFT_CLICK_BLOCK, Action.RIGHT_CLICK_BLOCK);
         if (actions.contains(event.getAction())) {
-
+    
             if (serverIs19()) {
                 if (event.getHand().equals(EquipmentSlot.OFF_HAND)) {
                     return;
                 }
             }
-
+    
             if (i.getType().equals(XMaterial.DIAMOND_SWORD.parseMaterial())) {
                 if (im.hasDisplayName()) {
                     if (im.getDisplayName().equals(ChatColor.RED + "The Destroyer")) {
@@ -70,11 +68,11 @@ public class WeaponFunctions extends API implements Listener {
                                 p.spawnParticle(Particle.HEART, p.getLocation(), 1);
                             }
                             p.setHealth(p.getHealth() + 2);
-                            if(i.getDurability()<=XMaterial.DIAMOND_AXE.parseMaterial().getMaxDurability()-25) {
+                            if (i.getDurability() <= XMaterial.DIAMOND_AXE.parseMaterial().getMaxDurability() - 25) {
                                 short id = (short) ((short) i.getDurability() + 25);
                                 i.setDurability(id);
                             }
-                            if(i.getDurability()>XMaterial.DIAMOND_AXE.parseMaterial().getMaxDurability()-25) {
+                            if (i.getDurability() > XMaterial.DIAMOND_AXE.parseMaterial().getMaxDurability() - 25) {
                                 ItemStack a = new ItemStack(XMaterial.AIR.parseMaterial(), 1);
                                 p.getInventory().setItem(p.getInventory().getHeldItemSlot(), a);
                             }
@@ -175,23 +173,22 @@ public class WeaponFunctions extends API implements Listener {
                             fireball.setShooter(p);
                             lfireball.add(fireball.getUniqueId());
                             lfire.add(fireball.getUniqueId());
-                            if (!serverIs18()) {
-
+                            if (serverIs19()) {
                                 p.spawnParticle(Particle.FLAME, loc, 1);
                             }
-
+    
                             if (im.hasLore()) {
                                 if (im.getLore().get(0) != null) {
                                     List<String> lore = im.getLore();
                                     int ammo = Integer.parseInt(ChatColor.stripColor(lore.get(0)));
                                     int am = ammo - 1;
-
+    
                                     if (ammo > 1) {
                                         lore.set(0, "§7" + am);
                                         im.setLore(lore);
                                         i.setItemMeta(im);
                                     }
-
+    
                                     if (ammo == 1) {
                                         ItemStack b = new ItemStack(XMaterial.BLAZE_ROD.parseMaterial(), 1);
                                         ItemMeta bMeta = b.getItemMeta();
@@ -238,7 +235,60 @@ public class WeaponFunctions extends API implements Listener {
                 }
             }
         }
+        if (i.getType().equals(XMaterial.LEAD.parseMaterial())) {
+            if (im.hasDisplayName()) {
+                if (im.getDisplayName().equals(ChatColor.RED + "Spirit Leash")) {
+                    event.setCancelled(true);
+                    Vector playerDirection = p.getLocation().getDirection();
+                    Arrow fireball = p.launchProjectile(Arrow.class, playerDirection.multiply(3));
+                    fireball.setShooter(p);
+                    if (serverIs19()) {
+                        fireball.setColor(Color.PURPLE);
+                    }
+                    lfire.add(fireball.getUniqueId());
+                    
+                    if (im.hasLore()) {
+                        if (im.getLore().get(0) != null) {
+                            List<String> lore = im.getLore();
+                            int ammo = Integer.parseInt(ChatColor.stripColor(lore.get(0)));
+                            int am = ammo - 1;
+                            
+                            if (ammo > 1) {
+                                lore.set(0, "§7" + am);
+                                im.setLore(lore);
+                                i.setItemMeta(im);
+                            }
+                            
+                            if (ammo == 1) {
+                                ItemStack b = new ItemStack(XMaterial.LEAD.parseMaterial(), 1);
+                                ItemMeta bMeta = b.getItemMeta();
+                                bMeta.setDisplayName(ChatColor.RED + "Spirit Leash");
+                                lore.set(0, "§71");
+                                bMeta.setLore(lore);
+                                b.setItemMeta(bMeta);
+                                p.getInventory().removeItem(b);
+                                if (p.getItemInHand() != null) {
+                                    if (p.getItemInHand().getType() == XMaterial.LEAD.parseMaterial()) {
+                                        if (p.getItemInHand().hasItemMeta()) {
+                                            int am2 = i.getAmount();
+                                            ItemStack b2 = new ItemStack(XMaterial.LEAD.parseMaterial(), am2);
+                                            ItemMeta b2Meta = b2.getItemMeta();
+                                            b2Meta.setDisplayName(ChatColor.RED + "Spirit Leash");
+                                            lore.set(0, "§73");
+                                            b2Meta.setLore(lore);
+                                            b2.setItemMeta(b2Meta);
+                                            p.getInventory().setItemInHand(b2);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
+    
     @EventHandler
     public void onDeath(EntityDeathEvent e) {
         FileConfiguration conf = plugin.getConfig();
@@ -247,7 +297,7 @@ public class WeaponFunctions extends API implements Listener {
             LivingEntity mob = e.getEntity();
             ItemStack i = p.getInventory().getItemInHand();
             ItemMeta im = i.getItemMeta();
-
+    
             if (i.getType().equals(XMaterial.BONE.parseMaterial())) {
                 if (im.hasDisplayName()) {
                     if (im.getDisplayName().equals(ChatColor.RED + "The Skeletal Sword")) {
@@ -262,13 +312,13 @@ public class WeaponFunctions extends API implements Listener {
                             List<String> lore = im.getLore();
                             int ammo = Integer.parseInt(ChatColor.stripColor(lore.get(0)));
                             int am = ammo - 1;
-
+    
                             if (ammo > 1) {
                                 lore.set(0, "§7" + am);
                                 im.setLore(lore);
                                 i.setItemMeta(im);
                             }
-
+    
                             if (ammo == 1) {
                                 ItemStack b = new ItemStack(XMaterial.BONE.parseMaterial(), 1);
                                 ItemMeta bMeta = b.getItemMeta();
@@ -314,6 +364,7 @@ public class WeaponFunctions extends API implements Listener {
             }
         }
     }
+    
     @EventHandler
     public void onSnowballThrow(ProjectileLaunchEvent event) {
         if (event.getEntity() instanceof Snowball) {
@@ -332,6 +383,7 @@ public class WeaponFunctions extends API implements Listener {
             }
         }
     }
+    
     @EventHandler
     public void onSnowballHit(EntityDamageByEntityEvent event) {
         FileConfiguration conf = plugin.getConfig();
@@ -339,17 +391,17 @@ public class WeaponFunctions extends API implements Listener {
             LivingEntity e = (LivingEntity) event.getEntity();
             if (event.getDamager() instanceof Snowball) {
                 Snowball ent = (Snowball) event.getDamager();
-
-                if(ent.getShooter() instanceof Player) {
+    
+                if (ent.getShooter() instanceof Player) {
                     Player p = (Player) ent.getShooter();
                     if (lsnowball.contains(ent.getUniqueId())) {
                         e.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 40, 2));
-                        if(serverIs113()) {
+                        if (serverIs113()) {
                             BlockData fallingDustData = Material.matchMaterial(XMaterial.SNOW_BLOCK.parseMaterial().toString()).createBlockData();
                             e.getWorld().spawnParticle(Particle.FALLING_DUST, e.getEyeLocation(), 10, 0.3, 0.3, 0.3, fallingDustData);
                         }
                         lsnowball.remove(ent.getUniqueId());
-
+    
                         if (conf.getString("weapon.ice-chunk.msg").equals("actionbar")) {
                             if (Bukkit.getServer().getPluginManager().getPlugin("ActionBarAPI") != null) {
                                 ActionBarAPI.sendActionBar(p, ChatColor.WHITE + "ICE CHUNK", 20);
@@ -371,10 +423,11 @@ public class WeaponFunctions extends API implements Listener {
             }
         }
     }
+    
     @EventHandler
     public void onEntityExplode(EntityExplodeEvent event) {
         Entity ent = event.getEntity();
-
+        
         if (ent instanceof Fireball) {
             if (((Fireball) ent).getShooter() instanceof Player) {
                 if (lfireball.contains(ent.getUniqueId())) {
@@ -384,10 +437,11 @@ public class WeaponFunctions extends API implements Listener {
             }
         }
     }
+    
     @EventHandler
     public void onExplosionPrime(ExplosionPrimeEvent event) {
         Entity ent = event.getEntity();
-        if (ent instanceof Fireball)
+        if (ent instanceof Fireball) {
             if (((Fireball) ent).getShooter() instanceof Player) {
                 if (lfire.contains(ent.getUniqueId())) {
                     event.setFire(false);
@@ -395,5 +449,47 @@ public class WeaponFunctions extends API implements Listener {
                     lfire.remove(ent.getUniqueId());
                 }
             }
+        }
+    }
+    
+    @EventHandler
+    public void onProjectileHit(ProjectileHitEvent event) {
+        Entity ent = event.getEntity();
+        if (ent instanceof Arrow) {
+            if (((Arrow) ent).getShooter() instanceof Player) {
+                if (lfire.contains(ent.getUniqueId())) {
+                    ent.remove();
+                    if (event.getHitEntity() instanceof LivingEntity) {
+                        LivingEntity lent = (LivingEntity) event.getHitEntity();
+                        if (serverIs19()) {
+                            ((Player) ((Arrow) ent).getShooter()).spawnParticle(Particle.DRAGON_BREATH, lent.getLocation(), 4);
+                        }
+                        lent.setHealth(lent.getHealth() + ((Arrow) ent).getDamage());
+                        lent.teleport(((Player) ((Arrow) ent).getShooter()).getLocation());
+                        Player p = ((Player) ((Arrow) ent).getShooter()).getPlayer();
+                        lent.setHealth(lent.getHealth() + lent.getLastDamage());
+                        
+                        FileConfiguration conf = plugin.getConfig();
+                        if (conf.getString("weapon.spirit-leash.msg").equals("actionbar")) {
+                            if (Bukkit.getServer().getPluginManager().getPlugin("ActionBarAPI") != null) {
+                                ActionBarAPI.sendActionBar(p, ChatColor.LIGHT_PURPLE + "YOU SUMMONED A " + lent.getType().name().replace("_", " "), 20);
+                            }
+                        }
+                        if (conf.getString("weapon.spirit-leash.msg").equals("true")) {
+                            p.sendMessage(ChatColor.LIGHT_PURPLE + "YOU SUMMONED A " + lent.getType().name().replace("_", " "));
+                        }
+                        if (conf.getString("weapon.spirit-leash.msg").equals("false")) {
+                            return;
+                        }
+                        if (conf.getString("weapon.spirit-leash.msg").equals("actionbar")) {
+                            if (Bukkit.getServer().getPluginManager().getPlugin("ActionBarAPI") == null) {
+                                return;
+                            }
+                        }
+                    }
+                    lfire.remove(ent.getUniqueId());
+                }
+            }
+        }
     }
 }

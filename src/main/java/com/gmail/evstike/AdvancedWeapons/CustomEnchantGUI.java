@@ -103,129 +103,128 @@ public class CustomEnchantGUI extends API implements CommandExecutor, Listener {
 				.equalsIgnoreCase("Custom Enchantments"))
 			return;
 		Player player = (Player) event.getWhoClicked();
-		event.setCancelled(true);
-
-
-		if (event.getCurrentItem() == null || event.getCurrentItem().getType() == Material.AIR || !event.getCurrentItem().hasItemMeta()) {
-
-			return;
-		}
-
-
-		switch (event.getCurrentItem().getType()) {
-			case BOOK:
-
-				try {
-                    ItemMeta speed1M = event.getCurrentItem().getItemMeta();
-                    ItemStack speed1 = player.getInventory().getItemInHand();
-                    ItemMeta speed1Meta = speed1.getItemMeta();
-                    int num = plugin.getConfig().getInt(ChatColor.stripColor("enchant." +
-                            speed1M.getDisplayName().toLowerCase().replace(" ", "-") + ".cost"));
-                    String i = StringUtils.capitaliseAllWords(speed1.getType().toString().toLowerCase().replace("_", " "));
-
-                    List<String> Lores = new ArrayList<String>();
-                    String test = ChatColor.GRAY + (ChatColor.stripColor(speed1M.getDisplayName()));
-                    String firstWord = test.substring(0, test.lastIndexOf(" "));
-                    String lastWord = test.substring(test.lastIndexOf(" ") + 1);
-                    ItemStack glow = new ItemStack(XMaterial.GUNPOWDER.parseMaterial(), num);
-                    ItemMeta glowMeta = glow.getItemMeta();
-                    glowMeta.setDisplayName(ChatColor.GREEN + "Dust");
-                    Lores.add("§7This Dust has magical properties");
-                    Lores.add("§7which make it a valuable currency.");
-                    glowMeta.setLore(Lores);
-                    glow.setItemMeta(glowMeta);
-
-                    if (speed1.getType() != XMaterial.AIR.parseMaterial()) {
-                        ArrayList<String> Lore = new ArrayList<String>();
-                        if (speed1Meta.hasLore()) {
-                            for (String s : speed1Meta.getLore()) {
-                                    Lore.add(s);
-                            }
-                        }
-                        if (speed1Meta.hasLore()) {
-                            if (speed1Meta.getLore().contains(test)) {
-
-                                ConfigurationSection section = plugin.getConfig().getConfigurationSection("enchant");
-                                for (String key : section.getKeys(false)) {
-                                    ConfigurationSection item = section.getConfigurationSection(key);
-                                    String il = item.getString("name").replace('&','§');
-                                    String name = ChatColor.stripColor(il);
-                                    max.add(name);
-                                }
-                                if (max.contains(ChatColor.stripColor(firstWord) + " " + upEnchLevel(test, player))) {
-									if (!player.getInventory().containsAtLeast(glow, num)) {
-										player.sendMessage("§cYou don't have enough Dust to purchase this.");
-									}
-                                    if (player.getInventory().containsAtLeast(glow, num)) {
-                                        player.getInventory().removeItem(glow);
-                                        Lore.set(speed1Meta.getLore().indexOf(test), firstWord + " " + upEnchLevel(test, player));
-                                        player.sendMessage("§7Upgraded your " + test + " §b" + i + " §7to §7" +
-                                                firstWord + " " + upEnchLevel(test, player));
-                                        speed1Meta.setLore(Lore);
-                                        speed1.setItemMeta(speed1Meta);
-                                    }
-                                }
-                                if (!max.contains(ChatColor.stripColor(firstWord) + " " + upEnchLevel(test, player))) {
-                                    player.sendMessage("§7Your §b" + i + " §7has the max level of " + firstWord);
-                                }
-                                max.clear();
-                            }
-                        }
-                        if (plugin.getConfig().getString(ChatColor.stripColor("enchant." +
-                                speed1M.getDisplayName().toLowerCase().replace(" ", "-") + ".type")).equals("weapon")) {
-                            if (!isWeapon(player)) {
-                                player.sendMessage("§cYou must be holding a weapon to enchant your item.");
-                                return;
-                            }
-                        }
-                        if (plugin.getConfig().getString(ChatColor.stripColor("enchant." +
-                                speed1M.getDisplayName().toLowerCase().replace(" ", "-") + ".type")).equals("armor")) {
-                            if (!isArmor(player)) {
-                                player.sendMessage("§cYou must be holding a piece of armor to enchant your item.");
-                                return;
-                            }
-                        }
-                        if (plugin.getConfig().getString(ChatColor.stripColor("enchant." +
-                                speed1M.getDisplayName().toLowerCase().replace(" ", "-") + ".type")).equals("tool")) {
-                            if (!isTool(player)) {
-                                player.sendMessage("§cYou must be holding a tool to enchant your item.");
-                                return;
-                            }
-                        }
-                        if (speed1Meta.hasLore()) {
-                            if (!speed1Meta.getLore().contains(firstWord + " I") && !speed1Meta.getLore().contains(firstWord + " II") &&
-                                    !speed1Meta.getLore().contains(firstWord + " III") && !speed1Meta.getLore().contains(firstWord + " IV") &&
-                                    !speed1Meta.getLore().contains(firstWord + " V")) {
-								if (!player.getInventory().containsAtLeast(glow, num)) {
-									player.sendMessage("§cYou don't have enough Dust to purchase this.");
+		if (event.getInventory().getHolder() == null) {
+			event.setCancelled(true);
+			
+			
+			if (event.getCurrentItem() == null || event.getCurrentItem().getType() == Material.AIR || !event.getCurrentItem().hasItemMeta()) {
+				
+				return;
+			}
+			
+			
+			switch (event.getCurrentItem().getType()) {
+				case BOOK:
+					
+					try {
+						ItemMeta speed1M = event.getCurrentItem().getItemMeta();
+						ItemStack speed1 = player.getInventory().getItemInHand();
+						ItemMeta speed1Meta = speed1.getItemMeta();
+						int num = plugin.getConfig().getInt(ChatColor.stripColor("enchant." +
+								speed1M.getDisplayName().toLowerCase().replace(" ", "-") + ".cost"));
+						String i = StringUtils.capitaliseAllWords(speed1.getType().toString().toLowerCase().replace("_", " "));
+						
+						ItemStack glow = dust(plugin.getConfig().getStringList("dust-item")).clone();
+						glow.setAmount(num);
+						
+						List<String> Lores = new ArrayList<String>();
+						String test = ChatColor.GRAY + (ChatColor.stripColor(speed1M.getDisplayName()));
+						String firstWord = test.substring(0, test.lastIndexOf(" "));
+						String lastWord = test.substring(test.lastIndexOf(" ") + 1);
+						
+						if (speed1.getType() != XMaterial.AIR.parseMaterial()) {
+							ArrayList<String> Lore = new ArrayList<String>();
+							if (speed1Meta.hasLore()) {
+								for (String s : speed1Meta.getLore()) {
+									Lore.add(s);
 								}
-                                if (player.getInventory().containsAtLeast(glow, num)) {
-                                    player.getInventory().removeItem(glow);
-                                    Lore.add(test);
-                                    speed1Meta.setLore(Lore);
-                                    speed1.setItemMeta(speed1Meta);
-                                    player.sendMessage("§7Enchanted your §b" + i + " §7with §7" + test);
-                                }
-                            }
-                        }
-                        if (!speed1Meta.hasLore()) {
-							if (!player.getInventory().containsAtLeast(glow, num)) {
-								player.sendMessage("§cYou don't have enough Dust to purchase this.");
 							}
-                            if (player.getInventory().containsAtLeast(glow, num)) {
-                                player.getInventory().removeItem(glow);
-                                Lore.add(test);
-                                speed1Meta.setLore(Lore);
-                                speed1.setItemMeta(speed1Meta);
-                                player.sendMessage("§7Enchanted your §b" + i + " §7with §7" + test);
-                            }
-                        }
-                    }
-                    if(speed1.getType()==XMaterial.AIR.parseMaterial()) {
-                        player.sendMessage("§cYou must be holding an item to enchant.");
-                    }
-				} catch (Exception ignored) {
-				}
+							if (speed1Meta.hasLore()) {
+								if (speed1Meta.getLore().contains(test)) {
+									
+									ConfigurationSection section = plugin.getConfig().getConfigurationSection("enchant");
+									for (String key : section.getKeys(false)) {
+										ConfigurationSection item = section.getConfigurationSection(key);
+										String il = item.getString("name").replace('&', '§');
+										String name = ChatColor.stripColor(il);
+										max.add(name);
+									}
+									
+									if (max.contains(ChatColor.stripColor(firstWord) + " " + upEnchLevel(test, player))) {
+										if (!player.getInventory().containsAtLeast(glow, num)) {
+											player.sendMessage(plugin.getConfig().getString("insufficient-dust-msg").replace('&', '§'));
+										}
+										if (player.getInventory().containsAtLeast(glow, num)) {
+											player.getInventory().removeItem(glow);
+											Lore.set(speed1Meta.getLore().indexOf(test), firstWord + " " + upEnchLevel(test, player));
+											player.sendMessage("§7Upgraded your " + test + " §b" + i + " §7to §7" +
+													firstWord + " " + upEnchLevel(test, player));
+											speed1Meta.setLore(Lore);
+											speed1.setItemMeta(speed1Meta);
+										}
+									}
+									if (!max.contains(ChatColor.stripColor(firstWord) + " " + upEnchLevel(test, player))) {
+										player.sendMessage("§7Your §b" + i + " §7has the max level of " + firstWord);
+									}
+									max.clear();
+								}
+							}
+							if (plugin.getConfig().getString(ChatColor.stripColor("enchant." +
+									speed1M.getDisplayName().toLowerCase().replace(" ", "-") + ".type")).equals("weapon")) {
+								if (!isWeapon(player)) {
+									player.sendMessage("§cYou must be holding a weapon to enchant your item.");
+									return;
+								}
+							}
+							if (plugin.getConfig().getString(ChatColor.stripColor("enchant." +
+									speed1M.getDisplayName().toLowerCase().replace(" ", "-") + ".type")).equals("armor")) {
+								if (!isArmor(player)) {
+									player.sendMessage("§cYou must be holding a piece of armor to enchant your item.");
+									return;
+								}
+							}
+							if (plugin.getConfig().getString(ChatColor.stripColor("enchant." +
+									speed1M.getDisplayName().toLowerCase().replace(" ", "-") + ".type")).equals("tool")) {
+								if (!isTool(player)) {
+									player.sendMessage("§cYou must be holding a tool to enchant your item.");
+									return;
+								}
+							}
+							if (speed1Meta.hasLore()) {
+								if (!speed1Meta.getLore().contains(firstWord + " I") && !speed1Meta.getLore().contains(firstWord + " II") &&
+										!speed1Meta.getLore().contains(firstWord + " III") && !speed1Meta.getLore().contains(firstWord + " IV") &&
+										!speed1Meta.getLore().contains(firstWord + " V")) {
+									if (!player.getInventory().containsAtLeast(glow, num)) {
+										player.sendMessage(plugin.getConfig().getString("insufficient-dust-msg").replace('&', '§'));
+									}
+									if (player.getInventory().containsAtLeast(glow, num)) {
+										player.getInventory().removeItem(glow);
+										Lore.add(test);
+										speed1Meta.setLore(Lore);
+										speed1.setItemMeta(speed1Meta);
+										player.sendMessage("§7Enchanted your §b" + i + " §7with §7" + test);
+									}
+								}
+							}
+							if (!speed1Meta.hasLore()) {
+								if (!player.getInventory().containsAtLeast(glow, num)) {
+									player.sendMessage(plugin.getConfig().getString("insufficient-dust-msg").replace('&', '§'));
+								}
+								if (player.getInventory().containsAtLeast(glow, num)) {
+									player.getInventory().removeItem(glow);
+									Lore.add(test);
+									speed1Meta.setLore(Lore);
+									speed1.setItemMeta(speed1Meta);
+									player.sendMessage("§7Enchanted your §b" + i + " §7with §7" + test);
+								}
+							}
+						}
+						if (speed1.getType() == XMaterial.AIR.parseMaterial()) {
+							player.sendMessage("§cYou must be holding an item to enchant.");
+						}
+					} catch (Exception ignored) {
+					}
+			}
 		}
 	}
 	public String maxEnchLevel(String s, Player p) {

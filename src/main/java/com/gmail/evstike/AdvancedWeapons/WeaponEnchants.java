@@ -2,7 +2,10 @@ package com.gmail.evstike.AdvancedWeapons;
 
 import com.google.common.collect.Lists;
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.LivingEntity;
@@ -10,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -42,7 +46,7 @@ public class WeaponEnchants extends API implements Listener {
 	public boolean chance(String path) {
 		Random rand = new Random();
 		int n = rand.nextInt(100) + 1;
-		if (n <= (plugin.getConfig().getInt("enchant."+path+".chance"))) {
+		if (n <= (plugin.getConfig().getInt("enchant." + path + ".chance"))) {
 			return true;
 		}
 		return false;
@@ -121,21 +125,21 @@ public class WeaponEnchants extends API implements Listener {
 										}
 										//EXPLOSION
 										if (function.equals("explosion")) {
-											if(event.getAction()==Action.RIGHT_CLICK_BLOCK) {
-											Location loc = event.getClickedBlock().getLocation();
-											Boolean destroy = true;
-											int power = 1;
-											if(item.contains("destroy")) {
-												destroy = item.getBoolean("destroy");
+											if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+												Location loc = event.getClickedBlock().getLocation();
+												Boolean destroy = true;
+												int power = 1;
+												if (item.contains("destroy")) {
+													destroy = item.getBoolean("destroy");
 												}
-											if(item.contains("power")) {
-												power = item.getInt("power");
-											}
-											if(destroy==true) {
-												loc.getWorld().createExplosion(loc, power, false, true);
-											}
-											if(destroy==false) {
-												loc.getWorld().createExplosion(loc, power, false, false);
+												if (item.contains("power")) {
+													power = item.getInt("power");
+												}
+												if (destroy == true) {
+													loc.getWorld().createExplosion(loc, power, false, true);
+												}
+												if (destroy == false) {
+													loc.getWorld().createExplosion(loc, power, false, false);
 
 												}
 											}
@@ -299,22 +303,22 @@ public class WeaponEnchants extends API implements Listener {
 												if (events.contains("attackself")) {
 													loc = attacker.getLocation();
 												}
-													Boolean destroy = true;
-													int power = 1;
-													if(item.contains("destroy")) {
-														destroy = item.getBoolean("destroy");
-													}
-													if(item.contains("power")) {
-														power = item.getInt("power");
-													}
-													if(destroy==true) {
-														loc.getWorld().createExplosion(loc, power, false, true);
-													}
-													if(destroy==false) {
-														loc.getWorld().createExplosion(loc, power, false, false);
-
-													}
+												Boolean destroy = true;
+												int power = 1;
+												if (item.contains("destroy")) {
+													destroy = item.getBoolean("destroy");
 												}
+												if (item.contains("power")) {
+													power = item.getInt("power");
+												}
+												if (destroy == true) {
+													loc.getWorld().createExplosion(loc, power, false, true);
+												}
+												if (destroy == false) {
+													loc.getWorld().createExplosion(loc, power, false, false);
+
+												}
+											}
 											if (item.contains("msg")) {
 												if (item.getBoolean("msg") == true) {
 													if (item.contains("chatmsg")) {
@@ -437,16 +441,16 @@ public class WeaponEnchants extends API implements Listener {
 												}
 												Boolean destroy = true;
 												int power = 1;
-												if(item.contains("destroy")) {
+												if (item.contains("destroy")) {
 													destroy = item.getBoolean("destroy");
 												}
-												if(item.contains("power")) {
+												if (item.contains("power")) {
 													power = item.getInt("power");
 												}
-												if(destroy==true) {
+												if (destroy == true) {
 													loc.getWorld().createExplosion(loc, power, false, true);
 												}
-												if(destroy==false) {
+												if (destroy == false) {
 													loc.getWorld().createExplosion(loc, power, false, false);
 
 												}
@@ -489,7 +493,7 @@ public class WeaponEnchants extends API implements Listener {
 				FileConfiguration config = plugin.getConfig();
 
 				for (ItemStack i : defender.getInventory().getArmorContents()) {
-					if(i!=null) {
+					if (i != null) {
 						if (i.hasItemMeta()) {
 							ItemMeta im = i.getItemMeta();
 							if (im.hasLore()) {
@@ -621,16 +625,16 @@ public class WeaponEnchants extends API implements Listener {
 														}
 														Boolean destroy = true;
 														int power = 1;
-														if(item.contains("destroy")) {
+														if (item.contains("destroy")) {
 															destroy = item.getBoolean("destroy");
 														}
-														if(item.contains("power")) {
+														if (item.contains("power")) {
 															power = item.getInt("power");
 														}
-														if(destroy==true) {
+														if (destroy == true) {
 															loc.getWorld().createExplosion(loc, power, false, true);
 														}
-														if(destroy==false) {
+														if (destroy == false) {
 															loc.getWorld().createExplosion(loc, power, false, false);
 
 														}
@@ -654,6 +658,145 @@ public class WeaponEnchants extends API implements Listener {
 												}
 											}
 										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	@EventHandler
+	public void onBlockBreak(BlockBreakEvent e) {
+		Player p = e.getPlayer();
+		FileConfiguration config = plugin.getConfig();
+		ItemStack i = p.getInventory().getItemInHand();
+		ItemMeta im = i.getItemMeta();
+		int dur = i.getDurability();
+		Block b = e.getBlock();
+		XMaterial bt = XMaterial.matchXMaterial(e.getBlock().getType());
+
+		if (im != null) {
+			if (im.hasLore()) {
+				for (String s : im.getLore()) {
+					ConfigurationSection section = plugin.getConfig().getConfigurationSection("enchant");
+					for (String key : section.getKeys(false)) {
+						section.get(key);
+						ConfigurationSection item = section.getConfigurationSection(key);
+
+						String n = item.getString("name").replace('&', '§');
+						String name = ChatColor.GRAY + ChatColor.stripColor(n);
+						int time = item.getInt("duration");
+						int ti = time * 20;
+						int l = item.getInt("amplifier");
+
+						if (name.equals(s)) {
+							List events = item.getList("events");
+							if (events.contains("blockbreak")) {
+								if (chance(ChatColor.stripColor(name).toLowerCase().replace(" ", "-"))) {
+
+									String function = item.getString("function");
+
+									if (item.contains("dimension")) {
+										if (!(item.getStringList("dimension").contains(p.getWorld().getEnvironment().toString()))) {
+											return;
+										}
+									}
+
+									if (item.contains("thresholdself")) {
+										if (!(p.getHealth() <= p.getMaxHealth() * item.getDouble("thresholdself") / 100)) {
+											return;
+										}
+									}
+									if (item.contains("thresholdother")) {
+										if (!(p.getHealth() <= p.getMaxHealth() * item.getDouble("thresholdother") / 100)) {
+											return;
+										}
+									}
+
+									//POTION
+									if (function.equals("potion")) {
+										for (String effect : item.getStringList("effects")) {
+											if (PotionEffectType.getByName(effect.toUpperCase()) != null) {
+												if (item.contains("duration")) {
+													if (item.contains("amplifier")) {
+													} else {
+														Bukkit.getLogger().warning(n + " does not have an amplifier.");
+													}
+												} else {
+													Bukkit.getLogger().warning(n + " does not have a duration.");
+												}
+												p.addPotionEffect(new PotionEffect(PotionEffectType.getByName(effect.toUpperCase()), ti, l));
+											}
+										}
+									}
+									//DAMAGE
+									if (function.equals("damage")) {
+										for (Double effect : item.getDoubleList("effects")) {
+											p.damage(effect);
+										}
+									}
+									//EXPLOSION
+									if (function.equals("explosion")) {
+										Location loc = p.getLocation();
+
+										Boolean destroy = true;
+										int power = 1;
+										if (item.contains("destroy")) {
+											destroy = item.getBoolean("destroy");
+										}
+										if (item.contains("power")) {
+											power = item.getInt("power");
+										}
+										if (destroy == true) {
+											loc.getWorld().createExplosion(loc, power, false, true);
+										}
+										if (destroy == false) {
+											loc.getWorld().createExplosion(loc, power, false, false);
+
+										}
+									}
+									//FORTUNE
+									if (function.equals("fortune")) {
+										for (String effect : item.getStringList("blocks")) {
+											if (effect.equals(bt.parseMaterial().name())) {
+												if (item.contains("amount")) {
+													if (item.contains("dropatblock")) {
+													} else {
+														Bukkit.getLogger().warning(n + " does not specify a drop location.");
+													}
+												} else {
+													Bukkit.getLogger().warning(n + " does not have an amount.");
+												}
+												ItemStack bd = new ItemStack(bt.parseMaterial(), item.getInt("amount"));
+												if (item.getBoolean("dropatblock") == true) {
+													p.getWorld().dropItemNaturally(b.getLocation(), bd);
+												}
+												if (item.getBoolean("dropatblock") == false) {
+													p.getWorld().dropItemNaturally(p.getLocation(), bd);
+												}
+											}
+										}
+									}
+									if (item.contains("msg")) {
+										if (item.getBoolean("msg") == true) {
+											if (item.contains("chatmsg")) {
+												String ent = "";
+												if (p != null) {
+													ent = StringUtils.capitaliseAllWords(p.getType().getName().toLowerCase().replace("_", " "));
+												}
+												effects = StringUtils.capitaliseAllWords
+														(item.getStringList("effects").toString().replace("[", "").replace("]", ""));
+												p.sendMessage(item.getString("chatmsg").replace("{defender}", ent)
+														.replace("{user}", p.getName()).replace("{potion}", effects).replace("{damage}", effects));
+												effects = "";
+											}
+										}
+									}
+									if (config.getBoolean("durability") == true) {
+										i.setDurability((short) (dur + 1));
 									}
 								}
 							}

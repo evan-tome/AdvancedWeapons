@@ -2,20 +2,24 @@ package com.gmail.evstike.AdvancedWeapons;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 @SuppressWarnings("deprecation")
-public class API {
+public class API implements InventoryHolder {
 
     Fates plugin;
 
@@ -224,5 +228,51 @@ public class API {
         autominerMeta.setDisplayName("§bAutoMiner");
         autominer.setItemMeta(autominerMeta);
         return autominer;
+    }
+    public ItemStack dust(List<String> s) {
+        List<String> Lore = new ArrayList();
+        ItemStack glow = new ItemStack(XMaterial.GUNPOWDER.parseMaterial(), 1);
+        ItemMeta glowMeta = glow.getItemMeta();
+        glowMeta.setDisplayName(ChatColor.GREEN + "Dust");
+        for (String l : s) {
+            Lore.add(l.replace('&','§'));
+        }
+        Lore.add("§8§oDust");
+        glowMeta.setLore(Lore);
+        glow.setItemMeta(glowMeta);
+        return glow;
+    }
+    public ItemStack dustold() {
+        List<String> Lore = new ArrayList();
+        ItemStack glow = new ItemStack(XMaterial.GUNPOWDER.parseMaterial(), 1);
+        ItemMeta glowMeta = glow.getItemMeta();
+        glowMeta.setDisplayName(ChatColor.GREEN + "Dust");
+        Lore.add("§7This Dust has magical properties");
+        Lore.add("§7which make it a valuable currency.");
+        glowMeta.setLore(Lore);
+        glow.setItemMeta(glowMeta);
+        return glow;
+    }
+    public ItemStack back() {
+        ItemStack back = new ItemStack(XMaterial.ARROW.parseItem());
+        ItemMeta backMeta = back.getItemMeta();
+        backMeta.setDisplayName(ChatColor.GREEN + "Back");
+        back.setItemMeta(backMeta);
+        return back;
+    }
+    public void hasAvaliableSlot(Player playerP, ItemStack item, String s){
+        HashMap<Integer, ItemStack> leftOver = new HashMap<Integer, ItemStack>();
+        leftOver.putAll((playerP.getInventory().addItem(item)));
+        if (!leftOver.isEmpty()) {
+            Location loc = playerP.getLocation();
+            ItemStack item2 = item.clone();
+            item2.setAmount(leftOver.get(0).getAmount());
+            playerP.getWorld().dropItem(loc, item2);
+            playerP.sendMessage(s.replace('&', '§'));
+        }
+    }
+    @Override
+    public Inventory getInventory() {
+        return null;
     }
 }
