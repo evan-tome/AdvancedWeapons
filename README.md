@@ -13,4 +13,3 @@ Include the version of AdvancedWeapons that you are using in the description.
 
 ### Additional Information:
 If you need to contact the developer, message `miner328` on Spigot or on Discord `Evstike#3636`.
-Use the `#advancedweapons` channel on the NitroClub Discord for dicussion, support, or additional information https://discord.gg/g25AuMh.
