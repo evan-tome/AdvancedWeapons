@@ -1,5 +1,6 @@
 package com.gmail.evstike.AdvancedWeapons;
 
+import com.gmail.evstike.AdvancedWeapons.Enchants.*;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -29,7 +30,16 @@ public class Fates extends JavaPlugin implements Listener {
 		Bukkit.getServer().getPluginManager().registerEvents(new WeaponGUI(this), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new DustGUI(this), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new CustomEnchantGUI(this), this);
-		Bukkit.getServer().getPluginManager().registerEvents(new WeaponEnchants(this), this);
+		
+		Bukkit.getServer().getPluginManager().registerEvents(new EnchantInteract(this), this);
+		Bukkit.getServer().getPluginManager().registerEvents(new EnchantAttackOther(this), this);
+		Bukkit.getServer().getPluginManager().registerEvents(new EnchantAttackSelf(this), this);
+		Bukkit.getServer().getPluginManager().registerEvents(new EnchantArmorOther(this), this);
+		Bukkit.getServer().getPluginManager().registerEvents(new EnchantArmorSelf(this), this);
+		Bukkit.getServer().getPluginManager().registerEvents(new EnchantItemOther(this), this);
+		Bukkit.getServer().getPluginManager().registerEvents(new EnchantItemSelf(this), this);
+		Bukkit.getServer().getPluginManager().registerEvents(new EnchantBlockBreak(this), this);
+		
 		Bukkit.getServer().getPluginManager().registerEvents(new MachineGUI(this), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new Coinflip(this), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new CakeListener(this), this);
@@ -40,6 +50,7 @@ public class Fates extends JavaPlugin implements Listener {
 		Bukkit.getServer().getPluginManager().registerEvents(new MachineFunctions(this), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new DustFunctions(this), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new MachineMenu(this), this);
+		Bukkit.getServer().getPluginManager().registerEvents(new CEditor(this), this);
 		this.getCommand("enchgui").setExecutor(new EnchantGUI(this));
 		this.getCommand("enchgui").setTabCompleter(new EnchantGUI(this));
 		this.getCommand("ce").setExecutor(new CustomEnchantGUI(this));
@@ -52,6 +63,7 @@ public class Fates extends JavaPlugin implements Listener {
 		this.getCommand("hidden").setTabCompleter(new Hidden(this));
 		this.getCommand("machines").setExecutor(new MachineGUI(this));
 		this.getCommand("coinflip").setExecutor(new Coinflip(this));
+		this.getCommand("ceditor").setExecutor(new CEditor(this));
 		new API(this);
 		new ConfigGUI(this);
 		Metrics metrics = new Metrics(this);
@@ -111,14 +123,6 @@ public class Fates extends JavaPlugin implements Listener {
 		saveYamlFile(wconfig, wname);
 		if (metrics.isEnabled()) {
 			log.info("AdvancedWeapons is using bStats");
-		}
-
-		if (Bukkit.getServer().getPluginManager().getPlugin("ActionBarAPI") != null) {
-			this.getLogger().info("ActionBarAPI detected");
-		}
-
-		if (Bukkit.getServer().getPluginManager().getPlugin("ActionBarAPI") == null) {
-			this.getLogger().info("ActionBarAPI has not been detected. Install for optional features.");
 		}
 		if (!setupEconomy() ) {
 			log.severe("Vault could not find an economy.");

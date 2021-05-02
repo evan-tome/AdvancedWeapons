@@ -98,6 +98,7 @@ public class Info extends ConfigGUI implements CommandExecutor, TabCompleter {
 					for (String uname : max) {
 						sender.sendMessage("§a- §7" + uname);
 					}
+					sender.sendMessage("§bCreate and edit custom enchantments with §6/ceditor");
 					sender.sendMessage("§6-================-");
 					max.clear();
 				}
@@ -110,6 +111,7 @@ public class Info extends ConfigGUI implements CommandExecutor, TabCompleter {
 					sender.sendMessage("§a- §6/dust §7Access your Dust vault.");
 					sender.sendMessage("§a- §6/coinflip §7Challenge someone to a coinflip match.");
 					if (sender.hasPermission("advancedweapons.admin")) {
+						sender.sendMessage("§a- §b/ceditor §7Create and edit custom enchantments.");
 						sender.sendMessage("§a- §b/enchgui §7Select enchantments from a menu.");
 						sender.sendMessage("§a- §b/ignite {player} §7Ignite a player on fire.");
 						sender.sendMessage("§a- §b/hidden {option} {player} §7Completely hide yourself from players.");
@@ -134,15 +136,16 @@ public class Info extends ConfigGUI implements CommandExecutor, TabCompleter {
 					sender.sendMessage("§a- §badvancedweapons.weapons");
 					sender.sendMessage("§a- §badvancedweapons.machines");
 					sender.sendMessage("§a- §badvancedweapons.dust");
-					sender.sendMessage("§a- §badvancedweapons.dust.give");
+					sender.sendMessage("§b- §badvancedweapons.dust.give");
 					sender.sendMessage("§a- §badvancedweapons.coinflip");
-					sender.sendMessage("§a- §badvancedweapons.enchantgui");
-					sender.sendMessage("§a- §badvancedweapons.ignite");
-					sender.sendMessage("§a- §badvancedweapons.hidden");
-					sender.sendMessage("§a- §badvancedweapons.reload");
-					sender.sendMessage("§a- §badvancedweapons.config");
-					sender.sendMessage("§a- §badvancedweapons.admin");
-					sender.sendMessage("§a- §badvancedweapons.*");
+					sender.sendMessage("§b- §badvancedweapons.ceditor");
+					sender.sendMessage("§b- §badvancedweapons.enchantgui");
+					sender.sendMessage("§b- §badvancedweapons.ignite");
+					sender.sendMessage("§b- §badvancedweapons.hidden");
+					sender.sendMessage("§b- §badvancedweapons.reload");
+					sender.sendMessage("§b- §badvancedweapons.config");
+					sender.sendMessage("§b- §badvancedweapons.admin");
+					sender.sendMessage("§b- §badvancedweapons.*");
 					sender.sendMessage("§6-================-");
 				}
 				if (args[0].equalsIgnoreCase("admin") && sender.hasPermission("advancedweapons.admin")) {
@@ -228,7 +231,7 @@ public class Info extends ConfigGUI implements CommandExecutor, TabCompleter {
 			if (plugin.getConfig().getBoolean("discord-message")) {
 				Random rand = new Random();
 				int n = rand.nextInt(100) + 1;
-				if (n <= 15) {
+				if (n <= 10) {
 					sender.sendMessage("§aNeed AdvancedWeapons support? Join our Discord:");
 					sender.sendMessage("§bhttps://discord.gg/gUKbxJm");
 				}

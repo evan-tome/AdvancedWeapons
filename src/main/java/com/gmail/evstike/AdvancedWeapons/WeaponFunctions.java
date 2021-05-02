@@ -1,6 +1,5 @@
 package com.gmail.evstike.AdvancedWeapons;
 
-import com.connorlinfoot.actionbarapi.ActionBarAPI;
 import org.bukkit.*;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -77,20 +76,13 @@ public class WeaponFunctions extends API implements Listener {
                                 p.getInventory().setItem(p.getInventory().getHeldItemSlot(), a);
                             }
                             if (conf.getString("weapon.the-slayer.msg").equals("actionbar")) {
-                                if (Bukkit.getServer().getPluginManager().getPlugin("ActionBarAPI") != null) {
-                                    ActionBarAPI.sendActionBar(p, ChatColor.GOLD + "THE SLAYER HAS HEALED YOU", 20);
-                                }
+                                sendActionBar(p, ChatColor.GOLD + "THE SLAYER HAS HEALED YOU");
                             }
                             if (conf.getString("weapon.the-slayer.msg").equals("true")) {
                                 p.sendMessage(ChatColor.GOLD + "THE SLAYER HAS HEALED YOU");
                             }
                             if (conf.getString("weapon.the-slayer.msg").equals("false")) {
                                 return;
-                            }
-                            if (conf.getString("weapon.the-slayer.msg").equals("actionbar")) {
-                                if (Bukkit.getServer().getPluginManager().getPlugin("ActionBarAPI") == null) {
-                                    return;
-                                }
                             }
                         }
                     }
@@ -142,20 +134,13 @@ public class WeaponFunctions extends API implements Listener {
                                 }
                             }
                             if (conf.getString("weapon.the-dropper.msg").equals("actionbar")) {
-                                if (Bukkit.getServer().getPluginManager().getPlugin("ActionBarAPI") != null) {
-                                    ActionBarAPI.sendActionBar(p, ChatColor.GOLD + "SHOT DROPPER AT " + loc.getBlockX() + ", " + loc.getBlockY() + ", " + loc.getBlockZ(), 20);
-                                }
+                                sendActionBar(p, ChatColor.GOLD + "SHOT DROPPER");
                             }
                             if (conf.getString("weapon.the-dropper.msg").equals("true")) {
                                 p.sendMessage(ChatColor.GOLD + "SHOT DROPPER");
                             }
                             if (conf.getString("weapon.the-dropper.msg").equals("false")) {
                                 return;
-                            }
-                            if (conf.getString("weapon.the-dropper.msg").equals("actionbar")) {
-                                if (Bukkit.getServer().getPluginManager().getPlugin("ActionBarAPI") == null) {
-                                    return;
-                                }
                             }
                         }
                     }
@@ -215,20 +200,13 @@ public class WeaponFunctions extends API implements Listener {
                                 }
                             }
                             if (conf.getString("weapon.fireball-launcher.msg").equals("actionbar")) {
-                                if (Bukkit.getServer().getPluginManager().getPlugin("ActionBarAPI") != null) {
-                                    ActionBarAPI.sendActionBar(p, ChatColor.GOLD + "FIREBALL", 20);
-                                }
+                                sendActionBar(p, ChatColor.GOLD + "FIREBALL");
                             }
                             if (conf.getString("weapon.fireball-launcher.msg").equals("true")) {
                                 p.sendMessage(ChatColor.GOLD + "FIREBALL");
                             }
                             if (conf.getString("weapon.fireball-launcher.msg").equals("false")) {
                                 return;
-                            }
-                            if (conf.getString("weapon.fireball-launcher.msg").equals("actionbar")) {
-                                if (Bukkit.getServer().getPluginManager().getPlugin("ActionBarAPI") == null) {
-                                    return;
-                                }
                             }
                         }
                     }
@@ -345,20 +323,13 @@ public class WeaponFunctions extends API implements Listener {
                         }
                     }
                     if (conf.getString("weapon.the-skeletal-sword.msg").equals("actionbar")) {
-                        if (Bukkit.getServer().getPluginManager().getPlugin("ActionBarAPI") != null) {
-                            ActionBarAPI.sendActionBar(p, ChatColor.GOLD + "THE SKELETAL SWORD BRINGS DEATH", 20);
-                        }
+                        sendActionBar(p, ChatColor.GOLD + "THE SKELETAL SWORD BRINGS DEATH");
                     }
                     if (conf.getString("weapon.the-skeletal-sword.msg").equals("true")) {
                         p.sendMessage(ChatColor.RED + "THE SKELETAL SWORD BRINGS DEATH");
                     }
                     if (conf.getString("weapon.the-skeletal-sword.msg").equals("false")) {
                         return;
-                    }
-                    if (conf.getString("weapon.the-skeletal-sword.msg").equals("actionbar")) {
-                        if (Bukkit.getServer().getPluginManager().getPlugin("ActionBarAPI") == null) {
-                            return;
-                        }
                     }
                 }
             }
@@ -403,20 +374,13 @@ public class WeaponFunctions extends API implements Listener {
                         lsnowball.remove(ent.getUniqueId());
     
                         if (conf.getString("weapon.ice-chunk.msg").equals("actionbar")) {
-                            if (Bukkit.getServer().getPluginManager().getPlugin("ActionBarAPI") != null) {
-                                ActionBarAPI.sendActionBar(p, ChatColor.WHITE + "ICE CHUNK", 20);
-                            }
+                            sendActionBar(p, ChatColor.WHITE + "BRRRR... YOU HIT A " + e.getType().name().replace("_", " ") + " WITH AN ICE CHUNK");
                         }
                         if (conf.getString("weapon.ice-chunk.msg").equals("true")) {
-                            p.sendMessage(ChatColor.WHITE + "ICE CHUNK");
+                            p.sendMessage(ChatColor.WHITE + "BRRRR... YOU HIT A " + e.getType().name().replace("_", " ") + " WITH AN ICE CHUNK");
                         }
                         if (conf.getString("weapon.ice-chunk.msg").equals("false")) {
                             return;
-                        }
-                        if (conf.getString("weapon.ice-chunk.msg").equals("actionbar")) {
-                            if (Bukkit.getServer().getPluginManager().getPlugin("ActionBarAPI") == null) {
-                                return;
-                            }
                         }
                     }
                 }
@@ -464,27 +428,18 @@ public class WeaponFunctions extends API implements Listener {
                         if (serverIs19()) {
                             ((Player) ((Arrow) ent).getShooter()).spawnParticle(Particle.DRAGON_BREATH, lent.getLocation(), 4);
                         }
-                        lent.setHealth(lent.getHealth() + ((Arrow) ent).getDamage());
                         lent.teleport(((Player) ((Arrow) ent).getShooter()).getLocation());
                         Player p = ((Player) ((Arrow) ent).getShooter()).getPlayer();
-                        lent.setHealth(lent.getHealth() + lent.getLastDamage());
                         
                         FileConfiguration conf = plugin.getConfig();
                         if (conf.getString("weapon.spirit-leash.msg").equals("actionbar")) {
-                            if (Bukkit.getServer().getPluginManager().getPlugin("ActionBarAPI") != null) {
-                                ActionBarAPI.sendActionBar(p, ChatColor.LIGHT_PURPLE + "YOU SUMMONED A " + lent.getType().name().replace("_", " "), 20);
-                            }
+                            sendActionBar(p, ChatColor.LIGHT_PURPLE + "YOU SUMMONED A " + lent.getType().name().replace("_", " "));
                         }
                         if (conf.getString("weapon.spirit-leash.msg").equals("true")) {
                             p.sendMessage(ChatColor.LIGHT_PURPLE + "YOU SUMMONED A " + lent.getType().name().replace("_", " "));
                         }
                         if (conf.getString("weapon.spirit-leash.msg").equals("false")) {
                             return;
-                        }
-                        if (conf.getString("weapon.spirit-leash.msg").equals("actionbar")) {
-                            if (Bukkit.getServer().getPluginManager().getPlugin("ActionBarAPI") == null) {
-                                return;
-                            }
                         }
                     }
                     lfire.remove(ent.getUniqueId());

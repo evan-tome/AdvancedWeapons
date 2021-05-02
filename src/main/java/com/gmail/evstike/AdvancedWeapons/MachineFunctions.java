@@ -36,8 +36,7 @@ public class MachineFunctions extends API implements Listener {
     String id = "0";
     int a = 0;
     boolean verify = true;
-
-    //public ItemStack it;
+    
     public ItemStack it = new ItemStack(XMaterial.COBBLESTONE_WALL.parseMaterial(), 1);
 
     {
@@ -62,6 +61,8 @@ public class MachineFunctions extends API implements Listener {
         Material m;
         Material m1;
         Material m2;
+        Material m3;
+        Material m4;
         String s;
     
         m = XMaterial.COBBLESTONE_WALL.parseMaterial();
@@ -189,6 +190,77 @@ public class MachineFunctions extends API implements Listener {
                 }
             }
         }
+        //POTION
+        m = XMaterial.COBBLESTONE_STAIRS.parseMaterial();
+        m1 = XMaterial.STONE_BRICK_STAIRS.parseItem().getType();
+        m2 = XMaterial.STONE_BRICK_SLAB.parseMaterial();
+        m3 = XMaterial.LIME_STAINED_GLASS.parseMaterial();
+        
+        s = ChatColor.AQUA + "Potion";
+    
+        if (event.getBlockPlaced().getType().equals(XMaterial.HOPPER.parseMaterial())) {
+            if (im.hasDisplayName()) {
+                if (im.getDisplayName().equals(s)) {
+                    if (p.getWorld().getEnvironment() == World.Environment.NORMAL) {
+                    
+                        if (mconfig.getKeys(false).isEmpty()) {
+                            id = "0";
+                        } else {
+                            for (String key : mconfig.getKeys(false)) {
+                                a = Integer.parseInt(mconfig.getConfigurationSection(key).getName());
+                            }
+                            if (!mconfig.getKeys(false).isEmpty()) {
+                                id = a + 1 + "";
+                            }
+                        }
+                        if (event.isCancelled()) {
+                            return;
+                        }
+                    
+                        newMachine(id, "Potion", p, true, XMaterial.SPLASH_POTION.parseMaterial());
+                    
+                        bl.setType(XMaterial.AIR.parseMaterial());
+                        blockPlace(bl, XMaterial.DISPENSER.parseMaterial(), id, p, it);
+                        blockPlace(easyBlockLoc(bl, l, 0, 1, 0), m2, id, p, it);
+                        blockPlace(easyBlockLoc(bl, l, 0, 0, 1), m1, id, p, it);
+                        blockPlace(easyBlockLoc(bl, l, 1, 0, 1), m, id, p, it);
+                        blockPlace(easyBlockLoc(bl, l, -1, 0, 1), m, id, p, it);
+                        blockPlace(easyBlockLoc(bl, l, 1, 0, 0), m, id, p, it);
+                        blockPlace(easyBlockLoc(bl, l, -1, 0, 0), m, id, p, it);
+                        blockPlace(easyBlockLoc(bl, l, 2, 0, 0), m1, id, p, it);
+                        blockPlace(easyBlockLoc(bl, l, -2, 0, 0), m1, id, p, it);
+                        blockPlace(easyBlockLoc(bl, l, 2, 0, -1), m, id, p, it);
+                        blockPlace(easyBlockLoc(bl, l, -2, 0, -1), m, id, p, it);
+    
+                        blockPlace(easyBlockLoc(bl, l, 0, 0, -1), m3, id, p, it);
+                        blockPlace(easyBlockLoc(bl, l, 0, 0, -2), m3, id, p, it);
+                        blockPlace(easyBlockLoc(bl, l, 0, 0, -3), m3, id, p, it);
+                        blockPlace(easyBlockLoc(bl, l, 0, 0, -4), m3, id, p, it);
+                        blockPlace(easyBlockLoc(bl, l, 1, 0, -1), m3, id, p, it);
+                        blockPlace(easyBlockLoc(bl, l, 1, 0, -2), m3, id, p, it);
+                        blockPlace(easyBlockLoc(bl, l, 1, 0, -3), m3, id, p, it);
+                        blockPlace(easyBlockLoc(bl, l, 1, 0, -4), m3, id, p, it);
+                        blockPlace(easyBlockLoc(bl, l, -1, 0, -1), m3, id, p, it);
+                        blockPlace(easyBlockLoc(bl, l, -1, 0, -2), m3, id, p, it);
+                        blockPlace(easyBlockLoc(bl, l, -1, 0, -3), m3, id, p, it);
+                        blockPlace(easyBlockLoc(bl, l, -1, 0, -4), m3, id, p, it);
+                        
+                        if (verify) {
+                            p.getWorld().playEffect(l, Effect.MOBSPAWNER_FLAMES, 0);
+                        }
+                        if (!verify) {
+                            event.setCancelled(true);
+                            p.sendMessage("§cCould not place.");
+                            blockBreak(l);
+                        }
+                        verify = true;
+                    } else {
+                        p.sendMessage("§cThis Machine can only be placed in the Overworld.");
+                        event.getBlockPlaced().setType(XMaterial.AIR.parseMaterial());
+                    }
+                }
+            }
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -230,37 +302,40 @@ public class MachineFunctions extends API implements Listener {
         scheduler.scheduleSyncRepeatingTask(plugin, new Runnable() {
                     @Override
                     public void run() {
-                        boolean y = false;
+                        boolean full = false; //machine is not full
+                        
                         File minv = plugin.createFile("machineinv.yml");
                         FileConfiguration minvC = plugin.createYamlFile(minv);
                         File mname = plugin.createFile("machines.yml");
                         FileConfiguration mconfig = plugin.createYamlFile(mname);
+                        
                         for (String key : minvC.getKeys(false)) {
                             ConfigurationSection section = minvC.getConfigurationSection(key);
                             if (section.getString("type").equals("AutoMiner")) {
                                 List<String> l = section.getStringList("list");
                                 for (String s : l) {
+                                    int in = l.indexOf(s); //index of material
                                     String[] words = s.split(":");
                                     String firstWord = words[0];
                                     String lastWord = s.substring(s.lastIndexOf(":") + 1);
                                     int i = Integer.parseInt(lastWord) + 1;
-                                    if (i <= 64) {
+                                    if (i <= maxSize(in)) {
                                         Random rand = new Random();
                                         int n = rand.nextInt(100) + 1;
-                                        if (n <= matChance(l.indexOf(s))) {
+                                        if (n <= matChance(in)) {
                                             l.set(l.indexOf(s), firstWord + ":" + i);
                                         }
-                                        if (getLastWord(l.get(0)) == 64 || getLastWord(l.get(1)) == 64 ||
-                                                getLastWord(l.get(2)) == 64 || getLastWord(l.get(3)) == 64) {
-                                            y = true;
+                                        if (getLastWord(l.get(0)) == maxSize(0) || getLastWord(l.get(1)) == maxSize(1) || //check if a stack is full
+                                                getLastWord(l.get(2)) == maxSize(2) || getLastWord(l.get(3)) == maxSize(3)) {
+                                            full = true; //if a slot is full
                                         }
                                     }
                                     section.set("list", l);
                                     plugin.saveYamlFile(minvC, minv);
-                                    if (y) {
+                                    if (full) {
                                         Block block = str2loc(mconfig.getStringList(key + ".list").get(3), key);
                                         XBlock.setColor(block, DyeColor.LIME);
-                                        y = false;
+                                        full = false;
                                     }
                                 }
                             }
@@ -415,18 +490,22 @@ public class MachineFunctions extends API implements Listener {
 
         int chance = 0;
         if (i == 0) {
-            chance = 5;
+            chance = 10;
         }
         if (i == 1) {
-            chance = 15;
+            chance = 20;
         }
         if (i == 2) {
-            chance = 65;
+            chance = 75;
         }
         if (i == 3) {
-            chance = 80;
+            chance = 85;
         }
 
         return chance;
+    }
+    private Block easyBlockLoc(Block bl, Location l, int x, int y, int z) {
+        Block block = bl.getWorld().getBlockAt(l.getBlockX()+x, l.getBlockY()+y, l.getBlockZ()+z);
+        return block;
     }
 }

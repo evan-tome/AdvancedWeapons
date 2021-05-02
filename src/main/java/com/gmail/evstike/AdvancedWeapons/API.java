@@ -1,5 +1,7 @@
 package com.gmail.evstike.AdvancedWeapons;
 
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -15,21 +17,22 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 @SuppressWarnings("deprecation")
 public class API implements InventoryHolder {
-
+    
     Fates plugin;
-
+    
     public API(Fates instance) {
         plugin = instance;
     }
-
+    
     public API() {
     }
-
+    
     //VERSIONS
     public boolean serverIs116() {
         if (Bukkit.getVersion().contains("1.16")) {
@@ -37,70 +40,70 @@ public class API implements InventoryHolder {
         }
         return false;
     }
-
+    
     public boolean serverIs115() {
         if (Bukkit.getVersion().contains("1.15") || serverIs116()) {
             return true;
         }
         return false;
     }
-
+    
     public boolean serverIs114() {
         if (Bukkit.getVersion().contains("1.14") || serverIs115()) {
             return true;
         }
         return false;
     }
-
+    
     public boolean serverIs113() {
         if (Bukkit.getVersion().contains("1.13") || serverIs114()) {
             return true;
         }
         return false;
     }
-
+    
     public boolean serverIs112() {
         if (Bukkit.getVersion().contains("1.12") || serverIs113()) {
             return true;
         }
         return false;
     }
-
+    
     public boolean serverIs1111() {
         if (Bukkit.getVersion().contains("1.11.1") || Bukkit.getVersion().contains("1.11.2") || serverIs112()) {
             return true;
         }
         return false;
     }
-
+    
     public boolean serverIs111() {
         if (Bukkit.getVersion().contains("1.11") || serverIs1111()) {
             return true;
         }
         return false;
     }
-
+    
     public boolean serverIs110() {
         if (Bukkit.getVersion().contains("1.10") || serverIs111() || serverIs1111()) {
             return true;
         }
         return false;
     }
-
+    
     public boolean serverIs19() {
         if (Bukkit.getVersion().contains("1.9") || serverIs110()) {
             return true;
         }
         return false;
     }
-
+    
     public boolean serverIs18() {
         if (Bukkit.getVersion().contains("1.8") || serverIs19()) {
             return true;
         }
         return false;
     }
-
+    
     //ITEMS
     public boolean armorHasLore(PlayerInventory inv, String lore) {
         if (inv.getHelmet() != null && inv.getHelmet().hasItemMeta() && inv.getHelmet().getItemMeta().hasLore()
@@ -117,7 +120,7 @@ public class API implements InventoryHolder {
         }
         return false;
     }
-
+    
     public boolean itemHasLore(PlayerInventory inv, String lore) {
         if (inv.getItemInHand().getType() != Material.AIR) {
             if (inv.getItemInHand().hasItemMeta()) {
@@ -130,7 +133,7 @@ public class API implements InventoryHolder {
         }
         return false;
     }
-
+    
     public boolean isWeapon(Player player) {
         if (player.getInventory().getItemInHand().getType().toString().toLowerCase()
                 .contains("sword") || player.getInventory().getItemInHand().getType().toString().toLowerCase()
@@ -139,7 +142,7 @@ public class API implements InventoryHolder {
         }
         return false;
     }
-
+    
     public boolean isArmor(Player player) {
         if (player.getInventory().getItemInHand().getType().toString().toLowerCase()
                 .contains("helmet") || player.getInventory().getItemInHand().getType().toString().toLowerCase()
@@ -150,7 +153,7 @@ public class API implements InventoryHolder {
         }
         return false;
     }
-
+    
     public boolean isTool(Player player) {
         if (player.getInventory().getItemInHand().getType().toString().toLowerCase()
                 .contains("pickaxe") || player.getInventory().getItemInHand().getType().toString().toLowerCase()
@@ -161,15 +164,15 @@ public class API implements InventoryHolder {
         }
         return false;
     }
-
+    
     //ENCHANTMENT
     public int enchlevel(Player p, String s, ItemStack i) {
         for (String l : i.getItemMeta().getLore()) {
-
+    
             if (ChatColor.stripColor(l).equals(ChatColor.stripColor(s))) {
                 String test = ChatColor.stripColor(l);
                 String lastWord = test.substring(test.lastIndexOf(" ") + 1);
-
+        
                 if (lastWord.equals(ChatColor.stripColor("I"))) {
                     return 1;
                 }
@@ -189,7 +192,28 @@ public class API implements InventoryHolder {
         }
         return 0;
     }
-
+    
+    public int enchlevelString(String s) {
+        String lastWord = s.substring(s.lastIndexOf(" ") + 1);
+    
+        if (lastWord.equals(ChatColor.stripColor("I"))) {
+            return 1;
+        }
+        if (lastWord.equals(ChatColor.stripColor("II"))) {
+            return 2;
+        }
+        if (lastWord.equals(ChatColor.stripColor("III"))) {
+            return 3;
+        }
+        if (lastWord.equals(ChatColor.stripColor("IV"))) {
+            return 4;
+        }
+        if (lastWord.equals(ChatColor.stripColor("V"))) {
+            return 5;
+        }
+        return 0;
+    }
+    
     //COMMAND
     public boolean hasCommandPerm(CommandSender sender, Command cmd, String commandLabel, FileConfiguration f) {
         if (sender instanceof Player) {
@@ -200,7 +224,7 @@ public class API implements InventoryHolder {
         }
         return false;
     }
-
+    
     public static boolean isInt(String s) {
         try {
             Integer.parseInt(s);
@@ -209,7 +233,16 @@ public class API implements InventoryHolder {
         }
         return true;
     }
-
+    
+    public static boolean isDouble(String s) {
+        try {
+            Double.parseDouble(s);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+    
     public static int getAmount(Player arg0, ItemStack arg1) {
         if (arg1 == null)
             return 0;
@@ -222,6 +255,7 @@ public class API implements InventoryHolder {
         }
         return amount;
     }
+    
     public ItemStack autominer() {
         ItemStack autominer = new ItemStack(XMaterial.HOPPER.parseMaterial());
         ItemMeta autominerMeta = autominer.getItemMeta();
@@ -229,19 +263,21 @@ public class API implements InventoryHolder {
         autominer.setItemMeta(autominerMeta);
         return autominer;
     }
+    
     public ItemStack dust(List<String> s) {
         List<String> Lore = new ArrayList();
         ItemStack glow = new ItemStack(XMaterial.GUNPOWDER.parseMaterial(), 1);
         ItemMeta glowMeta = glow.getItemMeta();
         glowMeta.setDisplayName(ChatColor.GREEN + "Dust");
         for (String l : s) {
-            Lore.add(l.replace('&','§'));
+            Lore.add(l.replace('&', '§'));
         }
         Lore.add("§8§oDust");
         glowMeta.setLore(Lore);
         glow.setItemMeta(glowMeta);
         return glow;
     }
+    
     public ItemStack dustold() {
         List<String> Lore = new ArrayList();
         ItemStack glow = new ItemStack(XMaterial.GUNPOWDER.parseMaterial(), 1);
@@ -253,6 +289,7 @@ public class API implements InventoryHolder {
         glow.setItemMeta(glowMeta);
         return glow;
     }
+    
     public ItemStack back() {
         ItemStack back = new ItemStack(XMaterial.ARROW.parseItem());
         ItemMeta backMeta = back.getItemMeta();
@@ -260,7 +297,8 @@ public class API implements InventoryHolder {
         back.setItemMeta(backMeta);
         return back;
     }
-    public void hasAvaliableSlot(Player playerP, ItemStack item, String s){
+    
+    public void hasAvaliableSlot(Player playerP, ItemStack item, String s) {
         HashMap<Integer, ItemStack> leftOver = new HashMap<Integer, ItemStack>();
         leftOver.putAll((playerP.getInventory().addItem(item)));
         if (!leftOver.isEmpty()) {
@@ -271,8 +309,51 @@ public class API implements InventoryHolder {
             playerP.sendMessage(s.replace('&', '§'));
         }
     }
+    
+    public void sendActionBar(Player p, String s) {
+        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(s));
+    }
+    
+    public int maxSize(int i) {
+        
+        int size = 64;
+        if (i == 0) {
+            size = 32;
+        }
+        if (i == 1) {
+            size = 48;
+        }
+        if (i == 2) {
+            size = 64;
+        }
+        if (i == 3) {
+            size = 64;
+        }
+        
+        return size;
+    }
+    
+    public boolean buy(Player p, int n, FileConfiguration c) {
+        ItemStack glow = dust(c.getStringList("dust-item")).clone();
+        glow.setAmount(n);
+        if (p.getInventory().containsAtLeast(glow, n)) {
+            p.getInventory().removeItem(glow);
+            return true;
+        } else {
+            p.sendMessage(c.getString("insufficient-dust-msg").replace('&', '§'));
+        }
+        return false;
+    }
+    
     @Override
     public Inventory getInventory() {
         return null;
     }
+    
+    public List<String> poison = Arrays.asList("ZOMBIE", "HUSK", "SKELETON", "STRAY", "WITHER", "WITHER_SKELETON",
+            "SPIDER", "CAVE_SPIDER", "DROWNED", "LIGHTNING", "PRIMED_TNT", "ZOMBIE_VILLAGER", "PIG_ZOMBIE",
+            "SKELETON_HORSE", "ZOMBIE_HORSE", "PHANTOM", "ARMOR_STAND");
+    public List<String> undead = Arrays.asList("ZOMBIE", "HUSK", "SKELETON", "STRAY", "WITHER", "WITHER_SKELETON",
+            "DROWNED", "ZOMBIE_VILLAGER", "PIG_ZOMBIE", "SKELETON_HORSE", "ZOMBIE_HORSE", "PHANTOM");
+    
 }

@@ -104,6 +104,7 @@ public class MachineMenu extends API implements Listener {
         this.plugin.saveYamlFile(config, name);
         
         Inventory inv = Bukkit.createInventory(null, 27, s + " - Machine");
+        
         ItemStack b = new ItemStack(XMaterial.IRON_BARS.parseMaterial());
         ItemMeta bMeta = b.getItemMeta();
         ItemStack c2 = new ItemStack(XMaterial.LIGHT_GRAY_STAINED_GLASS_PANE.parseItem());
@@ -112,6 +113,8 @@ public class MachineMenu extends API implements Listener {
         ItemMeta fMeta = f.getItemMeta();
         ItemStack nf = new ItemStack(XMaterial.RED_STAINED_GLASS_PANE.parseItem());
         ItemMeta nfMeta = nf.getItemMeta();
+        ItemStack rf = new ItemStack(XMaterial.LIME_STAINED_GLASS_PANE.parseItem());
+        ItemMeta rfMeta = rf.getItemMeta();
 
         List<String> Lore = new ArrayList();
         bMeta.setDisplayName("§7");
@@ -137,9 +140,17 @@ public class MachineMenu extends API implements Listener {
         Lore.add("§7Powers up the Machine.");
         Lore.add("§c" + i4 + "/8 §7fuel remaining.");
         Lore.add("");
-        Lore.add("§cFUEL CANNOT BE REFILLED");
         nfMeta.setLore(Lore);
         nf.setItemMeta(nfMeta);
+        Lore.clear();
+    
+        rfMeta.setDisplayName("§aRefuel Machine");
+        Lore.add("§7Powers up the Machine.");
+        Lore.add("§aClick to purchase more fuel.");
+        Lore.add("");
+        Lore.add("§b" + 20 + "x " + "§7DUST");
+        rfMeta.setLore(Lore);
+        rf.setItemMeta(rfMeta);
         Lore.clear();
 
 
@@ -149,7 +160,9 @@ public class MachineMenu extends API implements Listener {
                 inv.setItem(i2, b);
             }
         }
-
+        
+        inv.setItem(26, rf);
+        
         inv.setItem(10, autominer().clone());
 
         inv.setItem(13, c2);
@@ -169,7 +182,7 @@ public class MachineMenu extends API implements Listener {
                 ItemMeta isM = is.getItemMeta();
                 lore.add("§aClick to collect this material.");
                 lore.add("§cCollecting will deplete fuel.");
-                lore.add("§7" + is.getAmount() + "/" + is.getMaxStackSize());
+                lore.add("§7" + is.getAmount() + "/" + maxSize(section.getStringList("list").indexOf(l)));
                 isM.setLore(lore);
                 is.setItemMeta(isM);
                 inv.setItem(i2, is);
@@ -247,19 +260,30 @@ public class MachineMenu extends API implements Listener {
                     File name = this.plugin.createFile("machineinv.yml");
                     FileConfiguration config = this.plugin.createYamlFile(name);
                     this.plugin.saveYamlFile(config, name);
+                    int fi = config.getConfigurationSection(s).getInt("fuel");
                     int i = config.getConfigurationSection(s).getInt("fuel") - 1;
             
                     List<String> Lore = new ArrayList();
+                    ItemStack f = new ItemStack(XMaterial.YELLOW_STAINED_GLASS_PANE.parseItem());
+                    ItemMeta fMeta = f.getItemMeta();
+                    fMeta.setDisplayName("§aMachine Fuel");
+                    Lore.add("§7Powers up the Machine.");
+                    Lore.add("§b" + fi + "/8 §7fuel remaining.");
+                    Lore.add("");
+                    fMeta.setLore(Lore);
+                    f.setItemMeta(fMeta);
+                    Lore.clear();
                     ItemStack nf = new ItemStack(XMaterial.RED_STAINED_GLASS_PANE.parseItem());
                     ItemMeta nfMeta = nf.getItemMeta();
                     nfMeta.setDisplayName("§cMachine Fuel");
                     Lore.add("§7Powers up the Machine.");
-                    Lore.add("§c" + i + "/8 §7fuel.");
+                    Lore.add("§c" + i + "/8 §7fuel remaining.");
                     Lore.add("");
-                    Lore.add("§cFUEL CANNOT BE REFILLED");
                     nfMeta.setLore(Lore);
                     nf.setItemMeta(nfMeta);
                     Lore.clear();
+                    
+                    
             
                     File mname = this.plugin.createFile("machines.yml");
                     FileConfiguration mconfig = this.plugin.createYamlFile(mname);
@@ -273,6 +297,63 @@ public class MachineMenu extends API implements Listener {
                         c2Meta.setLore(Lore);
                         c2.setItemMeta(c2Meta);
                         Lore.clear();
+                        
+                        if(event.getRawSlot() == 26) {
+                            ConfigurationSection section = config.getConfigurationSection(s);
+                            if(section.getInt("fuel")<8) {
+                                if (buy(player, 20, plugin.getConfig())) {
+                                    section.set("fuel", section.getInt("fuel") + 1);
+                                    this.plugin.saveYamlFile(config, name);
+    
+                                    int fuel = section.getInt("fuel");
+                                    List<String> lore = fMeta.getLore();
+                                    lore.set(1, "§b" + fuel + "/8 §7fuel remaining.");
+                                    fMeta.setLore(lore);
+                                    f.setItemMeta(fMeta);
+    
+                                    for (ItemStack it : event.getClickedInventory().getContents()) {
+                                        if (it.hasItemMeta()) {
+                                            ItemMeta itMeta = it.getItemMeta();
+                                            if (itMeta.hasLore()) {
+                                                List<String> lo = itMeta.getLore();
+                                                if (it.getType().equals(XMaterial.RED_STAINED_GLASS_PANE.parseMaterial())) {
+                                                    lo.set(1, "§c" + fuel + "/8 §7fuel remaining.");
+                                                }
+                                                itMeta.setLore(lo);
+                                                it.setItemMeta(itMeta);
+                                            }
+                                        }
+                                    }
+                                    
+                                    if (fuel > 0) {
+                                        inv.setItem(18, f);
+                                    }
+                                    if (fuel > 1) {
+                                        inv.setItem(19, f);
+                                    }
+                                    if (fuel > 2) {
+                                        inv.setItem(20, f);
+                                    }
+                                    if (fuel > 3) {
+                                        inv.setItem(11, f);
+                                    }
+                                    if (fuel > 4) {
+                                        inv.setItem(2, f);
+                                    }
+                                    if (fuel > 5) {
+                                        inv.setItem(1, f);
+                                    }
+                                    if (fuel > 6) {
+                                        inv.setItem(0, f);
+                                    }
+                                    if (fuel > 7) {
+                                        inv.setItem(9, f);
+                                    }
+                                }
+                            } else {
+                                player.sendMessage("§cThis machine can't hold any more fuel.");
+                            }
+                        }
                 
                         if ((event.getRawSlot() == 13 || event.getRawSlot() == 14 || event.getRawSlot() == 15 || event.getRawSlot() == 16) && event.getCurrentItem().getType() != XMaterial.LIGHT_GRAY_STAINED_GLASS_PANE.parseMaterial()) {
                             ConfigurationSection section = config.getConfigurationSection(s);
@@ -327,21 +408,23 @@ public class MachineMenu extends API implements Listener {
                                             ItemMeta itMeta = it.getItemMeta();
                                             if (itMeta.hasLore()) {
                                                 List<String> lo = itMeta.getLore();
-                                                if (it.getType().equals(XMaterial.YELLOW_STAINED_GLASS_PANE.parseMaterial())) {
-                                                    lo.set(1, "§b" + i + "/8 §7fuel.");
+                                                if (it.getType() == XMaterial.YELLOW_STAINED_GLASS_PANE.parseMaterial() &&
+                                                        XMaterial.matchXMaterial(it).getData() == 4) {
+                                                    lo.set(1, "§b" + i + "/8 §7fuel remaining.");
                                                 }
-                                                if (it.getType().equals(XMaterial.RED_STAINED_GLASS_PANE.parseMaterial())) {
-                                                    lo.set(1, "§b" + i + "/8 §7fuel.");
+                                                if (it.getType() == XMaterial.YELLOW_STAINED_GLASS_PANE.parseMaterial() &&
+                                                        XMaterial.matchXMaterial(it).getData() == 14) {
+                                                    lo.set(1, "§c" + i + "/8 §7fuel remaining.");
                                                 }
                                                 itMeta.setLore(lo);
                                                 it.setItemMeta(itMeta);
                                             }
                                         }
                                     }
-                                    if (inv.getItem(13).getAmount() < inv.getItem(13).getMaxStackSize()) {
-                                        if (inv.getItem(14).getAmount() < inv.getItem(14).getMaxStackSize()) {
-                                            if (inv.getItem(15).getAmount() < inv.getItem(15).getMaxStackSize()) {
-                                                if (inv.getItem(16).getAmount() < inv.getItem(16).getMaxStackSize()) {
+                                    if (inv.getItem(13).getAmount() < maxSize(section.getStringList("list").indexOf(l))) {
+                                        if (inv.getItem(14).getAmount() < maxSize(section.getStringList("list").indexOf(l))) {
+                                            if (inv.getItem(15).getAmount() < maxSize(section.getStringList("list").indexOf(l))) {
+                                                if (inv.getItem(16).getAmount() < maxSize(section.getStringList("list").indexOf(l))) {
                                                     XBlock.setColor(block, DyeColor.YELLOW);
                                                 }
                                             }
