@@ -65,12 +65,12 @@ public class CEditor extends API implements CommandExecutor, Listener {
         cMeta.setDisplayName("§bCreate New Enchantment");
         c.setItemMeta(cMeta);
     
-        ItemStack e = new ItemStack(XMaterial.WRITABLE_BOOK.parseMaterial());
+        ItemStack e = new ItemStack(Material.WRITABLE_BOOK);
         ItemMeta eMeta = e.getItemMeta();
         eMeta.setDisplayName("§bEdit Enchantment");
         e.setItemMeta(eMeta);
     
-        ItemStack d = new ItemStack(XMaterial.BLAZE_POWDER.parseMaterial());
+        ItemStack d = new ItemStack(Material.BLAZE_POWDER);
         ItemMeta dMeta = d.getItemMeta();
         dMeta.setDisplayName("§bDelete Enchantment");
         d.setItemMeta(dMeta);
@@ -118,7 +118,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
             section.get(key);
             ConfigurationSection item = section.getConfigurationSection(key);
             List<String> Lore = new ArrayList<String>();
-            ItemStack ce = new ItemStack(XMaterial.BOOK.parseMaterial());
+            ItemStack ce = new ItemStack(Material.BOOK);
             ItemMeta ceM = ce.getItemMeta();
             ceM.setDisplayName(item.getString("name").replace('&', '§'));
             
@@ -175,7 +175,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
             section.get(key);
             ConfigurationSection item = section.getConfigurationSection(key);
             List<String> Lore = new ArrayList<String>();
-            ItemStack ce = new ItemStack(XMaterial.BOOK.parseMaterial());
+            ItemStack ce = new ItemStack(Material.BOOK);
             ItemMeta ceM = ce.getItemMeta();
             ceM.setDisplayName(item.getString("name").replace('&', '§'));
             
@@ -202,7 +202,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
         i.setItem(i.getSize()-1, back());
     
         List<String> Lore = new ArrayList<>();
-        ItemStack c = new ItemStack(XMaterial.BOOKSHELF.parseMaterial());
+        ItemStack c = new ItemStack(Material.BOOKSHELF);
         ItemMeta cMeta = c.getItemMeta();
     
         cMeta.setDisplayName("§aDescription");
@@ -222,7 +222,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
         cMeta.setLore(null);
         i.addItem(c);
     
-        c.setType(XMaterial.GUNPOWDER.parseMaterial());
+        c.setType(Material.GUNPOWDER);
         cMeta.setDisplayName("§aCost");
         Lore.add("§7Cost of the enchantment in Dust");
         Lore.add("§aCurrent value: §7"+plugin.getConfig().getInt("enchant."+enchPath(s)+".cost"));
@@ -232,7 +232,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
         cMeta.setLore(null);
         i.addItem(c);
     
-        c.setType(XMaterial.RABBIT_FOOT.parseMaterial());
+        c.setType(Material.RABBIT_FOOT);
         cMeta.setDisplayName("§aChance");
         Lore.add("§7Chance of the enchantment activating");
         Lore.add("§aCurrent value: §7"+plugin.getConfig().getInt("enchant."+enchPath(s)+".chance")+"%");
@@ -242,7 +242,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
         cMeta.setLore(null);
         i.addItem(c);
         
-        c.setType(XMaterial.DIAMOND_SWORD.parseMaterial());
+        c.setType(Material.DIAMOND_SWORD);
         cMeta.setDisplayName("§aType");
         Lore.add("§7Type of item that can be enchanted");
         Lore.add("§aCurrent value: §7"+plugin.getConfig().getString("enchant."+enchPath(s)+".type"));
@@ -252,7 +252,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
         cMeta.setLore(null);
         i.addItem(c);
     
-        c.setType(XMaterial.LEVER.parseMaterial());
+        c.setType(Material.LEVER);
         cMeta.setDisplayName("§aEvents");
         Lore.add("§7Events that activate the enchantment");
         Lore.add("§aCurrent value:");
@@ -270,7 +270,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
         cMeta.setLore(null);
         i.addItem(c);
     
-        c.setType(XMaterial.REDSTONE.parseMaterial());
+        c.setType(Material.REDSTONE);
         cMeta.setDisplayName("§aFunction");
         Lore.add("§7What the enchantment does when activated");
         Lore.add("§aCurrent value: §7"+plugin.getConfig().getString("enchant."+enchPath(s)+".function"));
@@ -280,7 +280,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
         cMeta.setLore(null);
         i.addItem(c);
     
-        c.setType(XMaterial.ENDER_EYE.parseMaterial());
+        c.setType(Material.ENDER_EYE);
         cMeta.setDisplayName("§aDimensions");
         Lore.add("§7Dimensions that the enchantment can activate in");
         Lore.add("§aCurrent value:");
@@ -298,11 +298,11 @@ public class CEditor extends API implements CommandExecutor, Listener {
         cMeta.setLore(null);
         i.addItem(c);
     
-        c.setType(XMaterial.ZOMBIE_HEAD.parseMaterial());
+        c.setType(Material.ZOMBIE_HEAD);
         cMeta.setDisplayName("§aEntities");
         Lore.add("§7Entities that are affected by the enchantment");
         if (!containsEvent((ench.get(player.getUniqueId())), damage)) {
-            c.setType(XMaterial.RED_STAINED_GLASS_PANE.parseItem().getType());
+            c.setType(Material.RED_STAINED_GLASS_PANE);
             Lore.add("§cNot compatible with the selected events");
         }
         cMeta.setLore(Lore);
@@ -311,11 +311,11 @@ public class CEditor extends API implements CommandExecutor, Listener {
         cMeta.setLore(null);
         i.addItem(c);
     
-        c.setType(XMaterial.GRASS_BLOCK.parseMaterial());
+        c.setType(Material.GRASS_BLOCK);
         cMeta.setDisplayName("§aBlocks");
         Lore.add("§7Blocks that activate the enchantment");
         if (!containsEvent((ench.get(player.getUniqueId())), fortune)) {
-            c.setType(XMaterial.RED_STAINED_GLASS_PANE.parseMaterial());
+            c.setType(Material.RED_STAINED_GLASS_PANE);
             Lore.add("§cNot compatible with the selected events");
         }
         if(plugin.getConfig().getConfigurationSection("enchant."+enchPath(ench.get(player.getUniqueId()))).contains("blocks")) {
@@ -332,7 +332,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
         cMeta.setLore(null);
         i.addItem(c);
     
-        c.setType(XMaterial.DIAMOND_CHESTPLATE.parseMaterial());
+        c.setType(Material.DIAMOND_CHESTPLATE);
         Lore.add("§7Health that the enchantment activates at");
         cMeta.setDisplayName("§aThreshold");
         cMeta.setLore(Lore);
@@ -341,7 +341,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
         cMeta.setLore(null);
         i.addItem(c);
     
-        c.setType(XMaterial.OAK_SIGN.parseItem().getType());
+        c.setType(Material.OAK_SIGN);
         Lore.add("§7Message displayed when the enchantment activates");
         cMeta.setDisplayName("§aMessage");
         cMeta.setLore(Lore);
@@ -360,7 +360,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
         t.setItem(t.getSize() - 1, back());
         
         List<String> Lore = new ArrayList<>();
-        ItemStack ce = new ItemStack(XMaterial.DIAMOND_SWORD.parseMaterial());
+        ItemStack ce = new ItemStack(Material.DIAMOND_SWORD);
         ItemMeta ceM = ce.getItemMeta();
         
         ceM.setDisplayName("§eWeapon");
@@ -374,7 +374,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
             }
         }
         t.addItem(ce);
-        ce.setType(XMaterial.DIAMOND_PICKAXE.parseMaterial());
+        ce.setType(Material.DIAMOND_PICKAXE);
         ceM.setDisplayName("§eTool");
         Lore.add("§8Pickaxe, Axe, Shovel, Hoe, Shears");
         ceM.setLore(Lore);
@@ -386,7 +386,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
             }
         }
         t.addItem(ce);
-        ce.setType(XMaterial.DIAMOND_CHESTPLATE.parseMaterial());
+        ce.setType(Material.DIAMOND_CHESTPLATE);
         ceM.setDisplayName("§eArmor");
         Lore.add("§8Helmet, Chestplate, Leggings, Boots");
         ceM.setLore(Lore);
@@ -408,7 +408,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
         t.setItem(t.getSize() - 1, back());
         
         List<String> Lore = new ArrayList<String>();
-        ItemStack ce = new ItemStack(XMaterial.GRASS_BLOCK.parseMaterial());
+        ItemStack ce = new ItemStack(Material.GRASS_BLOCK);
         ItemMeta ceM = ce.getItemMeta();
         
         ceM.setDisplayName("§eNormal");
@@ -420,7 +420,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
             }
         }
         t.addItem(ce);
-        ce.setType(XMaterial.NETHERRACK.parseMaterial());
+        ce.setType(Material.NETHERRACK);
         ceM.setDisplayName("§eNether");
         ceM.setLore(Lore);
         ce.setItemMeta(ceM);
@@ -430,7 +430,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
             }
         }
         t.addItem(ce);
-        ce.setType(XMaterial.END_STONE.parseMaterial());
+        ce.setType(Material.END_STONE);
         ceM.setDisplayName("§eThe End");
         ceM.setLore(Lore);
         ce.setItemMeta(ceM);
@@ -450,7 +450,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
         t.setItem(t.getSize() - 1, back());
         
         List<String> Lore = new ArrayList<String>();
-        ItemStack ce = new ItemStack(XMaterial.PLAYER_HEAD.parseMaterial());
+        ItemStack ce = new ItemStack(Material.PLAYER_HEAD);
         ItemMeta ceM = ce.getItemMeta();
         
         ceM.setDisplayName("§eThresholdSelf");
@@ -461,7 +461,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
         ce.setItemMeta(ceM);
         Lore.clear();
         t.addItem(ce);
-        ce.setType(XMaterial.CREEPER_HEAD.parseMaterial());
+        ce.setType(Material.CREEPER_HEAD);
         ceM.setDisplayName("§eThresholdOther");
         Lore.add("§7Health that the other entity must be at");
         Lore.add("§aCurrent value: §8<= §7"+plugin.getConfig().getInt("enchant."+enchPath(s)+".thresholdsother")+"%");
@@ -480,7 +480,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
         t.setItem(t.getSize() - 1, back());
         
         List<String> Lore = new ArrayList<String>();
-        ItemStack ce = new ItemStack(XMaterial.BONE.parseMaterial());
+        ItemStack ce = new ItemStack(Material.BONE);
         ItemMeta ceM = ce.getItemMeta();
         
         ceM.setDisplayName("§eAffected");
@@ -499,7 +499,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
         Lore.clear();
         t.addItem(ce);
         
-        ce.setType(XMaterial.DIAMOND_HORSE_ARMOR.parseMaterial());
+        ce.setType(Material.DIAMOND_HORSE_ARMOR);
         ceM.setDisplayName("§eImmune");
         Lore.add("§7Entities that are immune");
         Lore.add("§aCurrent value:");
@@ -524,7 +524,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
         t.setItem(t.getSize() - 1, back());
         
         List<String> Lore = new ArrayList<String>();
-        ItemStack ce = new ItemStack(XMaterial.NAME_TAG.parseMaterial());
+        ItemStack ce = new ItemStack(Material.NAME_TAG);
         ItemMeta ceM = ce.getItemMeta();
         
         ceM.setDisplayName("§eChatMsg");
@@ -541,10 +541,10 @@ public class CEditor extends API implements CommandExecutor, Listener {
     
         ceM.setDisplayName("§eMsg");
         if (plugin.getConfig().getBoolean("enchant." + enchPath(ench.get(player.getUniqueId())) + ".msg")) {
-            ce.setType(XMaterial.LIME_STAINED_GLASS_PANE.parseMaterial());
+            ce.setType(Material.LIME_STAINED_GLASS_PANE);
             Lore.add("§aCurrent value: §a" + plugin.getConfig().getBoolean("enchant." + enchPath(ench.get(player.getUniqueId())) + ".msg"));
         } else {
-            ce.setType(XMaterial.RED_STAINED_GLASS_PANE.parseMaterial());
+            ce.setType(Material.RED_STAINED_GLASS_PANE);
             Lore.add("§aCurrent value: §c" + plugin.getConfig().getBoolean("enchant." + enchPath(ench.get(player.getUniqueId())) + ".msg"));
         }
         Lore.add("§7Does the message display?");
@@ -562,7 +562,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
         t.setItem(t.getSize() - 1, back());
         
         List<String> Lore = new ArrayList<String>();
-        ItemStack ce = new ItemStack(XMaterial.ORANGE_STAINED_GLASS_PANE.parseMaterial());
+        ItemStack ce = new ItemStack(Material.ORANGE_STAINED_GLASS_PANE);
         ItemMeta ceM = ce.getItemMeta();
         
         ceM.setDisplayName("§eEffects");
@@ -581,7 +581,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
         Lore.clear();
         t.addItem(ce);
         
-        ce.setType(XMaterial.YELLOW_STAINED_GLASS_PANE.parseMaterial());
+        ce.setType(Material.YELLOW_STAINED_GLASS_PANE);
         ceM.setDisplayName("§eDuration");
         Lore.add("§7Duration of the potion effect");
         Lore.add("§aCurrent value: §7" + plugin.getConfig().getInt("enchant." + enchPath(ench.get(player.getUniqueId())) + ".duration")+"s");
@@ -607,7 +607,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
         t.setItem(t.getSize() - 1, back());
         
         List<String> Lore = new ArrayList<>();
-        ItemStack ce = new ItemStack(XMaterial.YELLOW_STAINED_GLASS_PANE.parseMaterial());
+        ItemStack ce = new ItemStack(Material.YELLOW_STAINED_GLASS_PANE);
         ItemMeta ceM = ce.getItemMeta();
         
         ceM.setDisplayName("§ePower");
@@ -620,10 +620,10 @@ public class CEditor extends API implements CommandExecutor, Listener {
         
         ceM.setDisplayName("§eDestroy");
         if (plugin.getConfig().getBoolean("enchant." + enchPath(ench.get(player.getUniqueId())) + ".destroy")) {
-            ce.setType(XMaterial.LIME_STAINED_GLASS_PANE.parseMaterial());
+            ce.setType(Material.LIME_STAINED_GLASS_PANE);
             Lore.add("§aCurrent value: §a" + plugin.getConfig().getBoolean("enchant." + enchPath(ench.get(player.getUniqueId())) + ".destroy"));
         } else {
-            ce.setType(XMaterial.RED_STAINED_GLASS_PANE.parseMaterial());
+            ce.setType(Material.RED_STAINED_GLASS_PANE);
             Lore.add("§aCurrent value: §c" + plugin.getConfig().getBoolean("enchant." + enchPath(ench.get(player.getUniqueId())) + ".destroy"));
         }
         Lore.add("§7Does the explosion destroy blocks?");
@@ -641,7 +641,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
         t.setItem(t.getSize() - 1, back());
         
         List<String> Lore = new ArrayList<String>();
-        ItemStack ce = new ItemStack(XMaterial.ORANGE_STAINED_GLASS_PANE.parseMaterial());
+        ItemStack ce = new ItemStack(Material.ORANGE_STAINED_GLASS_PANE);
         ItemMeta ceM = ce.getItemMeta();
         
         ceM.setDisplayName("§eEffects");
@@ -669,7 +669,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
         t.setItem(t.getSize() - 1, back());
         
         List<String> Lore = new ArrayList<String>();
-        ItemStack ce = new ItemStack(XMaterial.YELLOW_STAINED_GLASS_PANE.parseMaterial());
+        ItemStack ce = new ItemStack(Material.YELLOW_STAINED_GLASS_PANE);
         ItemMeta ceM = ce.getItemMeta();
         
         ceM.setDisplayName("§eAmount");
@@ -682,10 +682,10 @@ public class CEditor extends API implements CommandExecutor, Listener {
         
         ceM.setDisplayName("§eDropAtPlayer");
         if (plugin.getConfig().getBoolean("enchant." + enchPath(ench.get(player.getUniqueId())) + ".dropatplayer")) {
-            ce.setType(XMaterial.LIME_STAINED_GLASS_PANE.parseMaterial());
+            ce.setType(Material.LIME_STAINED_GLASS_PANE);
             Lore.add("§aCurrent value: §a" + plugin.getConfig().getBoolean("enchant." + enchPath(ench.get(player.getUniqueId())) + ".dropatplayer"));
         } else {
-            ce.setType(XMaterial.RED_STAINED_GLASS_PANE.parseMaterial());
+            ce.setType(Material.RED_STAINED_GLASS_PANE);
             Lore.add("§aCurrent value: §c" + plugin.getConfig().getBoolean("enchant." + enchPath(ench.get(player.getUniqueId())) + ".dropatplayer"));
         }
         Lore.add("§7Do the blocks drop at the player or at the block?");
@@ -703,7 +703,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
         t.setItem(t.getSize() - 1, back());
         
         List<String> Lore = new ArrayList<String>();
-        ItemStack ce = new ItemStack(XMaterial.OAK_BUTTON.parseMaterial());
+        ItemStack ce = new ItemStack(Material.OAK_BUTTON);
         ItemMeta ceM = ce.getItemMeta();
         
         ceM.setDisplayName("§eInteract");
@@ -715,7 +715,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
         Lore.clear();
         t.addItem(ce);
         
-        ce.setType(XMaterial.DIAMOND_SWORD.parseMaterial());
+        ce.setType(Material.DIAMOND_SWORD);
         ceM.setDisplayName("§eAttackOther");
         Lore.add("§7Activates when another entity is hit");
         Lore.add("§8Held item must contain enchantment");
@@ -725,7 +725,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
         Lore.clear();
         t.addItem(ce);
     
-        ce.setType(XMaterial.WOODEN_SWORD.parseMaterial());
+        ce.setType(Material.WOODEN_SWORD);
         ceM.setDisplayName("§eAttackSelf");
         Lore.add("§7Activates when another entity is hit");
         Lore.add("§8Held item must contain enchantment");
@@ -735,7 +735,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
         Lore.clear();
         t.addItem(ce);
     
-        ce.setType(XMaterial.DIAMOND_CHESTPLATE.parseMaterial());
+        ce.setType(Material.DIAMOND_CHESTPLATE);
         ceM.setDisplayName("§eArmorOther");
         Lore.add("§7Activates when the user is hit");
         Lore.add("§8Armor must contain enchantment");
@@ -745,7 +745,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
         Lore.clear();
         t.addItem(ce);
     
-        ce.setType(XMaterial.LEATHER_CHESTPLATE.parseMaterial());
+        ce.setType(Material.LEATHER_CHESTPLATE);
         ceM.setDisplayName("§eArmorSelf");
         Lore.add("§7Activates when the user is hit");
         Lore.add("§8Armor must contain enchantment");
@@ -755,7 +755,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
         Lore.clear();
         t.addItem(ce);
     
-        ce.setType(XMaterial.DIAMOND.parseMaterial());
+        ce.setType(Material.DIAMOND);
         ceM.setDisplayName("§eItemOther");
         Lore.add("§7Activates when the user is hit");
         Lore.add("§8Held item must contain enchantment");
@@ -765,7 +765,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
         Lore.clear();
         t.addItem(ce);
     
-        ce.setType(XMaterial.COAL.parseMaterial());
+        ce.setType(Material.COAL);
         ceM.setDisplayName("§eItemSelf");
         Lore.add("§7Activates when the user is hit");
         Lore.add("§8Held item must contain enchantment");
@@ -775,7 +775,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
         Lore.clear();
         t.addItem(ce);
     
-        ce.setType(XMaterial.DIAMOND_PICKAXE.parseMaterial());
+        ce.setType(Material.DIAMOND_PICKAXE);
         ceM.setDisplayName("§eBlockBreak");
         Lore.add("§7Activates when the user breaks a block");
         Lore.add("§8Held item must contain enchantment");
@@ -805,18 +805,18 @@ public class CEditor extends API implements CommandExecutor, Listener {
         t.setItem(t.getSize() - 1, back());
     
         List<String> Lore = new ArrayList<String>();
-        ItemStack ce = new ItemStack(XMaterial.DIAMOND_SWORD.parseMaterial());
+        ItemStack ce = new ItemStack(Material.DIAMOND_SWORD);
         ItemMeta ceM = ce.getItemMeta();
-        ItemStack pot = new ItemStack(XMaterial.NETHER_WART.parseMaterial());
+        ItemStack pot = new ItemStack(Material.NETHER_WART);
         ItemMeta potM = pot.getItemMeta();
         
         potM.setDisplayName("§ePotion");
         Lore.add("§7Gives a potion effect");
         if(!containsEvent((ench.get(player.getUniqueId())), potion)) {
-            pot.setType(XMaterial.RED_STAINED_GLASS_PANE.parseMaterial());
+            pot.setType(Material.RED_STAINED_GLASS_PANE);
             Lore.add("§cNot compatible with the selected events");
         } else {
-            pot.setType(XMaterial.POTION.parseMaterial());
+            pot.setType(Material.POTION);
         }
         potM.setLore(Lore);
         pot.setItemMeta(potM);
@@ -826,7 +826,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
         ceM.setDisplayName("§eDamage");
         Lore.add("§7Deals damage");
         if(!containsEvent((ench.get(player.getUniqueId())), damage)) {
-            ce.setType(XMaterial.RED_STAINED_GLASS_PANE.parseMaterial());
+            ce.setType(Material.RED_STAINED_GLASS_PANE);
             Lore.add("§cNot compatible with the selected events");
         }
         ceM.setLore(Lore);
@@ -834,11 +834,11 @@ public class CEditor extends API implements CommandExecutor, Listener {
         Lore.clear();
         t.addItem(ce);
         
-        ce.setType(XMaterial.TNT.parseMaterial());
+        ce.setType(Material.TNT);
         ceM.setDisplayName("§eExplosion");
         Lore.add("§7Creates an explosion");
         if(!containsEvent((ench.get(player.getUniqueId())), explosion)) {
-            ce.setType(XMaterial.RED_STAINED_GLASS_PANE.parseMaterial());
+            ce.setType(Material.RED_STAINED_GLASS_PANE);
             Lore.add("§cNot compatible with the selected events");
         }
         ceM.setLore(Lore);
@@ -846,11 +846,11 @@ public class CEditor extends API implements CommandExecutor, Listener {
         Lore.clear();
         t.addItem(ce);
         
-        ce.setType(XMaterial.DIAMOND_PICKAXE.parseMaterial());
+        ce.setType(Material.DIAMOND_PICKAXE);
         ceM.setDisplayName("§eFortune");
         Lore.add("§7Drops more blocks");
         if(!containsEvent((ench.get(player.getUniqueId())), fortune)) {
-            ce.setType(XMaterial.RED_STAINED_GLASS_PANE.parseMaterial());
+            ce.setType(Material.RED_STAINED_GLASS_PANE);
             Lore.add("§cNot compatible with the selected events");
         }
         ceM.setLore(Lore);
@@ -885,7 +885,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
         if (plugin.getConfig().getConfigurationSection("enchant." + enchPath(ench.get(player.getUniqueId()))).contains("lore")) {
             List<String> l = plugin.getConfig().getStringList("enchant." + enchPath(ench.get(player.getUniqueId())) + ".lore");
             for (String s : l) {
-                ItemStack ce = new ItemStack(XMaterial.PAPER.parseMaterial());
+                ItemStack ce = new ItemStack(Material.PAPER);
                 ItemMeta ceM = ce.getItemMeta();
                 List<String> Lore = new ArrayList<>();
                 ceM.setDisplayName("§b" + amount);
@@ -900,7 +900,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
         }
         
         List<String> Lore = new ArrayList<>();
-        ItemStack ce = new ItemStack(XMaterial.MAP.parseMaterial());
+        ItemStack ce = new ItemStack(Material.MAP);
         ItemMeta ceM = ce.getItemMeta();
         ceM.setDisplayName("§aAdd Line");
         Lore.add("§7Add a line of lore");
@@ -1088,14 +1088,14 @@ public class CEditor extends API implements CommandExecutor, Listener {
                                 }
                             }
                         }
-                        if (event.getCurrentItem().getType() != XMaterial.ARROW.parseMaterial()) {
+                        if (event.getCurrentItem().getType() != Material.ARROW) {
                             event.getCurrentItem().addUnsafeEnchantment(Enchantment.DURABILITY, 1);
                             plugin.getConfig().set("enchant." + enchPath(ench.get(player.getUniqueId())) + ".type",
                                     ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName().toLowerCase()));
                         }
                     }
                     if (event.getView().getTitle().contains("Function")) {
-                        if (event.getCurrentItem().getType() != XMaterial.ARROW.parseMaterial() && event.getCurrentItem().getType() != XMaterial.RED_STAINED_GLASS_PANE.parseMaterial()) {
+                        if (event.getCurrentItem().getType() != Material.ARROW && event.getCurrentItem().getType() != Material.RED_STAINED_GLASS_PANE) {
                             for (ItemStack i : event.getView().getTopInventory().getContents()) {
                                 if (i != null) {
                                     if (i.getItemMeta().hasEnchants()) {
@@ -1116,7 +1116,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
                             event.getCurrentItem().removeEnchantment(Enchantment.DURABILITY);
                             d.remove(ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName()).toUpperCase().replace(' ', '_'));
                         } else {
-                            if (event.getCurrentItem().getType() != XMaterial.ARROW.parseMaterial()) {
+                            if (event.getCurrentItem().getType() != Material.ARROW) {
                                 event.getCurrentItem().addUnsafeEnchantment(Enchantment.DURABILITY, 1);
                                 d.add(ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName()).toUpperCase().replace(' ', '_'));
                             }
@@ -1130,7 +1130,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
                     }
                     if (event.getView().getTitle().contains("Events")) {
                         List<String> e = plugin.getConfig().getStringList("enchant." + enchPath(ench.get(player.getUniqueId())) + ".events");
-                        if (event.getCurrentItem().getType() != XMaterial.ARROW.parseMaterial()) {
+                        if (event.getCurrentItem().getType() != Material.ARROW) {
                             if (event.getCurrentItem().containsEnchantment(Enchantment.DURABILITY)) {
                                 event.getCurrentItem().removeEnchantment(Enchantment.DURABILITY);
                                 e.remove(ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName()).toLowerCase());
@@ -1184,19 +1184,19 @@ public class CEditor extends API implements CommandExecutor, Listener {
                         }
                     }
                     if (!event.getView().getTitle().contains("Function") && !event.getView().getTitle().contains("Create")) {
-                        if (ci.getType() == XMaterial.RED_STAINED_GLASS_PANE.parseMaterial() || ci.getType() == XMaterial.LIME_STAINED_GLASS_PANE.parseMaterial()) {
+                        if (ci.getType() == Material.RED_STAINED_GLASS_PANE || ci.getType() == Material.LIME_STAINED_GLASS_PANE) {
                             String name = ChatColor.stripColor(ciM.getDisplayName()).toLowerCase();
                             List<String> l = ciM.getLore();
         
                             if (plugin.getConfig().getBoolean("enchant." + enchPath(ench.get(player.getUniqueId())) + "." + name)) {
-                                ci.setType(XMaterial.RED_STAINED_GLASS_PANE.parseItem().getType());
+                                ci.setType(Material.RED_STAINED_GLASS_PANE);
                                 plugin.getConfig().set("enchant." + enchPath(ench.get(player.getUniqueId())) + "." + name, false);
                                 updateConfig();
                                 l.set(0, "§aCurrent value: §cfalse");
                                 ciM.setLore(l);
                                 ci.setItemMeta(ciM);
                             } else {
-                                ci.setType(XMaterial.LIME_STAINED_GLASS_PANE.parseItem().getType());
+                                ci.setType(Material.LIME_STAINED_GLASS_PANE);
                                 plugin.getConfig().set("enchant." + enchPath(ench.get(player.getUniqueId())) + "." + name, true);
                                 updateConfig();
                                 l.set(0, "§aCurrent value: §atrue");
@@ -1351,8 +1351,8 @@ public class CEditor extends API implements CommandExecutor, Listener {
                     s = s.trim();
                     String[] sp3 = s.split(",");
                     for (String ps : sp3) {
-                        if (XMaterial.matchXMaterial(ps).isPresent()) {
-                            if (Material.getMaterial(XMaterial.matchXMaterial(ps).get().name()).isBlock()) {
+                        if (Material.matchMaterial(ps) != null) {
+                            if (Material.getMaterial(Material.matchMaterial(ps).name()).isBlock()) {
                                 bl.add(ps.trim().toUpperCase());
                             } else {
                                 f3.add(ps.trim());

@@ -50,17 +50,17 @@ public class CustomEnchantGUI extends API implements CommandExecutor, Listener {
 	//MAIN
 	public Inventory i() {
 		Inventory i = Bukkit.createInventory(null, 9, "Custom Enchantments");
-		ItemStack all = new ItemStack(XMaterial.NETHER_STAR.parseMaterial());
+		ItemStack all = new ItemStack(Material.NETHER_STAR);
 		ItemMeta allMeta = all.getItemMeta();
 		allMeta.setDisplayName("§bAll Enchantments");
 		all.setItemMeta(allMeta);
 		
-		ItemStack name = new ItemStack(XMaterial.NAME_TAG.parseMaterial());
+		ItemStack name = new ItemStack(Material.NAME_TAG);
 		ItemMeta nameMeta = all.getItemMeta();
 		nameMeta.setDisplayName("§bFilter by Name");
 		name.setItemMeta(nameMeta);
 		
-		ItemStack type = new ItemStack(XMaterial.SHEARS.parseMaterial());
+		ItemStack type = new ItemStack(Material.SHEARS);
 		ItemMeta typeMeta = all.getItemMeta();
 		typeMeta.setDisplayName("§bFilter by Type");
 		type.setItemMeta(typeMeta);
@@ -105,7 +105,7 @@ public class CustomEnchantGUI extends API implements CommandExecutor, Listener {
 			section.get(key);
 			ConfigurationSection item = section.getConfigurationSection(key);
 			List<String> Lore = new ArrayList<String>();
-			ItemStack ce = new ItemStack(XMaterial.BOOK.parseMaterial());
+			ItemStack ce = new ItemStack(Material.BOOK);
 			ItemMeta ceM = ce.getItemMeta();
 			ceM.setDisplayName(item.getString("name").replace('&', '§'));
 
@@ -170,7 +170,7 @@ public class CustomEnchantGUI extends API implements CommandExecutor, Listener {
 		
 		for (String s : l) {
 			List<String> Lore = new ArrayList<String>();
-			ItemStack ce = new ItemStack(XMaterial.BOOKSHELF.parseMaterial());
+			ItemStack ce = new ItemStack(Material.BOOKSHELF);
 			ItemMeta ceM = ce.getItemMeta();
 			ceM.setDisplayName(s.replace('&', '§'));
 			ceM.setLore(Lore);
@@ -188,7 +188,7 @@ public class CustomEnchantGUI extends API implements CommandExecutor, Listener {
 		t.setItem(t.getSize() - 1, back());
 		
 		List<String> Lore = new ArrayList<String>();
-		ItemStack ce = new ItemStack(XMaterial.BOOKSHELF.parseMaterial());
+		ItemStack ce = new ItemStack(Material.BOOKSHELF);
 		ItemMeta ceM = ce.getItemMeta();
 		
 		ceM.setDisplayName("§eWeapon");
@@ -233,7 +233,7 @@ public class CustomEnchantGUI extends API implements CommandExecutor, Listener {
 			
 			if (name.contains(s)) {
 				
-				ItemStack ce = new ItemStack(XMaterial.BOOK.parseMaterial());
+				ItemStack ce = new ItemStack(Material.BOOK);
 				ItemMeta ceM = ce.getItemMeta();
 				ceM.setDisplayName(item.getString("name").replace('&', '§'));
 				Lore.add("§7" + StringUtils.capitalize(speed1Type) + " Enchantment");
@@ -309,7 +309,7 @@ public class CustomEnchantGUI extends API implements CommandExecutor, Listener {
 					
 					if (speed1Type.equalsIgnoreCase(s)) {
 						
-						ItemStack ce = new ItemStack(XMaterial.BOOK.parseMaterial());
+						ItemStack ce = new ItemStack(Material.BOOK);
 						ItemMeta ceM = ce.getItemMeta();
 						ceM.setDisplayName(item.getString("name").replace('&', '§'));
 						Lore.add("§7" + StringUtils.capitalize(speed1Type) + " Enchantment");
@@ -384,7 +384,7 @@ public class CustomEnchantGUI extends API implements CommandExecutor, Listener {
 						String firstWord = test.substring(0, test.lastIndexOf(" "));
 						String lastWord = test.substring(test.lastIndexOf(" ") + 1);
 						
-						if (speed1.getType() != XMaterial.AIR.parseMaterial()) {
+						if (speed1.getType() != Material.AIR) {
 							ArrayList<String> Lore = new ArrayList<String>();
 							if (speed1Meta.hasLore()) {
 								for (String s : speed1Meta.getLore()) {
@@ -471,7 +471,7 @@ public class CustomEnchantGUI extends API implements CommandExecutor, Listener {
 								}
 							}
 						}
-						if (speed1.getType() == XMaterial.AIR.parseMaterial()) {
+						if (speed1.getType() == Material.AIR) {
 							player.sendMessage("§cYou must be holding an item to enchant.");
 						}
 					} catch (Exception ignored) {

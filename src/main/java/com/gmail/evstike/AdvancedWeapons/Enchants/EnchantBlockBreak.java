@@ -2,12 +2,12 @@ package com.gmail.evstike.AdvancedWeapons.Enchants;
 
 import com.gmail.evstike.AdvancedWeapons.API;
 import com.gmail.evstike.AdvancedWeapons.Fates;
-import com.gmail.evstike.AdvancedWeapons.XMaterial;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -52,7 +52,7 @@ public class EnchantBlockBreak extends API implements Listener {
         ItemMeta im = i.getItemMeta();
         int dur = i.getDurability();
         Block b = e.getBlock();
-        XMaterial bt = XMaterial.matchXMaterial(e.getBlock().getType());
+        Material bt = e.getBlock().getType();
     
         if (im != null) {
             if (im.hasLore()) {
@@ -92,7 +92,7 @@ public class EnchantBlockBreak extends API implements Listener {
                                         }
                                     }
                                     if (item.contains("blocks")) {
-                                        if (!(item.getStringList("blocks").contains(XMaterial.matchXMaterial(e.getBlock().getType()).name()))) {
+                                        if (!(item.getStringList("blocks").contains(e.getBlock().getType().name()))) {
                                             return;
                                         }
                                     }
@@ -143,7 +143,7 @@ public class EnchantBlockBreak extends API implements Listener {
                                         } else {
                                             Bukkit.getLogger().warning(n + " does not have an amount.");
                                         }
-                                        ItemStack bd = new ItemStack(bt.parseMaterial(), item.getInt("amount"));
+                                        ItemStack bd = new ItemStack(bt, item.getInt("amount"));
                                         if (item.getBoolean("dropatplayer") == true) {
                                             p.getWorld().dropItemNaturally(p.getLocation(), bd);
                                         }

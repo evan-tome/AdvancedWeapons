@@ -55,7 +55,7 @@ public class MachineMenu extends API implements Listener {
                 List<String> list = item.getStringList("list");
                 if (list.contains(this.c(l))) {
 
-                    if (bl.getType().equals(XMaterial.FURNACE.parseMaterial()) || bl.getType().equals(XMaterial.BLAST_FURNACE.parseMaterial())) {
+                    if (bl.getType().equals(Material.FURNACE) || bl.getType().equals(Material.BLAST_FURNACE)) {
                         event.setCancelled(true);
                         if (!config.isConfigurationSection(key)) {
                             config.createSection(key);
@@ -71,7 +71,7 @@ public class MachineMenu extends API implements Listener {
                             config.set(key + ".list", s);
                             this.plugin.saveYamlFile(config, name);
                             Block block = this.str2loc(mconfig.getStringList(key + ".list").get(3), key);
-                            XBlock.setColor(block, DyeColor.YELLOW);
+                            block.setType(Material.YELLOW_STAINED_GLASS);
                         }
                         boolean open = false;
                         for (Player pl : Bukkit.getOnlinePlayers()) {
@@ -87,7 +87,7 @@ public class MachineMenu extends API implements Listener {
                             p.sendMessage("§cThis Machine is currently in use.");
                         }
                     }
-                    if (bl.getType().equals(XMaterial.HOPPER.parseMaterial())) {
+                    if (bl.getType().equals(Material.HOPPER)) {
                         event.setCancelled(true);
                     }
                 }
@@ -105,15 +105,15 @@ public class MachineMenu extends API implements Listener {
         
         Inventory inv = Bukkit.createInventory(null, 27, s + " - Machine");
         
-        ItemStack b = new ItemStack(XMaterial.IRON_BARS.parseMaterial());
+        ItemStack b = new ItemStack(Material.IRON_BARS);
         ItemMeta bMeta = b.getItemMeta();
-        ItemStack c2 = new ItemStack(XMaterial.LIGHT_GRAY_STAINED_GLASS_PANE.parseItem());
+        ItemStack c2 = new ItemStack(Material.LIGHT_GRAY_STAINED_GLASS_PANE);
         ItemMeta c2Meta = c2.getItemMeta();
-        ItemStack f = new ItemStack(XMaterial.YELLOW_STAINED_GLASS_PANE.parseItem());
+        ItemStack f = new ItemStack(Material.YELLOW_STAINED_GLASS_PANE);
         ItemMeta fMeta = f.getItemMeta();
-        ItemStack nf = new ItemStack(XMaterial.RED_STAINED_GLASS_PANE.parseItem());
+        ItemStack nf = new ItemStack(Material.RED_STAINED_GLASS_PANE);
         ItemMeta nfMeta = nf.getItemMeta();
-        ItemStack rf = new ItemStack(XMaterial.LIME_STAINED_GLASS_PANE.parseItem());
+        ItemStack rf = new ItemStack(Material.LIME_STAINED_GLASS_PANE);
         ItemMeta rfMeta = rf.getItemMeta();
 
         List<String> Lore = new ArrayList();
@@ -178,7 +178,7 @@ public class MachineMenu extends API implements Listener {
             int i = Integer.parseInt(lastWord);
             if (i > 0) {
                 List<String> lore = new ArrayList();
-                ItemStack is = new ItemStack((XMaterial.matchXMaterial(firstWord).get()).parseMaterial(), i);
+                ItemStack is = new ItemStack((Material.matchMaterial(firstWord)), i);
                 ItemMeta isM = is.getItemMeta();
                 lore.add("§aClick to collect this material.");
                 lore.add("§cCollecting will deplete fuel.");
@@ -186,7 +186,7 @@ public class MachineMenu extends API implements Listener {
                 isM.setLore(lore);
                 is.setItemMeta(isM);
                 inv.setItem(i2, is);
-                if (is.getType() == XMaterial.INK_SAC.parseMaterial()) {
+                if (is.getType() == Material.INK_SAC) {
                     Dye dd = new Dye(is.getType());
                     dd.setColor(DyeColor.BLUE);
                     dd.getData();
@@ -256,7 +256,7 @@ public class MachineMenu extends API implements Listener {
             }
     
             if (event.getClickedInventory().getType().equals(InventoryType.CHEST)) {
-                if (event.getCurrentItem() != null && event.getCurrentItem().getType() != XMaterial.AIR.parseMaterial() && event.getCurrentItem().hasItemMeta()) {
+                if (event.getCurrentItem() != null && event.getCurrentItem().getType() != Material.AIR && event.getCurrentItem().hasItemMeta()) {
                     File name = this.plugin.createFile("machineinv.yml");
                     FileConfiguration config = this.plugin.createYamlFile(name);
                     this.plugin.saveYamlFile(config, name);
@@ -264,7 +264,7 @@ public class MachineMenu extends API implements Listener {
                     int i = config.getConfigurationSection(s).getInt("fuel") - 1;
             
                     List<String> Lore = new ArrayList();
-                    ItemStack f = new ItemStack(XMaterial.YELLOW_STAINED_GLASS_PANE.parseItem());
+                    ItemStack f = new ItemStack(Material.YELLOW_STAINED_GLASS_PANE);
                     ItemMeta fMeta = f.getItemMeta();
                     fMeta.setDisplayName("§aMachine Fuel");
                     Lore.add("§7Powers up the Machine.");
@@ -273,7 +273,7 @@ public class MachineMenu extends API implements Listener {
                     fMeta.setLore(Lore);
                     f.setItemMeta(fMeta);
                     Lore.clear();
-                    ItemStack nf = new ItemStack(XMaterial.RED_STAINED_GLASS_PANE.parseItem());
+                    ItemStack nf = new ItemStack(Material.RED_STAINED_GLASS_PANE);
                     ItemMeta nfMeta = nf.getItemMeta();
                     nfMeta.setDisplayName("§cMachine Fuel");
                     Lore.add("§7Powers up the Machine.");
@@ -291,7 +291,7 @@ public class MachineMenu extends API implements Listener {
                     if (ChatColor.stripColor(event.getView().getTitle()).equals(s + " - Machine")) {
                         Inventory inv = event.getClickedInventory();
                 
-                        ItemStack c2 = new ItemStack(XMaterial.LIGHT_GRAY_STAINED_GLASS_PANE.parseItem());
+                        ItemStack c2 = new ItemStack(Material.LIGHT_GRAY_STAINED_GLASS_PANE);
                         ItemMeta c2Meta = c2.getItemMeta();
                         c2Meta.setDisplayName("§aMined materials will appear in this slot.");
                         c2Meta.setLore(Lore);
@@ -316,7 +316,7 @@ public class MachineMenu extends API implements Listener {
                                             ItemMeta itMeta = it.getItemMeta();
                                             if (itMeta.hasLore()) {
                                                 List<String> lo = itMeta.getLore();
-                                                if (it.getType().equals(XMaterial.RED_STAINED_GLASS_PANE.parseMaterial())) {
+                                                if (it.getType().equals(Material.RED_STAINED_GLASS_PANE)) {
                                                     lo.set(1, "§c" + fuel + "/8 §7fuel remaining.");
                                                 }
                                                 itMeta.setLore(lo);
@@ -355,7 +355,7 @@ public class MachineMenu extends API implements Listener {
                             }
                         }
                 
-                        if ((event.getRawSlot() == 13 || event.getRawSlot() == 14 || event.getRawSlot() == 15 || event.getRawSlot() == 16) && event.getCurrentItem().getType() != XMaterial.LIGHT_GRAY_STAINED_GLASS_PANE.parseMaterial()) {
+                        if ((event.getRawSlot() == 13 || event.getRawSlot() == 14 || event.getRawSlot() == 15 || event.getRawSlot() == 16) && event.getCurrentItem().getType() != Material.LIGHT_GRAY_STAINED_GLASS_PANE) {
                             ConfigurationSection section = config.getConfigurationSection(s);
                             List<String> l = section.getStringList("list");
                     
@@ -364,7 +364,7 @@ public class MachineMenu extends API implements Listener {
                                 String firstWord = words[0];
                         
                                 if (firstWord.equals(event.getCurrentItem().getType().name()) ||
-                                        (event.getCurrentItem().getType() == XMaterial.LAPIS_LAZULI.parseMaterial())) {
+                                        (event.getCurrentItem().getType() == Material.LAPIS_LAZULI)) {
                             
                                     player.getInventory().addItem(invItem(event.getCurrentItem()));
                                     event.getClickedInventory().setItem(event.getRawSlot(), c2);
@@ -408,12 +408,10 @@ public class MachineMenu extends API implements Listener {
                                             ItemMeta itMeta = it.getItemMeta();
                                             if (itMeta.hasLore()) {
                                                 List<String> lo = itMeta.getLore();
-                                                if (it.getType() == XMaterial.YELLOW_STAINED_GLASS_PANE.parseMaterial() &&
-                                                        XMaterial.matchXMaterial(it).getData() == 4) {
+                                                if (it.getType() == Material.YELLOW_STAINED_GLASS_PANE) {
                                                     lo.set(1, "§b" + i + "/8 §7fuel remaining.");
                                                 }
-                                                if (it.getType() == XMaterial.YELLOW_STAINED_GLASS_PANE.parseMaterial() &&
-                                                        XMaterial.matchXMaterial(it).getData() == 14) {
+                                                if (it.getType() == Material.YELLOW_STAINED_GLASS_PANE) {
                                                     lo.set(1, "§c" + i + "/8 §7fuel remaining.");
                                                 }
                                                 itMeta.setLore(lo);
@@ -425,7 +423,7 @@ public class MachineMenu extends API implements Listener {
                                         if (inv.getItem(14).getAmount() < maxSize(section.getStringList("list").indexOf(l))) {
                                             if (inv.getItem(15).getAmount() < maxSize(section.getStringList("list").indexOf(l))) {
                                                 if (inv.getItem(16).getAmount() < maxSize(section.getStringList("list").indexOf(l))) {
-                                                    XBlock.setColor(block, DyeColor.YELLOW);
+                                                    block.setType(Material.YELLOW_STAINED_GLASS);
                                                 }
                                             }
                                         }
@@ -459,39 +457,39 @@ public class MachineMenu extends API implements Listener {
         return item;
     }
 
-    private XMaterial m(int i) {
+    private Material m(int i) {
         Random rand = new Random();
         int n = rand.nextInt(100) + 1;
-        XMaterial mat = XMaterial.AIR;
+        Material mat = Material.AIR;
         if (i == 0) {
             if (n >= 0 && n < 50) {
-                mat = XMaterial.DIAMOND;
+                mat = Material.DIAMOND;
             } else {
-                mat = XMaterial.LAPIS_LAZULI;
+                mat = Material.LAPIS_LAZULI;
             }
         }
 
         if (i == 1) {
             if (n >= 0 && n < 50) {
-                mat = XMaterial.IRON_INGOT;
+                mat = Material.IRON_INGOT;
             } else {
-                mat = XMaterial.GOLD_INGOT;
+                mat = Material.GOLD_INGOT;
             }
         }
 
         if (i == 2) {
             if (n >= 0 && n < 50) {
-                mat = XMaterial.COAL;
+                mat = Material.COAL;
             } else {
-                mat = XMaterial.STONE;
+                mat = Material.STONE;
             }
         }
 
         if (i == 3) {
             if (n >= 0 && n < 50) {
-                mat = XMaterial.COBBLESTONE;
+                mat = Material.COBBLESTONE;
             } else {
-                mat = XMaterial.GRAVEL;
+                mat = Material.GRAVEL;
             }
         }
 
@@ -557,7 +555,7 @@ public class MachineMenu extends API implements Listener {
         ConfigurationSection item = mconfig.getConfigurationSection(key);
         List<String> list = item.getStringList("list");
         for (String loc : list) {
-            str2loc(loc, key).setType(XMaterial.AIR.parseMaterial());
+            str2loc(loc, key).setType(Material.AIR);
         }
         mconfig.set(key, null);
         plugin.saveYamlFile(mconfig, mname);

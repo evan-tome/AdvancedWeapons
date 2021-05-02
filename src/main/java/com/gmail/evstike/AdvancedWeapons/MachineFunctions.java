@@ -36,14 +36,6 @@ public class MachineFunctions extends API implements Listener {
     String id = "0";
     int a = 0;
     boolean verify = true;
-    
-    public ItemStack it = new ItemStack(Material.COBBLESTONE_WALL, 1);
-
-    {
-        ItemMeta im = it.getItemMeta();
-        im.setDisplayName(ChatColor.AQUA + "Port-a-Wall");
-        it.setItemMeta(im);
-    }
 
     @SuppressWarnings({"deprecation"})
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -86,6 +78,11 @@ public class MachineFunctions extends API implements Listener {
     
                     newMachine(id, "Port-a-Wall", p, true, Material.COBBLESTONE_WALL);
     
+                    ItemStack it = new ItemStack(Material.COBBLESTONE_WALL, 1);
+                    ItemMeta itm = it.getItemMeta();
+                    itm.setDisplayName(ChatColor.AQUA + "Port-a-Wall");
+                    it.setItemMeta(itm);
+                    
                     bl.setType(Material.AIR);
                     blockCheck(bl, m, id, p, it);
                     blockCheck(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 1, l.getBlockZ()), m, id, p, it);
@@ -154,6 +151,11 @@ public class MachineFunctions extends API implements Listener {
     
                         newMachine(id, "AutoMiner", p, true, Material.HOPPER);
     
+                        ItemStack it = new ItemStack(Material.COBBLESTONE_WALL, 1);
+                        ItemMeta itm = it.getItemMeta();
+                        itm.setDisplayName(ChatColor.AQUA + "Port-a-Wall");
+                        it.setItemMeta(itm);
+                        
                         bl.setType(Material.AIR);
                         blockPlace(bl, Material.HOPPER, id, p, it);
                         blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 1, l.getBlockZ()), Material.OAK_FENCE, id, p, it);
@@ -191,7 +193,7 @@ public class MachineFunctions extends API implements Listener {
             }
         }
         //POTION
-        m = Material.COBBLESTONE_STAIRS;
+        m = Material.COBBLESTONE_WALL;
         m1 = Material.STONE_BRICK_STAIRS;
         m2 = Material.STONE_BRICK_SLAB;
         m3 = Material.LIME_STAINED_GLASS;
@@ -218,7 +220,12 @@ public class MachineFunctions extends API implements Listener {
                         }
                     
                         newMachine(id, "Potion", p, true, Material.SPLASH_POTION);
-                    
+    
+                        ItemStack it = new ItemStack(Material.COBBLESTONE_WALL, 1);
+                        ItemMeta itm = it.getItemMeta();
+                        itm.setDisplayName(ChatColor.AQUA + "Port-a-Wall");
+                        it.setItemMeta(itm);
+                        
                         bl.setType(Material.AIR);
                         blockPlace(bl, Material.DISPENSER, id, p, it);
                         blockPlace(easyBlockLoc(bl, l, 0, 1, 0), m2, id, p, it);

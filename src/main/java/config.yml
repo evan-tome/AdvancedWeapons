@@ -417,3 +417,22 @@ enchant:
     duration: 8
     amplifier: 0
     thresholdself: 40
+  golden-replenishment-i:
+    name: "&eGolden Replenishment I"
+    lore:
+      - "&7Gives saturation after mining"
+      - "&7a block of gold ore."
+      - "&7Saturation I - 4s"
+    chance: 25
+    cost: 16
+    type: tool
+    events:
+      - blockbreak
+    function: potion
+    blocks:
+      - GOLD_ORE
+      - NETHER_GOLD_ORE
+    effects:
+      - SATURATION
+    duration: 4
+    amplifier: 0

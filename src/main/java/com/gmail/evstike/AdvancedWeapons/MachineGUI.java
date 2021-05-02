@@ -48,13 +48,13 @@ public class MachineGUI extends API implements CommandExecutor, Listener {
         Inventory inv = Bukkit.createInventory(null, 9, "Machines");
         
         //Items
-        ItemStack comp = new ItemStack(XMaterial.RED_STAINED_GLASS_PANE.parseItem());
+        ItemStack comp = new ItemStack(Material.RED_STAINED_GLASS_PANE);
         ItemMeta compMeta = comp.getItemMeta();
-        ItemStack un = new ItemStack(XMaterial.YELLOW_STAINED_GLASS_PANE.parseItem());
+        ItemStack un = new ItemStack(Material.YELLOW_STAINED_GLASS_PANE);
         ItemMeta unMeta = un.getItemMeta();
-        ItemStack wall = new ItemStack(XMaterial.COBBLESTONE_WALL.parseMaterial(), 15);
+        ItemStack wall = new ItemStack(Material.COBBLESTONE_WALL, 15);
         ItemMeta wallMeta = wall.getItemMeta();
-        ItemStack drill = new ItemStack(XMaterial.HOPPER.parseMaterial(), 1);
+        ItemStack drill = new ItemStack(Material.HOPPER, 1);
         ItemMeta drillMeta = drill.getItemMeta();
         
         //Item meta
@@ -136,11 +136,11 @@ public class MachineGUI extends API implements CommandExecutor, Listener {
             }
             ItemStack glow = dust(plugin.getConfig().getStringList("dust-item")).clone();
             if (event.getClickedInventory().getType() == InventoryType.CHEST) {
-                switch (XMaterial.matchXMaterial(event.getCurrentItem())) {
+                switch (event.getCurrentItem().getType()) {
                     case COBBLESTONE_WALL:
                         try {
                             List<String> Lore = new ArrayList<String>();
-                            ItemStack wall = new ItemStack(XMaterial.COBBLESTONE_WALL.parseMaterial(), 15);
+                            ItemStack wall = new ItemStack(Material.COBBLESTONE_WALL, 15);
                             ItemMeta wallMeta = wall.getItemMeta();
                             wallMeta.setDisplayName(ChatColor.AQUA + "Port-a-Wall");
                             wallMeta.setLore(Lore);
@@ -161,7 +161,7 @@ public class MachineGUI extends API implements CommandExecutor, Listener {
                     case HOPPER:
                         try {
                             List<String> Lore = new ArrayList<String>();
-                            ItemStack drill = new ItemStack(XMaterial.HOPPER.parseMaterial(), 1);
+                            ItemStack drill = new ItemStack(Material.HOPPER, 1);
                             ItemMeta drillMeta = drill.getItemMeta();
                             drillMeta.setDisplayName(ChatColor.AQUA + "AutoMiner");
                             drillMeta.setLore(Lore);
