@@ -51,25 +51,25 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
         Inventory inv = Bukkit.createInventory(null, 9, "Weapons");
         
         //Items
-        ItemStack comp = new ItemStack(XMaterial.RED_STAINED_GLASS_PANE.parseItem());
+        ItemStack comp = new ItemStack(Material.RED_STAINED_GLASS_PANE);
         ItemMeta compMeta = comp.getItemMeta();
-        ItemStack un = new ItemStack(XMaterial.YELLOW_STAINED_GLASS_PANE.parseItem());
+        ItemStack un = new ItemStack(Material.YELLOW_STAINED_GLASS_PANE);
         ItemMeta unMeta = un.getItemMeta();
-        ItemStack dest = new ItemStack(XMaterial.DIAMOND_SWORD.parseMaterial());
+        ItemStack dest = new ItemStack(Material.DIAMOND_SWORD);
         ItemMeta destMeta = dest.getItemMeta();
-        ItemStack slay = new ItemStack(XMaterial.DIAMOND_AXE.parseMaterial());
+        ItemStack slay = new ItemStack(Material.DIAMOND_AXE);
         ItemMeta slayMeta = slay.getItemMeta();
-        ItemStack drop = new ItemStack(XMaterial.STICK.parseMaterial());
+        ItemStack drop = new ItemStack(Material.STICK);
         ItemMeta dropMeta = drop.getItemMeta();
-        ItemStack rod = new ItemStack(XMaterial.BLAZE_ROD.parseMaterial());
+        ItemStack rod = new ItemStack(Material.BLAZE_ROD);
         ItemMeta rodMeta = rod.getItemMeta();
-        ItemStack bo = new ItemStack(XMaterial.BONE.parseMaterial());
+        ItemStack bo = new ItemStack(Material.BONE);
         ItemMeta boMeta = bo.getItemMeta();
-        ItemStack snow = new ItemStack(XMaterial.SNOWBALL.parseMaterial());
+        ItemStack snow = new ItemStack(Material.SNOWBALL);
         ItemMeta snowMeta = snow.getItemMeta();
-        ItemStack lead = new ItemStack(XMaterial.LEAD.parseMaterial());
+        ItemStack lead = new ItemStack(Material.LEAD);
         ItemMeta leadMeta = snow.getItemMeta();
-        ItemStack custom = new ItemStack(XMaterial.CHEST.parseMaterial());
+        ItemStack custom = new ItemStack(Material.CHEST);
         ItemMeta customMeta = custom.getItemMeta();
         
         //Item Meta
@@ -245,7 +245,7 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
                 
                 return;
             }
-            ItemStack back = new ItemStack(XMaterial.ARROW.parseItem());
+            ItemStack back = new ItemStack(Material.ARROW);
             ItemMeta backMeta = back.getItemMeta();
             backMeta.setDisplayName(ChatColor.GREEN + "Back");
             
@@ -262,13 +262,13 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
             
             if (event.getClickedInventory().getType().equals(InventoryType.CHEST)) {
                 if (ChatColor.stripColor(event.getView().getTitle()).equalsIgnoreCase("Weapons")) {
-                    switch (XMaterial.matchXMaterial(event.getCurrentItem())) {
+                    switch (event.getCurrentItem().getType()) {
                         case DIAMOND_SWORD:
                             
                             try {
                                 
                                 List<String> Lore = new ArrayList<String>();
-                                ItemStack dest = new ItemStack(XMaterial.DIAMOND_SWORD.parseMaterial(), 1);
+                                ItemStack dest = new ItemStack(Material.DIAMOND_SWORD, 1);
                                 ItemMeta destMeta = dest.getItemMeta();
                                 destMeta.setDisplayName(ChatColor.RED + "The Destroyer");
                                 Lore.add("§7Rush I");
@@ -294,13 +294,13 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
                                 return;
                             }
                     }
-                    switch (XMaterial.matchXMaterial(event.getCurrentItem())) {
+                    switch (event.getCurrentItem().getType()) {
                         case DIAMOND_AXE:
                             
                             try {
                                 
                                 List<String> Lore = new ArrayList<String>();
-                                ItemStack slay = new ItemStack(XMaterial.DIAMOND_AXE.parseMaterial(), 1);
+                                ItemStack slay = new ItemStack(Material.DIAMOND_AXE, 1);
                                 ItemMeta slayMeta = slay.getItemMeta();
                                 slayMeta.setDisplayName(ChatColor.RED + "The Slayer");
                                 Lore.add("§7Butcher II");
@@ -325,13 +325,13 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
                                 return;
                             }
                     }
-                    switch (XMaterial.matchXMaterial(event.getCurrentItem())) {
+                    switch (event.getCurrentItem().getType()) {
                         case STICK:
                             
                             try {
                                 
                                 List<String> Lore3 = new ArrayList<String>();
-                                ItemStack sig = new ItemStack(XMaterial.STICK.parseMaterial(), 1);
+                                ItemStack sig = new ItemStack(Material.STICK, 1);
                                 ItemMeta sigMeta = sig.getItemMeta();
                                 sigMeta.setDisplayName(ChatColor.RED + "The Dropper");
                                 Lore3.add("§75");
@@ -355,13 +355,13 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
                                 return;
                             }
                     }
-                    switch (XMaterial.matchXMaterial(event.getCurrentItem())) {
+                    switch (event.getCurrentItem().getType()) {
                         case BLAZE_ROD:
                             
                             try {
                                 
                                 List<String> Lore4 = new ArrayList<String>();
-                                ItemStack rod = new ItemStack(XMaterial.BLAZE_ROD.parseMaterial(), 1);
+                                ItemStack rod = new ItemStack(Material.BLAZE_ROD, 1);
                                 ItemMeta rodMeta = rod.getItemMeta();
                                 rodMeta.setDisplayName(ChatColor.RED + "Fireball Launcher");
                                 Lore4.add("§75");
@@ -394,13 +394,13 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
                                 return;
                             }
                     }
-                    switch (XMaterial.matchXMaterial(event.getCurrentItem())) {
+                    switch (event.getCurrentItem().getType()) {
                         case BONE:
                             
                             try {
                                 
                                 List<String> Lore5 = new ArrayList<String>();
-                                ItemStack bo = new ItemStack(XMaterial.BONE.parseMaterial(), 1);
+                                ItemStack bo = new ItemStack(Material.BONE, 1);
                                 ItemMeta boMeta = bo.getItemMeta();
                                 boMeta.setDisplayName(ChatColor.RED + "The Skeletal Sword");
                                 Lore5.add("§75");
@@ -423,12 +423,12 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
                                 return;
                             }
                     }
-                    switch (XMaterial.matchXMaterial(event.getCurrentItem())) {
+                    switch (event.getCurrentItem().getType()) {
                         case SNOWBALL:
                             
                             try {
                                 List<String> Lore6 = new ArrayList<String>();
-                                ItemStack snow = new ItemStack(XMaterial.SNOWBALL.parseMaterial(), 6);
+                                ItemStack snow = new ItemStack(Material.SNOWBALL, 6);
                                 ItemMeta snowMeta = snow.getItemMeta();
                                 snowMeta.setDisplayName(ChatColor.RED + "Ice Chunk");
                                 snowMeta.setLore(Lore6);
@@ -450,12 +450,12 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
                                 return;
                             }
                     }
-                    switch (XMaterial.matchXMaterial(event.getCurrentItem())) {
+                    switch (event.getCurrentItem().getType()) {
                         case LEAD:
                             
                             try {
                                 List<String> Lore7 = new ArrayList<String>();
-                                ItemStack lead = new ItemStack(XMaterial.LEAD.parseMaterial(), 1);
+                                ItemStack lead = new ItemStack(Material.LEAD, 1);
                                 ItemMeta leadMeta = lead.getItemMeta();
                                 leadMeta.setDisplayName(ChatColor.RED + "Spirit Leash");
                                 Lore7.add("§73");
@@ -478,7 +478,7 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
                                 return;
                             }
                     }
-                    switch (XMaterial.matchXMaterial(event.getCurrentItem())) {
+                    switch (event.getCurrentItem().getType()) {
                         case CHEST:
                             File wname = plugin.createFile("customweapons.yml");
                             FileConfiguration wconfig = plugin.createYamlFile(wname);
@@ -537,7 +537,7 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
                             player.sendMessage(plugin.getConfig().getString("insufficient-dust-msg").replace('&', '§'));
                         }
                     }
-                    switch (XMaterial.matchXMaterial(event.getCurrentItem())) {
+                    switch (event.getCurrentItem().getType()) {
                         case ARROW:
                             openGUI(player);
                             break;

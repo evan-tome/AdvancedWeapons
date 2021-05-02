@@ -91,7 +91,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
         if (i == null || i.getType() == Material.AIR) {
         } else {
             //SHARPNESS
-            ItemStack sharp = new ItemStack(XMaterial.DIAMOND_SWORD.parseMaterial());
+            ItemStack sharp = new ItemStack(Material.DIAMOND_SWORD);
             ItemMeta sharpMeta = sharp.getItemMeta();
             sharpMeta.setDisplayName(ChatColor.YELLOW + "Sharpness §7(" + num + ")");
             sharpMeta.addEnchant(Enchantment.DAMAGE_ALL, num, true);
@@ -105,7 +105,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                 }
             }
             //SMITE
-            ItemStack smite = new ItemStack(XMaterial.DIAMOND_SWORD.parseMaterial());
+            ItemStack smite = new ItemStack(Material.DIAMOND_SWORD);
             ItemMeta smiteMeta = smite.getItemMeta();
             smiteMeta.setDisplayName(ChatColor.YELLOW + "Smite §7(" + num + ")");
             smiteMeta.addEnchant(Enchantment.DAMAGE_UNDEAD, num, true);
@@ -119,7 +119,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                 }
             }
             //BANE OF ARTHROPODS
-            ItemStack bane = new ItemStack(XMaterial.DIAMOND_SWORD.parseMaterial());
+            ItemStack bane = new ItemStack(Material.DIAMOND_SWORD);
             ItemMeta baneMeta = bane.getItemMeta();
             baneMeta.setDisplayName(ChatColor.YELLOW + "Bane of Arthropods §7(" + num + ")");
             baneMeta.addEnchant(Enchantment.DAMAGE_ARTHROPODS, num, true);
@@ -133,7 +133,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                 }
             }
             //KNOCKBACK
-            ItemStack knock = new ItemStack(XMaterial.DIAMOND_SWORD.parseMaterial());
+            ItemStack knock = new ItemStack(Material.DIAMOND_SWORD);
             ItemMeta knockMeta = knock.getItemMeta();
             knockMeta.setDisplayName(ChatColor.YELLOW + "Knockback §7(" + num + ")");
             knockMeta.addEnchant(Enchantment.KNOCKBACK, num, true);
@@ -147,7 +147,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                 }
             }
             //FIRE ASPECT
-            ItemStack fire = new ItemStack(XMaterial.DIAMOND_SWORD.parseMaterial());
+            ItemStack fire = new ItemStack(Material.DIAMOND_SWORD);
             ItemMeta fireMeta = fire.getItemMeta();
             fireMeta.setDisplayName(ChatColor.YELLOW + "Fire Aspect §7(" + num + ")");
             fireMeta.addEnchant(Enchantment.FIRE_ASPECT, num, true);
@@ -162,7 +162,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             }
             //SWEEPING EDGE
             if (serverIs1111()) {
-                ItemStack sweep = new ItemStack(XMaterial.DIAMOND_SWORD.parseMaterial());
+                ItemStack sweep = new ItemStack(Material.DIAMOND_SWORD);
                 ItemMeta sweepMeta = sweep.getItemMeta();
                 sweepMeta.setDisplayName(ChatColor.YELLOW + "Sweeping Edge §7(" + num + ")");
                 sweepMeta.addEnchant(Enchantment.SWEEPING_EDGE, num, true);
@@ -178,7 +178,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                 }
             }
             //LOOTING
-            ItemStack loot = new ItemStack(XMaterial.DIAMOND_SWORD.parseMaterial());
+            ItemStack loot = new ItemStack(Material.DIAMOND_SWORD);
             ItemMeta lootMeta = loot.getItemMeta();
             lootMeta.setDisplayName(ChatColor.YELLOW + "Looting §7(" + num + ")");
             lootMeta.addEnchant(Enchantment.LOOT_BONUS_MOBS, num, true);
@@ -192,7 +192,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                 }
             }
             //UNBREAKING
-            ItemStack unb = new ItemStack(XMaterial.BOOK.parseMaterial());
+            ItemStack unb = new ItemStack(Material.BOOK);
             ItemMeta unbMeta = unb.getItemMeta();
             unbMeta.setDisplayName(ChatColor.YELLOW + "Unbreaking §7(" + num + ")");
             unbMeta.addEnchant(Enchantment.DURABILITY, num, true);
@@ -207,7 +207,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             }
             //MENDING
             if (serverIs19()) {
-                ItemStack mend = new ItemStack(XMaterial.BOOK.parseMaterial());
+                ItemStack mend = new ItemStack(Material.BOOK);
                 ItemMeta mendMeta = mend.getItemMeta();
                 mendMeta.setDisplayName(ChatColor.YELLOW + "Mending §7(" + num + ")");
                 mendMeta.addEnchant(Enchantment.MENDING, num, true);
@@ -222,7 +222,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                 }
             }
             //SILK TOUCH
-            ItemStack silk = new ItemStack(XMaterial.DIAMOND_PICKAXE.parseMaterial());
+            ItemStack silk = new ItemStack(Material.DIAMOND_PICKAXE);
             ItemMeta silkMeta = silk.getItemMeta();
             silkMeta.setDisplayName(ChatColor.YELLOW + "Silk Touch §7(" + num + ")");
             silkMeta.addEnchant(Enchantment.SILK_TOUCH, num, true);
@@ -236,7 +236,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                 }
             }
             //EFFICIENCY
-            ItemStack eff = new ItemStack(XMaterial.DIAMOND_PICKAXE.parseMaterial());
+            ItemStack eff = new ItemStack(Material.DIAMOND_PICKAXE);
             ItemMeta effMeta = eff.getItemMeta();
             effMeta.setDisplayName(ChatColor.YELLOW + "Efficiency §7(" + num + ")");
             effMeta.addEnchant(Enchantment.DIG_SPEED, num, true);
@@ -250,7 +250,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                 }
             }
             //FORTUNE
-            ItemStack fort = new ItemStack(XMaterial.DIAMOND_PICKAXE.parseMaterial());
+            ItemStack fort = new ItemStack(Material.DIAMOND_PICKAXE);
             ItemMeta fortMeta = fort.getItemMeta();
             fortMeta.setDisplayName(ChatColor.YELLOW + "Fortune §7(" + num + ")");
             fortMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, num, true);
@@ -264,7 +264,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                 }
             }
             //POWER
-            ItemStack pow = new ItemStack(XMaterial.BOW.parseMaterial());
+            ItemStack pow = new ItemStack(Material.BOW);
             ItemMeta powMeta = pow.getItemMeta();
             powMeta.setDisplayName(ChatColor.YELLOW + "Power §7(" + num + ")");
             powMeta.addEnchant(Enchantment.ARROW_DAMAGE, num, true);
@@ -278,7 +278,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                 }
             }
             //FLAME
-            ItemStack flame = new ItemStack(XMaterial.BOW.parseMaterial());
+            ItemStack flame = new ItemStack(Material.BOW);
             ItemMeta flameMeta = flame.getItemMeta();
             flameMeta.setDisplayName(ChatColor.YELLOW + "Flame §7(" + num + ")");
             flameMeta.addEnchant(Enchantment.ARROW_FIRE, num, true);
@@ -292,7 +292,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                 }
             }
             //PUNCH
-            ItemStack pun = new ItemStack(XMaterial.BOW.parseMaterial());
+            ItemStack pun = new ItemStack(Material.BOW);
             ItemMeta punMeta = pun.getItemMeta();
             punMeta.setDisplayName(ChatColor.YELLOW + "Punch §7(" + num + ")");
             punMeta.addEnchant(Enchantment.ARROW_KNOCKBACK, num, true);
@@ -306,7 +306,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                 }
             }
             //INFINITY
-            ItemStack inf = new ItemStack(XMaterial.BOW.parseMaterial());
+            ItemStack inf = new ItemStack(Material.BOW);
             ItemMeta infMeta = inf.getItemMeta();
             infMeta.setDisplayName(ChatColor.YELLOW + "Infinity §7(" + num + ")");
             infMeta.addEnchant(Enchantment.ARROW_INFINITE, num, true);
@@ -321,7 +321,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             }
             //PIERCING
             if (serverIs114()) {
-                ItemStack pie = new ItemStack(XMaterial.CROSSBOW.parseMaterial());
+                ItemStack pie = new ItemStack(Material.CROSSBOW);
                 ItemMeta pieMeta = pie.getItemMeta();
                 pieMeta.setDisplayName(ChatColor.YELLOW + "Piercing §7(" + num + ")");
                 pieMeta.addEnchant(Enchantment.PIERCING, num, true);
@@ -337,7 +337,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             }
             //QUICKFIRE
             if (serverIs114()) {
-                ItemStack qui = new ItemStack(XMaterial.CROSSBOW.parseMaterial());
+                ItemStack qui = new ItemStack(Material.CROSSBOW);
                 ItemMeta quiMeta = qui.getItemMeta();
                 quiMeta.setDisplayName(ChatColor.YELLOW + "Quick Charge §7(" + num + ")");
                 quiMeta.addEnchant(Enchantment.QUICK_CHARGE, num, true);
@@ -353,7 +353,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             }
             //MULTISHOT
             if (serverIs114()) {
-                ItemStack mul = new ItemStack(XMaterial.CROSSBOW.parseMaterial());
+                ItemStack mul = new ItemStack(Material.CROSSBOW);
                 ItemMeta mulMeta = mul.getItemMeta();
                 mulMeta.setDisplayName(ChatColor.YELLOW + "Multishot §7(" + num + ")");
                 mulMeta.addEnchant(Enchantment.MULTISHOT, num, true);
@@ -368,7 +368,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                 }
             }
             //AQUA AFFINITY
-            ItemStack aff = new ItemStack(XMaterial.DIAMOND_HELMET.parseMaterial());
+            ItemStack aff = new ItemStack(Material.DIAMOND_HELMET);
             ItemMeta affMeta = aff.getItemMeta();
             affMeta.setDisplayName(ChatColor.YELLOW + "Aqua Affinity §7(" + num + ")");
             affMeta.addEnchant(Enchantment.WATER_WORKER, num, true);
@@ -382,7 +382,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                 }
             }
             //RESPIRATION
-            ItemStack resp = new ItemStack(XMaterial.DIAMOND_HELMET.parseMaterial());
+            ItemStack resp = new ItemStack(Material.DIAMOND_HELMET);
             ItemMeta respMeta = resp.getItemMeta();
             respMeta.setDisplayName(ChatColor.YELLOW + "Respiration §7(" + num + ")");
             respMeta.addEnchant(Enchantment.OXYGEN, num, true);
@@ -396,7 +396,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                 }
             }
             //PROTECTION
-            ItemStack prot = new ItemStack(XMaterial.DIAMOND_CHESTPLATE.parseMaterial());
+            ItemStack prot = new ItemStack(Material.DIAMOND_CHESTPLATE);
             ItemMeta protMeta = prot.getItemMeta();
             protMeta.setDisplayName(ChatColor.YELLOW + "Protection §7(" + num + ")");
             protMeta.addEnchant(Enchantment.PROTECTION_PROJECTILE, num, true);
@@ -410,7 +410,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                 }
             }
             //BLAST PROTECTION
-            ItemStack bprot = new ItemStack(XMaterial.DIAMOND_CHESTPLATE.parseMaterial());
+            ItemStack bprot = new ItemStack(Material.DIAMOND_CHESTPLATE);
             ItemMeta bprotMeta = bprot.getItemMeta();
             bprotMeta.setDisplayName(ChatColor.YELLOW + "Blast Protection §7(" + num + ")");
             bprotMeta.addEnchant(Enchantment.PROTECTION_EXPLOSIONS, num, true);
@@ -424,7 +424,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                 }
             }
             //FIRE PROTECTION
-            ItemStack fprot = new ItemStack(XMaterial.DIAMOND_CHESTPLATE.parseMaterial());
+            ItemStack fprot = new ItemStack(Material.DIAMOND_CHESTPLATE);
             ItemMeta fprotMeta = fprot.getItemMeta();
             fprotMeta.setDisplayName(ChatColor.YELLOW + "Fire Protection §7(" + num + ")");
             fprotMeta.addEnchant(Enchantment.PROTECTION_FIRE, num, true);
@@ -438,7 +438,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                 }
             }
             //PROJECTILE PROTECTION
-            ItemStack proj = new ItemStack(XMaterial.DIAMOND_CHESTPLATE.parseMaterial());
+            ItemStack proj = new ItemStack(Material.DIAMOND_CHESTPLATE);
             ItemMeta projMeta = proj.getItemMeta();
             projMeta.setDisplayName(ChatColor.YELLOW + "Projectile Protection §7(" + num + ")");
             projMeta.addEnchant(Enchantment.PROTECTION_PROJECTILE, num, true);
@@ -452,7 +452,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                 }
             }
             //FEATHER FALLING
-            ItemStack fall = new ItemStack(XMaterial.DIAMOND_BOOTS.parseMaterial());
+            ItemStack fall = new ItemStack(Material.DIAMOND_BOOTS);
             ItemMeta fallMeta = fall.getItemMeta();
             fallMeta.setDisplayName(ChatColor.YELLOW + "Feather Falling §7(" + num + ")");
             fallMeta.addEnchant(Enchantment.PROTECTION_FALL, num, true);
@@ -466,7 +466,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                 }
             }
             //THORNS
-            ItemStack thorns = new ItemStack(XMaterial.DIAMOND_BOOTS.parseMaterial());
+            ItemStack thorns = new ItemStack(Material.DIAMOND_BOOTS);
             ItemMeta thornsMeta = thorns.getItemMeta();
             thornsMeta.setDisplayName(ChatColor.YELLOW + "Thorns §7(" + num + ")");
             thornsMeta.addEnchant(Enchantment.THORNS, num, true);
@@ -480,7 +480,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                 }
             }
             //DEPTH STRIDER
-            ItemStack str = new ItemStack(XMaterial.DIAMOND_BOOTS.parseMaterial());
+            ItemStack str = new ItemStack(Material.DIAMOND_BOOTS);
             ItemMeta strMeta = str.getItemMeta();
             strMeta.setDisplayName(ChatColor.YELLOW + "Depth Strider §7(" + num + ")");
             strMeta.addEnchant(Enchantment.DEPTH_STRIDER, num, true);
@@ -496,7 +496,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             }
             //FROST WALKER
             if (serverIs19()) {
-                ItemStack fro = new ItemStack(XMaterial.DIAMOND_BOOTS.parseMaterial());
+                ItemStack fro = new ItemStack(Material.DIAMOND_BOOTS);
                 ItemMeta froMeta = fro.getItemMeta();
                 froMeta.setDisplayName(ChatColor.YELLOW + "Frost Walker §7(" + num + ")");
                 froMeta.addEnchant(Enchantment.FROST_WALKER, num, true);
@@ -512,7 +512,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             }
             //SOUL SPEED
             if (serverIs116()) {
-                ItemStack ss = new ItemStack(XMaterial.DIAMOND_BOOTS.parseMaterial());
+                ItemStack ss = new ItemStack(Material.DIAMOND_BOOTS);
                 ItemMeta ssMeta = ss.getItemMeta();
                 ssMeta.setDisplayName(ChatColor.YELLOW + "Soul Speed §7(" + num + ")");
                 ssMeta.addEnchant(Enchantment.SOUL_SPEED, num, true);
@@ -527,7 +527,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                 }
             }
             //LURE
-            ItemStack lure = new ItemStack(XMaterial.FISHING_ROD.parseMaterial());
+            ItemStack lure = new ItemStack(Material.FISHING_ROD);
             ItemMeta lureMeta = lure.getItemMeta();
             lureMeta.setDisplayName(ChatColor.YELLOW + "Lure §7(" + num + ")");
             lureMeta.addEnchant(Enchantment.LURE, num, true);
@@ -541,7 +541,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                 }
             }
             //LUCK OF THE SEA
-            ItemStack luck = new ItemStack(XMaterial.FISHING_ROD.parseMaterial());
+            ItemStack luck = new ItemStack(Material.FISHING_ROD);
             ItemMeta luckMeta = luck.getItemMeta();
             luckMeta.setDisplayName(ChatColor.YELLOW + "Luck of the Sea §7(" + num + ")");
             luckMeta.addEnchant(Enchantment.LUCK, num, true);
@@ -556,7 +556,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             }
             //CHANNELING
             if (serverIs113()) {
-                ItemStack chan = new ItemStack(XMaterial.TRIDENT.parseMaterial());
+                ItemStack chan = new ItemStack(Material.TRIDENT);
                 ItemMeta chanMeta = chan.getItemMeta();
                 chanMeta.setDisplayName(ChatColor.YELLOW + "Channeling §7(" + num + ")");
                 chanMeta.addEnchant(Enchantment.CHANNELING, num, true);
@@ -572,7 +572,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             }
             //RIPTIDE
             if (serverIs113()) {
-                ItemStack rip = new ItemStack(XMaterial.TRIDENT.parseMaterial());
+                ItemStack rip = new ItemStack(Material.TRIDENT);
                 ItemMeta ripMeta = rip.getItemMeta();
                 ripMeta.setDisplayName(ChatColor.YELLOW + "Riptide §7(" + num + ")");
                 ripMeta.addEnchant(Enchantment.RIPTIDE, num, true);
@@ -588,7 +588,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             }
             //LOYALTY
             if (serverIs113()) {
-                ItemStack loy = new ItemStack(XMaterial.TRIDENT.parseMaterial());
+                ItemStack loy = new ItemStack(Material.TRIDENT);
                 ItemMeta loyMeta = loy.getItemMeta();
                 loyMeta.setDisplayName(ChatColor.YELLOW + "Loyalty §7(" + num + ")");
                 loyMeta.addEnchant(Enchantment.LOYALTY, num, true);
@@ -604,7 +604,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             }
             //CURSE OF BINDING
             if (serverIs111()) {
-                ItemStack bind = new ItemStack(XMaterial.SLIME_BALL.parseMaterial());
+                ItemStack bind = new ItemStack(Material.SLIME_BALL);
                 ItemMeta bindMeta = bind.getItemMeta();
                 bindMeta.setDisplayName(ChatColor.RED + "Curse of Binding §7(" + num + ")");
                 bindMeta.addEnchant(Enchantment.BINDING_CURSE, num, true);
@@ -620,7 +620,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             }
             //CURSE OF VANISHING
             if (serverIs111()) {
-                ItemStack van = new ItemStack(XMaterial.ENDER_EYE.parseMaterial());
+                ItemStack van = new ItemStack(Material.ENDER_EYE);
                 ItemMeta vanMeta = van.getItemMeta();
                 vanMeta.setDisplayName(ChatColor.RED + "Curse of Vanishing §7(" + num + ")");
                 vanMeta.addEnchant(Enchantment.VANISHING_CURSE, num, true);
@@ -636,9 +636,9 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             }
         }
 
-        ItemStack close = new ItemStack(XMaterial.BARRIER.parseMaterial());
+        ItemStack close = new ItemStack(Material.BARRIER);
         ItemMeta closeMeta = close.getItemMeta();
-        ItemStack lvl = new ItemStack(XMaterial.EXPERIENCE_BOTTLE.parseMaterial());
+        ItemStack lvl = new ItemStack(Material.EXPERIENCE_BOTTLE);
         ItemMeta lvlMeta = lvl.getItemMeta();
 
         closeMeta.setDisplayName(ChatColor.RED + "Close");
@@ -662,35 +662,35 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
         Inventory inv = Bukkit.createInventory(null, 54, "Unsafe Enchantment Menu");
 
         //SHARPNESS
-        ItemStack sharp = new ItemStack(XMaterial.DIAMOND_SWORD.parseMaterial());
+        ItemStack sharp = new ItemStack(Material.DIAMOND_SWORD);
         ItemMeta sharpMeta = sharp.getItemMeta();
         sharpMeta.setDisplayName(ChatColor.YELLOW + "Sharpness §7(" + num + ")");
         sharpMeta.addEnchant(Enchantment.DAMAGE_ALL, num, true);
         sharp.setItemMeta(sharpMeta);
         inv.addItem(sharp);
         //SMITE
-        ItemStack smite = new ItemStack(XMaterial.DIAMOND_SWORD.parseMaterial());
+        ItemStack smite = new ItemStack(Material.DIAMOND_SWORD);
         ItemMeta smiteMeta = smite.getItemMeta();
         smiteMeta.setDisplayName(ChatColor.YELLOW + "Smite §7(" + num + ")");
         smiteMeta.addEnchant(Enchantment.DAMAGE_UNDEAD, num, true);
         smite.setItemMeta(smiteMeta);
         inv.addItem(smite);
         //BANE OF ARTHROPODS
-        ItemStack bane = new ItemStack(XMaterial.DIAMOND_SWORD.parseMaterial());
+        ItemStack bane = new ItemStack(Material.DIAMOND_SWORD);
         ItemMeta baneMeta = bane.getItemMeta();
         baneMeta.setDisplayName(ChatColor.YELLOW + "Bane of Arthropods §7(" + num + ")");
         baneMeta.addEnchant(Enchantment.DAMAGE_ARTHROPODS, num, true);
         bane.setItemMeta(baneMeta);
         inv.addItem(bane);
         //KNOCKBACK
-        ItemStack knock = new ItemStack(XMaterial.DIAMOND_SWORD.parseMaterial());
+        ItemStack knock = new ItemStack(Material.DIAMOND_SWORD);
         ItemMeta knockMeta = knock.getItemMeta();
         knockMeta.setDisplayName(ChatColor.YELLOW + "Knockback §7(" + num + ")");
         knockMeta.addEnchant(Enchantment.KNOCKBACK, num, true);
         knock.setItemMeta(knockMeta);
         inv.addItem(knock);
         //FIRE ASPECT
-        ItemStack fire = new ItemStack(XMaterial.DIAMOND_SWORD.parseMaterial());
+        ItemStack fire = new ItemStack(Material.DIAMOND_SWORD);
         ItemMeta fireMeta = fire.getItemMeta();
         fireMeta.setDisplayName(ChatColor.YELLOW + "Fire Aspect §7(" + num + ")");
         fireMeta.addEnchant(Enchantment.FIRE_ASPECT, num, true);
@@ -698,7 +698,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
         inv.addItem(fire);
         //SWEEPING EDGE
         if (serverIs1111()) {
-            ItemStack sweep = new ItemStack(XMaterial.DIAMOND_SWORD.parseMaterial());
+            ItemStack sweep = new ItemStack(Material.DIAMOND_SWORD);
             ItemMeta sweepMeta = sweep.getItemMeta();
             sweepMeta.setDisplayName(ChatColor.YELLOW + "Sweeping Edge §7(" + num + ")");
             sweepMeta.addEnchant(Enchantment.SWEEPING_EDGE, num, true);
@@ -706,14 +706,14 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             inv.addItem(sweep);
         }
         //LOOTING
-        ItemStack loot = new ItemStack(XMaterial.DIAMOND_SWORD.parseMaterial());
+        ItemStack loot = new ItemStack(Material.DIAMOND_SWORD);
         ItemMeta lootMeta = loot.getItemMeta();
         lootMeta.setDisplayName(ChatColor.YELLOW + "Looting §7(" + num + ")");
         lootMeta.addEnchant(Enchantment.LOOT_BONUS_MOBS, num, true);
         loot.setItemMeta(lootMeta);
         inv.addItem(loot);
         //UNBREAKING
-        ItemStack unb = new ItemStack(XMaterial.BOOK.parseMaterial());
+        ItemStack unb = new ItemStack(Material.BOOK);
         ItemMeta unbMeta = unb.getItemMeta();
         unbMeta.setDisplayName(ChatColor.YELLOW + "Unbreaking §7(" + num + ")");
         unbMeta.addEnchant(Enchantment.DURABILITY, num, true);
@@ -721,7 +721,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
         inv.addItem(unb);
         //MENDING
         if (serverIs19()) {
-            ItemStack mend = new ItemStack(XMaterial.BOOK.parseMaterial());
+            ItemStack mend = new ItemStack(Material.BOOK);
             ItemMeta mendMeta = mend.getItemMeta();
             mendMeta.setDisplayName(ChatColor.YELLOW + "Mending §7(" + num + ")");
             mendMeta.addEnchant(Enchantment.MENDING, num, true);
@@ -729,49 +729,49 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             inv.addItem(mend);
         }
         //SILK TOUCH
-        ItemStack silk = new ItemStack(XMaterial.DIAMOND_PICKAXE.parseMaterial());
+        ItemStack silk = new ItemStack(Material.DIAMOND_PICKAXE);
         ItemMeta silkMeta = silk.getItemMeta();
         silkMeta.setDisplayName(ChatColor.YELLOW + "Silk Touch §7(" + num + ")");
         silkMeta.addEnchant(Enchantment.SILK_TOUCH, num, true);
         silk.setItemMeta(silkMeta);
         inv.addItem(silk);
         //EFFICIENCY
-        ItemStack eff = new ItemStack(XMaterial.DIAMOND_PICKAXE.parseMaterial());
+        ItemStack eff = new ItemStack(Material.DIAMOND_PICKAXE);
         ItemMeta effMeta = eff.getItemMeta();
         effMeta.setDisplayName(ChatColor.YELLOW + "Efficiency §7(" + num + ")");
         effMeta.addEnchant(Enchantment.DIG_SPEED, num, true);
         eff.setItemMeta(effMeta);
         inv.addItem(eff);
         //FORTUNE
-        ItemStack fort = new ItemStack(XMaterial.DIAMOND_PICKAXE.parseMaterial());
+        ItemStack fort = new ItemStack(Material.DIAMOND_PICKAXE);
         ItemMeta fortMeta = fort.getItemMeta();
         fortMeta.setDisplayName(ChatColor.YELLOW + "Fortune §7(" + num + ")");
         fortMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, num, true);
         fort.setItemMeta(fortMeta);
         inv.addItem(fort);
         //POWER
-        ItemStack pow = new ItemStack(XMaterial.BOW.parseMaterial());
+        ItemStack pow = new ItemStack(Material.BOW);
         ItemMeta powMeta = pow.getItemMeta();
         powMeta.setDisplayName(ChatColor.YELLOW + "Power §7(" + num + ")");
         powMeta.addEnchant(Enchantment.ARROW_DAMAGE, num, true);
         pow.setItemMeta(powMeta);
         inv.addItem(pow);
         //FLAME
-        ItemStack flame = new ItemStack(XMaterial.BOW.parseMaterial());
+        ItemStack flame = new ItemStack(Material.BOW);
         ItemMeta flameMeta = flame.getItemMeta();
         flameMeta.setDisplayName(ChatColor.YELLOW + "Flame §7(" + num + ")");
         flameMeta.addEnchant(Enchantment.ARROW_FIRE, num, true);
         flame.setItemMeta(flameMeta);
         inv.addItem(flame);
         //PUNCH
-        ItemStack pun = new ItemStack(XMaterial.BOW.parseMaterial());
+        ItemStack pun = new ItemStack(Material.BOW);
         ItemMeta punMeta = pun.getItemMeta();
         punMeta.setDisplayName(ChatColor.YELLOW + "Punch §7(" + num + ")");
         punMeta.addEnchant(Enchantment.ARROW_KNOCKBACK, num, true);
         pun.setItemMeta(punMeta);
         inv.addItem(pun);
         //INFINITY
-        ItemStack inf = new ItemStack(XMaterial.BOW.parseMaterial());
+        ItemStack inf = new ItemStack(Material.BOW);
         ItemMeta infMeta = inf.getItemMeta();
         infMeta.setDisplayName(ChatColor.YELLOW + "Infinity §7(" + num + ")");
         infMeta.addEnchant(Enchantment.ARROW_INFINITE, num, true);
@@ -779,7 +779,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
         inv.addItem(inf);
         //PIERCING
         if (serverIs114()) {
-            ItemStack pie = new ItemStack(XMaterial.CROSSBOW.parseMaterial());
+            ItemStack pie = new ItemStack(Material.CROSSBOW);
             ItemMeta pieMeta = pie.getItemMeta();
             pieMeta.setDisplayName(ChatColor.YELLOW + "Piercing §7(" + num + ")");
             pieMeta.addEnchant(Enchantment.PIERCING, num, true);
@@ -788,7 +788,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
         }
         //QUICKFIRE
         if (serverIs114()) {
-            ItemStack qui = new ItemStack(XMaterial.CROSSBOW.parseMaterial());
+            ItemStack qui = new ItemStack(Material.CROSSBOW);
             ItemMeta quiMeta = qui.getItemMeta();
             quiMeta.setDisplayName(ChatColor.YELLOW + "Quick Charge §7(" + num + ")");
             quiMeta.addEnchant(Enchantment.QUICK_CHARGE, num, true);
@@ -797,7 +797,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
         }
         //MULTISHOT
         if (serverIs114()) {
-            ItemStack mul = new ItemStack(XMaterial.CROSSBOW.parseMaterial());
+            ItemStack mul = new ItemStack(Material.CROSSBOW);
             ItemMeta mulMeta = mul.getItemMeta();
             mulMeta.setDisplayName(ChatColor.YELLOW + "Multishot §7(" + num + ")");
             mulMeta.addEnchant(Enchantment.MULTISHOT, num, true);
@@ -805,63 +805,63 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             inv.addItem(mul);
         }
         //AQUA AFFINITY
-        ItemStack aff = new ItemStack(XMaterial.DIAMOND_HELMET.parseMaterial());
+        ItemStack aff = new ItemStack(Material.DIAMOND_HELMET);
         ItemMeta affMeta = aff.getItemMeta();
         affMeta.setDisplayName(ChatColor.YELLOW + "Aqua Affinity §7(" + num + ")");
         affMeta.addEnchant(Enchantment.WATER_WORKER, num, true);
         aff.setItemMeta(affMeta);
         inv.addItem(aff);
         //RESPIRATION
-        ItemStack resp = new ItemStack(XMaterial.DIAMOND_HELMET.parseMaterial());
+        ItemStack resp = new ItemStack(Material.DIAMOND_HELMET);
         ItemMeta respMeta = resp.getItemMeta();
         respMeta.setDisplayName(ChatColor.YELLOW + "Respiration §7(" + num + ")");
         respMeta.addEnchant(Enchantment.OXYGEN, num, true);
         resp.setItemMeta(respMeta);
         inv.addItem(resp);
         //PROTECTION
-        ItemStack prot = new ItemStack(XMaterial.DIAMOND_CHESTPLATE.parseMaterial());
+        ItemStack prot = new ItemStack(Material.DIAMOND_CHESTPLATE);
         ItemMeta protMeta = prot.getItemMeta();
         protMeta.setDisplayName(ChatColor.YELLOW + "Protection §7(" + num + ")");
         protMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, num, true);
         prot.setItemMeta(protMeta);
         inv.addItem(prot);
         //BLAST PROTECTION
-        ItemStack bprot = new ItemStack(XMaterial.DIAMOND_CHESTPLATE.parseMaterial());
+        ItemStack bprot = new ItemStack(Material.DIAMOND_CHESTPLATE);
         ItemMeta bprotMeta = bprot.getItemMeta();
         bprotMeta.setDisplayName(ChatColor.YELLOW + "Blast Protection §7(" + num + ")");
         bprotMeta.addEnchant(Enchantment.PROTECTION_EXPLOSIONS, num, true);
         bprot.setItemMeta(bprotMeta);
         inv.addItem(bprot);
         //FIRE PROTECTION
-        ItemStack fprot = new ItemStack(XMaterial.DIAMOND_CHESTPLATE.parseMaterial());
+        ItemStack fprot = new ItemStack(Material.DIAMOND_CHESTPLATE);
         ItemMeta fprotMeta = fprot.getItemMeta();
         fprotMeta.setDisplayName(ChatColor.YELLOW + "Fire Protection §7(" + num + ")");
         fprotMeta.addEnchant(Enchantment.PROTECTION_FIRE, num, true);
         fprot.setItemMeta(fprotMeta);
         inv.addItem(fprot);
         //PROJECTILE PROTECTION
-        ItemStack proj = new ItemStack(XMaterial.DIAMOND_CHESTPLATE.parseMaterial());
+        ItemStack proj = new ItemStack(Material.DIAMOND_CHESTPLATE);
         ItemMeta projMeta = proj.getItemMeta();
         projMeta.setDisplayName(ChatColor.YELLOW + "Projectile Protection §7(" + num + ")");
         projMeta.addEnchant(Enchantment.PROTECTION_PROJECTILE, num, true);
         proj.setItemMeta(projMeta);
         inv.addItem(proj);
         //FEATHER FALLING
-        ItemStack fall = new ItemStack(XMaterial.DIAMOND_BOOTS.parseMaterial());
+        ItemStack fall = new ItemStack(Material.DIAMOND_BOOTS);
         ItemMeta fallMeta = fall.getItemMeta();
         fallMeta.setDisplayName(ChatColor.YELLOW + "Feather Falling §7(" + num + ")");
         fallMeta.addEnchant(Enchantment.PROTECTION_FALL, num, true);
         fall.setItemMeta(fallMeta);
         inv.addItem(fall);
         //THORNS
-        ItemStack thorns = new ItemStack(XMaterial.DIAMOND_BOOTS.parseMaterial());
+        ItemStack thorns = new ItemStack(Material.DIAMOND_BOOTS);
         ItemMeta thornsMeta = thorns.getItemMeta();
         thornsMeta.setDisplayName(ChatColor.YELLOW + "Thorns §7(" + num + ")");
         thornsMeta.addEnchant(Enchantment.THORNS, num, true);
         thorns.setItemMeta(thornsMeta);
         inv.addItem(thorns);
         //DEPTH STRIDER
-        ItemStack str = new ItemStack(XMaterial.DIAMOND_BOOTS.parseMaterial());
+        ItemStack str = new ItemStack(Material.DIAMOND_BOOTS);
         ItemMeta strMeta = str.getItemMeta();
         strMeta.setDisplayName(ChatColor.YELLOW + "Depth Strider §7(" + num + ")");
         strMeta.addEnchant(Enchantment.DEPTH_STRIDER, num, true);
@@ -869,7 +869,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
         inv.addItem(str);
         //FROST WALKER
         if (serverIs19()) {
-            ItemStack fro = new ItemStack(XMaterial.DIAMOND_BOOTS.parseMaterial());
+            ItemStack fro = new ItemStack(Material.DIAMOND_BOOTS);
             ItemMeta froMeta = fro.getItemMeta();
             froMeta.setDisplayName(ChatColor.YELLOW + "Frost Walker §7(" + num + ")");
             froMeta.addEnchant(Enchantment.FROST_WALKER, num, true);
@@ -878,7 +878,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
         }
         //SOUL SPEED
         if (serverIs116()) {
-            ItemStack ss = new ItemStack(XMaterial.DIAMOND_BOOTS.parseMaterial());
+            ItemStack ss = new ItemStack(Material.DIAMOND_BOOTS);
             ItemMeta ssMeta = ss.getItemMeta();
             ssMeta.setDisplayName(ChatColor.YELLOW + "Soul Speed §7(" + num + ")");
             ssMeta.addEnchant(Enchantment.SOUL_SPEED, num, true);
@@ -886,14 +886,14 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             inv.addItem(ss);
         }
         //LURE
-        ItemStack lure = new ItemStack(XMaterial.FISHING_ROD.parseMaterial());
+        ItemStack lure = new ItemStack(Material.FISHING_ROD);
         ItemMeta lureMeta = lure.getItemMeta();
         lureMeta.setDisplayName(ChatColor.YELLOW + "Lure §7(" + num + ")");
         lureMeta.addEnchant(Enchantment.LURE, num, true);
         lure.setItemMeta(lureMeta);
         inv.addItem(lure);
         //LUCK OF THE SEA
-        ItemStack luck = new ItemStack(XMaterial.FISHING_ROD.parseMaterial());
+        ItemStack luck = new ItemStack(Material.FISHING_ROD);
         ItemMeta luckMeta = luck.getItemMeta();
         luckMeta.setDisplayName(ChatColor.YELLOW + "Luck of the Sea §7(" + num + ")");
         luckMeta.addEnchant(Enchantment.LUCK, num, true);
@@ -901,7 +901,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
         inv.addItem(luck);
         //CHANNELING
         if (serverIs113()) {
-            ItemStack chan = new ItemStack(XMaterial.TRIDENT.parseMaterial());
+            ItemStack chan = new ItemStack(Material.TRIDENT);
             ItemMeta chanMeta = chan.getItemMeta();
             chanMeta.setDisplayName(ChatColor.YELLOW + "Channeling §7(" + num + ")");
             chanMeta.addEnchant(Enchantment.CHANNELING, num, true);
@@ -910,7 +910,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
         }
         //RIPTIDE
         if (serverIs113()) {
-            ItemStack rip = new ItemStack(XMaterial.TRIDENT.parseMaterial());
+            ItemStack rip = new ItemStack(Material.TRIDENT);
             ItemMeta ripMeta = rip.getItemMeta();
             ripMeta.setDisplayName(ChatColor.YELLOW + "Riptide §7(" + num + ")");
             ripMeta.addEnchant(Enchantment.RIPTIDE, num, true);
@@ -919,7 +919,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
         }
         //LOYALTY
         if (serverIs113()) {
-            ItemStack loy = new ItemStack(XMaterial.TRIDENT.parseMaterial());
+            ItemStack loy = new ItemStack(Material.TRIDENT);
             ItemMeta loyMeta = loy.getItemMeta();
             loyMeta.setDisplayName(ChatColor.YELLOW + "Loyalty §7(" + num + ")");
             loyMeta.addEnchant(Enchantment.LOYALTY, num, true);
@@ -928,7 +928,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
         }
         //CURSE OF BINDING
         if (serverIs111()) {
-            ItemStack bind = new ItemStack(XMaterial.SLIME_BALL.parseMaterial());
+            ItemStack bind = new ItemStack(Material.SLIME_BALL);
             ItemMeta bindMeta = bind.getItemMeta();
             bindMeta.setDisplayName(ChatColor.RED + "Curse of Binding §7(" + num + ")");
             bindMeta.addEnchant(Enchantment.BINDING_CURSE, num, true);
@@ -937,7 +937,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
         }
         //CURSE OF VANISHING
         if (serverIs111()) {
-            ItemStack van = new ItemStack(XMaterial.ENDER_EYE.parseMaterial());
+            ItemStack van = new ItemStack(Material.ENDER_EYE);
             ItemMeta vanMeta = van.getItemMeta();
             vanMeta.setDisplayName(ChatColor.RED + "Curse of Vanishing §7(" + num + ")");
             vanMeta.addEnchant(Enchantment.VANISHING_CURSE, num, true);
@@ -945,9 +945,9 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             inv.addItem(van);
         }
 
-        ItemStack close = new ItemStack(XMaterial.BARRIER.parseMaterial());
+        ItemStack close = new ItemStack(Material.BARRIER);
         ItemMeta closeMeta = close.getItemMeta();
-        ItemStack lvl = new ItemStack(XMaterial.EXPERIENCE_BOTTLE.parseMaterial());
+        ItemStack lvl = new ItemStack(Material.EXPERIENCE_BOTTLE);
         ItemMeta lvlMeta = lvl.getItemMeta();
 
         closeMeta.setDisplayName(ChatColor.RED + "Close");
@@ -977,20 +977,20 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
         if (event.getInventory().getHolder()==null) {
             event.setCancelled(true);
     
-            if (event.getCurrentItem() == null || event.getCurrentItem().getType() == XMaterial.AIR.parseMaterial()) {
+            if (event.getCurrentItem() == null || event.getCurrentItem().getType() == Material.AIR) {
                 return;
             }
-            if (player.getInventory().getItemInHand().getType() == XMaterial.AIR.parseMaterial()) {
+            if (player.getInventory().getItemInHand().getType() == Material.AIR) {
                 return;
             }
             Map<Enchantment, Integer> itemEnchants = player.getInventory().getItemInHand().getItemMeta().getEnchants();
     
             if (event.getClickedInventory().getType().equals(InventoryType.CHEST)) {
         
-                if (event.getCurrentItem().getType() != XMaterial.BARRIER.parseMaterial() && event.getCurrentItem().getType() != XMaterial.EXPERIENCE_BOTTLE.parseMaterial()) {
+                if (event.getCurrentItem().getType() != Material.BARRIER && event.getCurrentItem().getType() != Material.EXPERIENCE_BOTTLE) {
                     if (event.getCurrentItem().hasItemMeta()) {
                         if (event.getCurrentItem().getItemMeta().hasDisplayName()) {
-                            if (player.getInventory().getItemInHand().getType() != XMaterial.AIR.parseMaterial()) {
+                            if (player.getInventory().getItemInHand().getType() != Material.AIR) {
                         
                                 for (Enchantment enchantment : event.getCurrentItem().getItemMeta().getEnchants().keySet()) {
                                     for (Enchantment ench : itemEnchants.keySet()) {
@@ -1020,7 +1020,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                     }
                 }
         
-                switch (XMaterial.matchXMaterial(event.getCurrentItem())) {
+                switch (event.getCurrentItem().getType()) {
                     case BARRIER:
                         player.closeInventory();
                         break;

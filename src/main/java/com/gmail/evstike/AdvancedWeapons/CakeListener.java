@@ -2,6 +2,7 @@ package com.gmail.evstike.AdvancedWeapons;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -60,7 +61,7 @@ public class CakeListener implements Listener {
             List<String> Lore = new ArrayList<String>();
             if (p.getItemInHand().containsEnchantment(Enchantment.SILK_TOUCH)) {
                 if (event.getBlock().getType().name().contains("CAKE")) {
-                    ItemStack cake = new ItemStack(XMaterial.CAKE.parseItem());
+                    ItemStack cake = new ItemStack(Material.CAKE);
                     ItemMeta cakeMeta = cake.getItemMeta();
                     int c = event.getBlock().getData();
                     if (c > 0) {

@@ -52,14 +52,14 @@ public class WeaponFunctions extends API implements Listener {
                 }
             }
     
-            if (i.getType().equals(XMaterial.DIAMOND_SWORD.parseMaterial())) {
+            if (i.getType().equals(Material.DIAMOND_SWORD)) {
                 if (im.hasDisplayName()) {
                     if (im.getDisplayName().equals(ChatColor.RED + "The Destroyer")) {
                         p.getWorld().playEffect(p.getLocation(), Effect.MOBSPAWNER_FLAMES, 0);
                     }
                 }
             }
-            if (i.getType().equals(XMaterial.DIAMOND_AXE.parseMaterial())) {
+            if (i.getType().equals(Material.DIAMOND_AXE)) {
                 if (im.hasDisplayName()) {
                     if (im.getDisplayName().equals(ChatColor.RED + "The Slayer")) {
                         if (p.getHealth() <= 5) {
@@ -67,12 +67,12 @@ public class WeaponFunctions extends API implements Listener {
                                 p.spawnParticle(Particle.HEART, p.getLocation(), 1);
                             }
                             p.setHealth(p.getHealth() + 2);
-                            if (i.getDurability() <= XMaterial.DIAMOND_AXE.parseMaterial().getMaxDurability() - 25) {
+                            if (i.getDurability() <= Material.DIAMOND_AXE.getMaxDurability() - 25) {
                                 short id = (short) ((short) i.getDurability() + 25);
                                 i.setDurability(id);
                             }
-                            if (i.getDurability() > XMaterial.DIAMOND_AXE.parseMaterial().getMaxDurability() - 25) {
-                                ItemStack a = new ItemStack(XMaterial.AIR.parseMaterial(), 1);
+                            if (i.getDurability() > Material.DIAMOND_AXE.getMaxDurability() - 25) {
+                                ItemStack a = new ItemStack(Material.AIR, 1);
                                 p.getInventory().setItem(p.getInventory().getHeldItemSlot(), a);
                             }
                             if (conf.getString("weapon.the-slayer.msg").equals("actionbar")) {
@@ -89,7 +89,7 @@ public class WeaponFunctions extends API implements Listener {
                 }
             }
             if (p.isSneaking()) {
-                if (i.getType().equals(XMaterial.STICK.parseMaterial())) {
+                if (i.getType().equals(Material.STICK)) {
                     if (im.hasDisplayName()) {
                         if (im.getDisplayName().equals(ChatColor.RED + "The Dropper")) {
                             event.setCancelled(true);
@@ -109,7 +109,7 @@ public class WeaponFunctions extends API implements Listener {
                                     if (ammo == 1) {
                                         ShulkerBullet bullet2 = p.getWorld().spawn(loc, ShulkerBullet.class);
                                         bullet2.setShooter(p);
-                                        ItemStack b = new ItemStack(XMaterial.STICK.parseMaterial(), 1);
+                                        ItemStack b = new ItemStack(Material.STICK, 1);
                                         ItemMeta bMeta = b.getItemMeta();
                                         bMeta.setDisplayName(ChatColor.RED + "The Dropper");
                                         lore.set(0, "§71");
@@ -117,10 +117,10 @@ public class WeaponFunctions extends API implements Listener {
                                         b.setItemMeta(bMeta);
                                         p.getInventory().removeItem(b);
                                         if (p.getItemInHand() != null) {
-                                            if (p.getItemInHand().getType() == XMaterial.STICK.parseMaterial()) {
+                                            if (p.getItemInHand().getType() == Material.STICK) {
                                                 if (p.getItemInHand().hasItemMeta()) {
                                                     int am2 = i.getAmount();
-                                                    ItemStack b2 = new ItemStack(XMaterial.STICK.parseMaterial(), am2);
+                                                    ItemStack b2 = new ItemStack(Material.STICK, am2);
                                                     ItemMeta b2Meta = b2.getItemMeta();
                                                     b2Meta.setDisplayName(ChatColor.RED + "The Dropper");
                                                     lore.set(0, "§75");
@@ -147,7 +147,7 @@ public class WeaponFunctions extends API implements Listener {
                 }
             }
             if (p.isSneaking()) {
-                if (i.getType().equals(XMaterial.BLAZE_ROD.parseMaterial())) {
+                if (i.getType().equals(Material.BLAZE_ROD)) {
                     if (im.hasDisplayName()) {
                         if (im.getDisplayName().equals(ChatColor.RED + "Fireball Launcher")) {
                             event.setCancelled(true);
@@ -175,7 +175,7 @@ public class WeaponFunctions extends API implements Listener {
                                     }
     
                                     if (ammo == 1) {
-                                        ItemStack b = new ItemStack(XMaterial.BLAZE_ROD.parseMaterial(), 1);
+                                        ItemStack b = new ItemStack(Material.BLAZE_ROD, 1);
                                         ItemMeta bMeta = b.getItemMeta();
                                         bMeta.setDisplayName(ChatColor.RED + "Fireball Launcher");
                                         lore.set(0, "§71");
@@ -183,10 +183,10 @@ public class WeaponFunctions extends API implements Listener {
                                         b.setItemMeta(bMeta);
                                         p.getInventory().removeItem(b);
                                         if (p.getItemInHand() != null) {
-                                            if (p.getItemInHand().getType() == XMaterial.BLAZE_ROD.parseMaterial()) {
+                                            if (p.getItemInHand().getType() == Material.BLAZE_ROD) {
                                                 if (p.getItemInHand().hasItemMeta()) {
                                                     int am2 = i.getAmount();
-                                                    ItemStack b2 = new ItemStack(XMaterial.BLAZE_ROD.parseMaterial(), am2);
+                                                    ItemStack b2 = new ItemStack(Material.BLAZE_ROD, am2);
                                                     ItemMeta b2Meta = b2.getItemMeta();
                                                     b2Meta.setDisplayName(ChatColor.RED + "Fireball Launcher");
                                                     lore.set(0, "§75");
@@ -213,7 +213,7 @@ public class WeaponFunctions extends API implements Listener {
                 }
             }
         }
-        if (i.getType().equals(XMaterial.LEAD.parseMaterial())) {
+        if (i.getType().equals(Material.LEAD)) {
             if (im.hasDisplayName()) {
                 if (im.getDisplayName().equals(ChatColor.RED + "Spirit Leash")) {
                     event.setCancelled(true);
@@ -238,7 +238,7 @@ public class WeaponFunctions extends API implements Listener {
                             }
                             
                             if (ammo == 1) {
-                                ItemStack b = new ItemStack(XMaterial.LEAD.parseMaterial(), 1);
+                                ItemStack b = new ItemStack(Material.LEAD, 1);
                                 ItemMeta bMeta = b.getItemMeta();
                                 bMeta.setDisplayName(ChatColor.RED + "Spirit Leash");
                                 lore.set(0, "§71");
@@ -246,10 +246,10 @@ public class WeaponFunctions extends API implements Listener {
                                 b.setItemMeta(bMeta);
                                 p.getInventory().removeItem(b);
                                 if (p.getItemInHand() != null) {
-                                    if (p.getItemInHand().getType() == XMaterial.LEAD.parseMaterial()) {
+                                    if (p.getItemInHand().getType() == Material.LEAD) {
                                         if (p.getItemInHand().hasItemMeta()) {
                                             int am2 = i.getAmount();
-                                            ItemStack b2 = new ItemStack(XMaterial.LEAD.parseMaterial(), am2);
+                                            ItemStack b2 = new ItemStack(Material.LEAD, am2);
                                             ItemMeta b2Meta = b2.getItemMeta();
                                             b2Meta.setDisplayName(ChatColor.RED + "Spirit Leash");
                                             lore.set(0, "§73");
@@ -276,13 +276,13 @@ public class WeaponFunctions extends API implements Listener {
             ItemStack i = p.getInventory().getItemInHand();
             ItemMeta im = i.getItemMeta();
     
-            if (i.getType().equals(XMaterial.BONE.parseMaterial())) {
+            if (i.getType().equals(Material.BONE)) {
                 if (im.hasDisplayName()) {
                     if (im.getDisplayName().equals(ChatColor.RED + "The Skeletal Sword")) {
                         if (serverIs19()) {
                             p.getWorld().spawnParticle(Particle.SPELL, mob.getLocation(), 20);
                         }
-                        ItemStack pump = new ItemStack(XMaterial.PUMPKIN.parseMaterial());
+                        ItemStack pump = new ItemStack(Material.PUMPKIN);
                         mob.getWorld().dropItem(mob.getLocation(), pump);
                     }
                     if (im.hasLore()) {
@@ -298,7 +298,7 @@ public class WeaponFunctions extends API implements Listener {
                             }
     
                             if (ammo == 1) {
-                                ItemStack b = new ItemStack(XMaterial.BONE.parseMaterial(), 1);
+                                ItemStack b = new ItemStack(Material.BONE, 1);
                                 ItemMeta bMeta = b.getItemMeta();
                                 bMeta.setDisplayName(ChatColor.RED + "The Skeletal Sword");
                                 lore.set(0, "§71");
@@ -306,10 +306,10 @@ public class WeaponFunctions extends API implements Listener {
                                 b.setItemMeta(bMeta);
                                 p.getInventory().removeItem(b);
                                 if (p.getItemInHand() != null) {
-                                    if (p.getItemInHand().getType() == XMaterial.BONE.parseMaterial()) {
+                                    if (p.getItemInHand().getType() == Material.BONE) {
                                         if (p.getItemInHand().hasItemMeta()) {
                                             int am2 = i.getAmount();
-                                            ItemStack b2 = new ItemStack(XMaterial.BONE.parseMaterial(), am2);
+                                            ItemStack b2 = new ItemStack(Material.BONE, am2);
                                             ItemMeta b2Meta = b2.getItemMeta();
                                             b2Meta.setDisplayName(ChatColor.RED + "The Skeletal Sword");
                                             lore.set(0, "§75");
@@ -342,7 +342,7 @@ public class WeaponFunctions extends API implements Listener {
             Snowball e = (Snowball) event.getEntity();
             if (e.getShooter() instanceof Player) {
                 Player p = (Player) e.getShooter();
-                if (p.getInventory().getItemInHand().getType() == XMaterial.SNOWBALL.parseMaterial()) {
+                if (p.getInventory().getItemInHand().getType() == Material.SNOWBALL) {
                     if (p.getInventory().getItemInHand().hasItemMeta()) {
                         if (p.getInventory().getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.RED + "Ice Chunk")) {
                             if (!lsnowball.contains(e.getUniqueId())) {
@@ -368,7 +368,7 @@ public class WeaponFunctions extends API implements Listener {
                     if (lsnowball.contains(ent.getUniqueId())) {
                         e.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 40, 2));
                         if (serverIs113()) {
-                            BlockData fallingDustData = Material.matchMaterial(XMaterial.SNOW_BLOCK.parseMaterial().toString()).createBlockData();
+                            BlockData fallingDustData = Material.matchMaterial(Material.SNOW_BLOCK.toString()).createBlockData();
                             e.getWorld().spawnParticle(Particle.FALLING_DUST, e.getEyeLocation(), 10, 0.3, 0.3, 0.3, fallingDustData);
                         }
                         lsnowball.remove(ent.getUniqueId());

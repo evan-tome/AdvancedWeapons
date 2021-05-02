@@ -60,7 +60,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
     //MAIN
     public Inventory i() {
         Inventory i = Bukkit.createInventory(null, 9, "CE Editor");
-        ItemStack c = new ItemStack(XMaterial.PAPER.parseMaterial());
+        ItemStack c = new ItemStack(Material.PAPER);
         ItemMeta cMeta = c.getItemMeta();
         cMeta.setDisplayName("§bCreate New Enchantment");
         c.setItemMeta(cMeta);

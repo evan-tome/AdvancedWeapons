@@ -257,7 +257,7 @@ public class API implements InventoryHolder {
     }
     
     public ItemStack autominer() {
-        ItemStack autominer = new ItemStack(XMaterial.HOPPER.parseMaterial());
+        ItemStack autominer = new ItemStack(Material.HOPPER);
         ItemMeta autominerMeta = autominer.getItemMeta();
         autominerMeta.setDisplayName("§bAutoMiner");
         autominer.setItemMeta(autominerMeta);
@@ -266,7 +266,7 @@ public class API implements InventoryHolder {
     
     public ItemStack dust(List<String> s) {
         List<String> Lore = new ArrayList();
-        ItemStack glow = new ItemStack(XMaterial.GUNPOWDER.parseMaterial(), 1);
+        ItemStack glow = new ItemStack(Material.GUNPOWDER, 1);
         ItemMeta glowMeta = glow.getItemMeta();
         glowMeta.setDisplayName(ChatColor.GREEN + "Dust");
         for (String l : s) {
@@ -280,7 +280,7 @@ public class API implements InventoryHolder {
     
     public ItemStack dustold() {
         List<String> Lore = new ArrayList();
-        ItemStack glow = new ItemStack(XMaterial.GUNPOWDER.parseMaterial(), 1);
+        ItemStack glow = new ItemStack(Material.GUNPOWDER, 1);
         ItemMeta glowMeta = glow.getItemMeta();
         glowMeta.setDisplayName(ChatColor.GREEN + "Dust");
         Lore.add("§7This Dust has magical properties");
@@ -291,7 +291,7 @@ public class API implements InventoryHolder {
     }
     
     public ItemStack back() {
-        ItemStack back = new ItemStack(XMaterial.ARROW.parseItem());
+        ItemStack back = new ItemStack(Material.ARROW);
         ItemMeta backMeta = back.getItemMeta();
         backMeta.setDisplayName(ChatColor.GREEN + "Back");
         back.setItemMeta(backMeta);

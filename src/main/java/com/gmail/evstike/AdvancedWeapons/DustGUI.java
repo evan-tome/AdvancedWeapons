@@ -147,15 +147,15 @@ public class DustGUI extends API implements CommandExecutor, Listener {
         
         Inventory inv = Bukkit.createInventory(null, 9, "Dust Bank");
         int quant = plugin.getConfig().getInt("dust-trade");
-        ItemStack gun = new ItemStack(XMaterial.GUNPOWDER.parseMaterial());
+        ItemStack gun = new ItemStack(Material.GUNPOWDER);
         ItemMeta gunMeta = gun.getItemMeta();
-        ItemStack glow = new ItemStack(XMaterial.SUNFLOWER.parseMaterial());
+        ItemStack glow = new ItemStack(Material.SUNFLOWER);
         ItemMeta glowMeta = glow.getItemMeta();
-        ItemStack chest = new ItemStack(XMaterial.CHEST.parseMaterial());
+        ItemStack chest = new ItemStack(Material.CHEST);
         ItemMeta chestMeta = chest.getItemMeta();
-        ItemStack blaze = new ItemStack(XMaterial.GLASS_BOTTLE.parseMaterial());
+        ItemStack blaze = new ItemStack(Material.GLASS_BOTTLE);
         ItemMeta blazeMeta = blaze.getItemMeta();
-        ItemStack mat = new ItemStack(XMaterial.matchXMaterial(plugin.getConfig().getString("dust-material")).get().parseMaterial());
+        ItemStack mat = new ItemStack(Material.matchMaterial(plugin.getConfig().getString("dust-material")));
         ItemMeta matMeta = mat.getItemMeta();
         mat.setAmount(quant);
         
@@ -293,7 +293,7 @@ public class DustGUI extends API implements CommandExecutor, Listener {
                     ItemStack g = dust(plugin.getConfig().getStringList("dust-item")).clone();
                     //CHECK FOR DUST
                     for (ItemStack drop : player.getInventory()) {
-                        if (drop != null && drop.getType() != XMaterial.AIR.parseMaterial() && event.getCurrentItem().hasItemMeta()) {
+                        if (drop != null && drop.getType() != Material.AIR && event.getCurrentItem().hasItemMeta()) {
                             ItemMeta dropMeta = drop.getItemMeta();
                             if (dropMeta.hasLore() && dropMeta.getLore().get(dropMeta.getLore().size() - 1).equals("§8§oDust")) {
                                 g = drop.clone();
@@ -393,8 +393,7 @@ public class DustGUI extends API implements CommandExecutor, Listener {
                 if (slot == 2) {
                     PlayerInventory held = player.getInventory();
                     int quant = plugin.getConfig().getInt("dust-trade");
-                    ItemStack dia = new ItemStack(XMaterial.matchXMaterial(plugin.getConfig().getString("dust-material")).get()
-                            .parseMaterial(), quant);
+                    ItemStack dia = new ItemStack(Material.matchMaterial(plugin.getConfig().getString("dust-material")), quant);
                     if (held.containsAtLeast(dia, quant)) {
                         held.removeItem(dia);
                         player.getInventory().addItem(dust(plugin.getConfig().getStringList("dust-item")));

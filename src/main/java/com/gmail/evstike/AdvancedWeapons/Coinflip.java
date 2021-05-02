@@ -90,18 +90,18 @@ public class Coinflip extends API implements CommandExecutor, Listener {
         
         @SuppressWarnings("deprecation")
         Player challenger = Bukkit.getPlayer(d);
-        ItemStack yes = new ItemStack(XMaterial.LIME_STAINED_GLASS_PANE.parseItem());
+        ItemStack yes = new ItemStack(Material.LIME_STAINED_GLASS_PANE);
         ItemMeta yesMeta = yes.getItemMeta();
         List<String> Lore = new ArrayList<String>();
         
-        ItemStack no = new ItemStack(XMaterial.RED_STAINED_GLASS_PANE.parseItem());
+        ItemStack no = new ItemStack(Material.RED_STAINED_GLASS_PANE);
         ItemMeta noMeta = no.getItemMeta();
         
-        ItemStack coin = new ItemStack(XMaterial.SUNFLOWER.parseMaterial());
+        ItemStack coin = new ItemStack(Material.SUNFLOWER);
         ItemMeta coinMeta = coin.getItemMeta();
         
         List<String> Lore3 = new ArrayList<String>();
-        ItemStack stats = new ItemStack(XMaterial.PLAYER_HEAD.parseItem());
+        ItemStack stats = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta statsMeta = (SkullMeta) stats.getItemMeta();
         statsMeta.setDisplayName(ChatColor.GOLD + "Your Stats");
         Lore3.add("§7" + nameconfig.getInt("playerdata." + player.getUniqueId() + ".coinflip.wins") + " wins");
@@ -122,7 +122,7 @@ public class Coinflip extends API implements CommandExecutor, Listener {
         inv.setItem(0, stats);
         
         List<String> Lore4 = new ArrayList<String>();
-        ItemStack statsc = new ItemStack(XMaterial.PLAYER_HEAD.parseItem());
+        ItemStack statsc = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta statscMeta = (SkullMeta) statsc.getItemMeta();
         statscMeta.setDisplayName(ChatColor.GOLD + "Challenger's Stats");
         Lore4.add("§7" + nameconfig.getInt("playerdata." + challenger.getUniqueId() + ".coinflip.wins") + " wins");

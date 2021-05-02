@@ -1,5 +1,6 @@
 package com.gmail.evstike.AdvancedWeapons;
 
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -20,7 +21,7 @@ public class DustFunctions extends API implements Listener {
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         Block block = event.getBlock();
-        XMaterial mat = XMaterial.matchXMaterial(block.getType());
+        Material mat = block.getType();
         Player p = event.getPlayer();
         String s = mat.name();
         for (String f : plugin.getConfig().getStringList("dust-obtainable")) {

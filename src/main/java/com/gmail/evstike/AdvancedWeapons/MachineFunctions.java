@@ -37,7 +37,7 @@ public class MachineFunctions extends API implements Listener {
     int a = 0;
     boolean verify = true;
     
-    public ItemStack it = new ItemStack(XMaterial.COBBLESTONE_WALL.parseMaterial(), 1);
+    public ItemStack it = new ItemStack(Material.COBBLESTONE_WALL, 1);
 
     {
         ItemMeta im = it.getItemMeta();
@@ -65,10 +65,10 @@ public class MachineFunctions extends API implements Listener {
         Material m4;
         String s;
     
-        m = XMaterial.COBBLESTONE_WALL.parseMaterial();
+        m = Material.COBBLESTONE_WALL;
         s = ChatColor.AQUA + "Port-a-Wall";
     
-        if (event.getBlockPlaced().getType().equals(XMaterial.COBBLESTONE_WALL.parseMaterial())) {
+        if (event.getBlockPlaced().getType().equals(Material.COBBLESTONE_WALL)) {
             if (im.hasDisplayName()) {
                 if (im.getDisplayName().equals(s)) {
     
@@ -84,9 +84,9 @@ public class MachineFunctions extends API implements Listener {
                         return;
                     }
     
-                    newMachine(id, "Port-a-Wall", p, true, XMaterial.COBBLESTONE_WALL.parseMaterial());
+                    newMachine(id, "Port-a-Wall", p, true, Material.COBBLESTONE_WALL);
     
-                    bl.setType(XMaterial.AIR.parseMaterial());
+                    bl.setType(Material.AIR);
                     blockCheck(bl, m, id, p, it);
                     blockCheck(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 1, l.getBlockZ()), m, id, p, it);
                     blockCheck(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 2, l.getBlockZ()), m, id, p, it);
@@ -125,15 +125,15 @@ public class MachineFunctions extends API implements Listener {
                 }
             }
         }
-        m = XMaterial.COBBLESTONE_WALL.parseMaterial();
-        m1 = XMaterial.RED_STAINED_GLASS.parseItem().getType();
-        m2 = XMaterial.FURNACE.parseMaterial();
+        m = Material.COBBLESTONE_WALL;
+        m1 = Material.RED_STAINED_GLASS;
+        m2 = Material.FURNACE;
         if (serverIs114()) {
-            m2 = XMaterial.BLAST_FURNACE.parseMaterial();
+            m2 = Material.BLAST_FURNACE;
         }
         s = ChatColor.AQUA + "AutoMiner";
     
-        if (event.getBlockPlaced().getType().equals(XMaterial.HOPPER.parseMaterial())) {
+        if (event.getBlockPlaced().getType().equals(Material.HOPPER)) {
             if (im.hasDisplayName()) {
                 if (im.getDisplayName().equals(s)) {
                     if (p.getWorld().getEnvironment() == World.Environment.NORMAL) {
@@ -152,11 +152,11 @@ public class MachineFunctions extends API implements Listener {
                             return;
                         }
     
-                        newMachine(id, "AutoMiner", p, true, XMaterial.HOPPER.parseMaterial());
+                        newMachine(id, "AutoMiner", p, true, Material.HOPPER);
     
-                        bl.setType(XMaterial.AIR.parseMaterial());
-                        blockPlace(bl, XMaterial.HOPPER.parseMaterial(), id, p, it);
-                        blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 1, l.getBlockZ()), XMaterial.OAK_FENCE.parseMaterial(), id, p, it);
+                        bl.setType(Material.AIR);
+                        blockPlace(bl, Material.HOPPER, id, p, it);
+                        blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 1, l.getBlockZ()), Material.OAK_FENCE, id, p, it);
                         blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 2, l.getBlockZ()), m, id, p, it);
     
                         blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 1), m1, id, p, it);
@@ -170,8 +170,8 @@ public class MachineFunctions extends API implements Listener {
                         if (verify) {
                             Block block = bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 1);
                             Block blocks = bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 2);
-                            XBlock.setDirection(blocks, BlockFace.WEST);
-                            XBlock.setColor(block, DyeColor.RED);
+                            setBlock(blocks, blocks.getType(), BlockFace.WEST);
+                            block.setType(Material.RED_STAINED_GLASS);
                             if (serverIs113()) {
                                 setBlock(blocks, m2, BlockFace.WEST);
                             }
@@ -185,20 +185,20 @@ public class MachineFunctions extends API implements Listener {
                         verify = true;
                     } else {
                         p.sendMessage("§cThis Machine can only be placed in the Overworld.");
-                        event.getBlockPlaced().setType(XMaterial.AIR.parseMaterial());
+                        event.getBlockPlaced().setType(Material.AIR);
                     }
                 }
             }
         }
         //POTION
-        m = XMaterial.COBBLESTONE_STAIRS.parseMaterial();
-        m1 = XMaterial.STONE_BRICK_STAIRS.parseItem().getType();
-        m2 = XMaterial.STONE_BRICK_SLAB.parseMaterial();
-        m3 = XMaterial.LIME_STAINED_GLASS.parseMaterial();
+        m = Material.COBBLESTONE_STAIRS;
+        m1 = Material.STONE_BRICK_STAIRS;
+        m2 = Material.STONE_BRICK_SLAB;
+        m3 = Material.LIME_STAINED_GLASS;
         
         s = ChatColor.AQUA + "Potion";
     
-        if (event.getBlockPlaced().getType().equals(XMaterial.HOPPER.parseMaterial())) {
+        if (event.getBlockPlaced().getType().equals(Material.HOPPER)) {
             if (im.hasDisplayName()) {
                 if (im.getDisplayName().equals(s)) {
                     if (p.getWorld().getEnvironment() == World.Environment.NORMAL) {
@@ -217,10 +217,10 @@ public class MachineFunctions extends API implements Listener {
                             return;
                         }
                     
-                        newMachine(id, "Potion", p, true, XMaterial.SPLASH_POTION.parseMaterial());
+                        newMachine(id, "Potion", p, true, Material.SPLASH_POTION);
                     
-                        bl.setType(XMaterial.AIR.parseMaterial());
-                        blockPlace(bl, XMaterial.DISPENSER.parseMaterial(), id, p, it);
+                        bl.setType(Material.AIR);
+                        blockPlace(bl, Material.DISPENSER, id, p, it);
                         blockPlace(easyBlockLoc(bl, l, 0, 1, 0), m2, id, p, it);
                         blockPlace(easyBlockLoc(bl, l, 0, 0, 1), m1, id, p, it);
                         blockPlace(easyBlockLoc(bl, l, 1, 0, 1), m, id, p, it);
@@ -256,7 +256,7 @@ public class MachineFunctions extends API implements Listener {
                         verify = true;
                     } else {
                         p.sendMessage("§cThis Machine can only be placed in the Overworld.");
-                        event.getBlockPlaced().setType(XMaterial.AIR.parseMaterial());
+                        event.getBlockPlaced().setType(Material.AIR);
                     }
                 }
             }
@@ -280,7 +280,7 @@ public class MachineFunctions extends API implements Listener {
                 List<String> list = item.getStringList("list");
                 if (list.contains(c(l))) {
                     for (String loc : list) {
-                        str2loc(loc, key).setType(XMaterial.AIR.parseMaterial());
+                        str2loc(loc, key).setType(Material.AIR);
 
                     }
                     mconfig.set(key, null);
@@ -334,7 +334,7 @@ public class MachineFunctions extends API implements Listener {
                                     plugin.saveYamlFile(minvC, minv);
                                     if (full) {
                                         Block block = str2loc(mconfig.getStringList(key + ".list").get(3), key);
-                                        XBlock.setColor(block, DyeColor.LIME);
+                                        block.setType(Material.LIME_STAINED_GLASS);
                                         full = false;
                                     }
                                 }
@@ -359,7 +359,7 @@ public class MachineFunctions extends API implements Listener {
             List<String> list = item.getStringList("list");
             if (list.contains(c(l))) {
                 for (String loc : list) {
-                    str2loc(loc, key).setType(XMaterial.AIR.parseMaterial());
+                    str2loc(loc, key).setType(Material.AIR);
                 }
                 mconfig.set(key, null);
                 plugin.saveYamlFile(mconfig, mname);
