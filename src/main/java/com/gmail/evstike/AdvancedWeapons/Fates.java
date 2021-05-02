@@ -31,6 +31,7 @@ public class Fates extends JavaPlugin implements Listener {
 		Bukkit.getServer().getPluginManager().registerEvents(new DustGUI(this), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new CustomEnchantGUI(this), this);
 		
+		//ENCHANTS
 		Bukkit.getServer().getPluginManager().registerEvents(new EnchantInteract(this), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new EnchantAttackOther(this), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new EnchantAttackSelf(this), this);
