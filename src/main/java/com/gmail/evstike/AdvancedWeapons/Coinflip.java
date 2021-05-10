@@ -112,12 +112,7 @@ public class Coinflip extends API implements CommandExecutor, Listener {
         }
         
         statsMeta.setLore(Lore3);
-        if (serverIs112()) {
-            statsMeta.setOwningPlayer(player);
-        }
-        if (!serverIs112()) {
-            statsMeta.setOwner(player.getName());
-        }
+        statsMeta.setOwningPlayer(player);
         stats.setItemMeta(statsMeta);
         inv.setItem(0, stats);
         
@@ -133,12 +128,7 @@ public class Coinflip extends API implements CommandExecutor, Listener {
         }
         
         statscMeta.setLore(Lore4);
-        if (serverIs112()) {
-            statscMeta.setOwningPlayer(challenger);
-        }
-        if (!serverIs112()) {
-            statscMeta.setOwner(challenger.getName());
-        }
+        statscMeta.setOwningPlayer(challenger);
         statsc.setItemMeta(statscMeta);
         inv.setItem(8, statsc);
         

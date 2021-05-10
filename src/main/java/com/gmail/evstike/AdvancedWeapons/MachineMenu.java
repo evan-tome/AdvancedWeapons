@@ -20,7 +20,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.Dye;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -186,14 +185,6 @@ public class MachineMenu extends API implements Listener {
                 isM.setLore(lore);
                 is.setItemMeta(isM);
                 inv.setItem(i2, is);
-                if (is.getType() == Material.INK_SAC) {
-                    Dye dd = new Dye(is.getType());
-                    dd.setColor(DyeColor.BLUE);
-                    dd.getData();
-                    ItemStack ll = dd.toItemStack(i);
-                    ll.setItemMeta(isM);
-                    inv.setItem(i2, ll);
-                }
 
                 ++i2;
             }
@@ -316,7 +307,7 @@ public class MachineMenu extends API implements Listener {
                                             ItemMeta itMeta = it.getItemMeta();
                                             if (itMeta.hasLore()) {
                                                 List<String> lo = itMeta.getLore();
-                                                if (it.getType().equals(Material.RED_STAINED_GLASS_PANE)) {
+                                                if (it.getType() == Material.RED_STAINED_GLASS_PANE) {
                                                     lo.set(1, "§c" + fuel + "/8 §7fuel remaining.");
                                                 }
                                                 itMeta.setLore(lo);
@@ -411,7 +402,7 @@ public class MachineMenu extends API implements Listener {
                                                 if (it.getType() == Material.YELLOW_STAINED_GLASS_PANE) {
                                                     lo.set(1, "§b" + i + "/8 §7fuel remaining.");
                                                 }
-                                                if (it.getType() == Material.YELLOW_STAINED_GLASS_PANE) {
+                                                if (it.getType() == Material.RED_STAINED_GLASS_PANE) {
                                                     lo.set(1, "§c" + i + "/8 §7fuel remaining.");
                                                 }
                                                 itMeta.setLore(lo);

@@ -929,7 +929,6 @@ public class CEditor extends API implements CommandExecutor, Listener {
     
                     switch (event.getCurrentItem().getType()) {
                         case WRITABLE_BOOK:
-                            player.sendMessage("hi");
                             openEditGUI(player);
                             break;
                         case BLAZE_POWDER:

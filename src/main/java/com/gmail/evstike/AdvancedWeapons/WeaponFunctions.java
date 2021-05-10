@@ -63,9 +63,7 @@ public class WeaponFunctions extends API implements Listener {
                 if (im.hasDisplayName()) {
                     if (im.getDisplayName().equals(ChatColor.RED + "The Slayer")) {
                         if (p.getHealth() <= 5) {
-                            if (serverIs19()) {
-                                p.spawnParticle(Particle.HEART, p.getLocation(), 1);
-                            }
+                            p.spawnParticle(Particle.HEART, p.getLocation(), 1);
                             p.setHealth(p.getHealth() + 2);
                             if (i.getDurability() <= Material.DIAMOND_AXE.getMaxDurability() - 25) {
                                 short id = (short) ((short) i.getDurability() + 25);
@@ -220,9 +218,7 @@ public class WeaponFunctions extends API implements Listener {
                     Vector playerDirection = p.getLocation().getDirection();
                     Arrow fireball = p.launchProjectile(Arrow.class, playerDirection.multiply(3));
                     fireball.setShooter(p);
-                    if (serverIs19()) {
-                        fireball.setColor(Color.PURPLE);
-                    }
+                    fireball.setColor(Color.PURPLE);
                     lfire.add(fireball.getUniqueId());
                     
                     if (im.hasLore()) {
@@ -279,9 +275,7 @@ public class WeaponFunctions extends API implements Listener {
             if (i.getType().equals(Material.BONE)) {
                 if (im.hasDisplayName()) {
                     if (im.getDisplayName().equals(ChatColor.RED + "The Skeletal Sword")) {
-                        if (serverIs19()) {
-                            p.getWorld().spawnParticle(Particle.SPELL, mob.getLocation(), 20);
-                        }
+                        p.getWorld().spawnParticle(Particle.SPELL, mob.getLocation(), 20);
                         ItemStack pump = new ItemStack(Material.PUMPKIN);
                         mob.getWorld().dropItem(mob.getLocation(), pump);
                     }
@@ -367,10 +361,8 @@ public class WeaponFunctions extends API implements Listener {
                     Player p = (Player) ent.getShooter();
                     if (lsnowball.contains(ent.getUniqueId())) {
                         e.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 40, 2));
-                        if (serverIs113()) {
-                            BlockData fallingDustData = Material.matchMaterial(Material.SNOW_BLOCK.toString()).createBlockData();
-                            e.getWorld().spawnParticle(Particle.FALLING_DUST, e.getEyeLocation(), 10, 0.3, 0.3, 0.3, fallingDustData);
-                        }
+                        BlockData fallingDustData = Material.matchMaterial(Material.SNOW_BLOCK.toString()).createBlockData();
+                        e.getWorld().spawnParticle(Particle.FALLING_DUST, e.getEyeLocation(), 10, 0.3, 0.3, 0.3, fallingDustData);
                         lsnowball.remove(ent.getUniqueId());
     
                         if (conf.getString("weapon.ice-chunk.msg").equals("actionbar")) {
@@ -425,9 +417,7 @@ public class WeaponFunctions extends API implements Listener {
                     ent.remove();
                     if (event.getHitEntity() instanceof LivingEntity) {
                         LivingEntity lent = (LivingEntity) event.getHitEntity();
-                        if (serverIs19()) {
-                            ((Player) ((Arrow) ent).getShooter()).spawnParticle(Particle.DRAGON_BREATH, lent.getLocation(), 4);
-                        }
+                        ((Player) ((Arrow) ent).getShooter()).spawnParticle(Particle.DRAGON_BREATH, lent.getLocation(), 4);
                         lent.teleport(((Player) ((Arrow) ent).getShooter()).getLocation());
                         Player p = ((Player) ((Arrow) ent).getShooter()).getPlayer();
                         

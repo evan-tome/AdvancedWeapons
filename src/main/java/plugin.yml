@@ -1,6 +1,6 @@
 main: com.gmail.evstike.AdvancedWeapons.Fates
 name: AdvancedWeapons
-version: 1.5.1-dev
+version: 1.5.1
 author: miner328
 depend: [Vault]
 api-version: 1.13

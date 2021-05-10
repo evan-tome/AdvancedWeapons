@@ -61,6 +61,8 @@ machine:
     cost: 20
   autominer:
     cost: 160
+  obsidian-carver:
+    cost: 32
 # Custom Enchantments
 enchant:
   rush-i:

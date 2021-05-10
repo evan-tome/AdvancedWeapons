@@ -124,10 +124,8 @@ public class MachineFunctions extends API implements Listener {
         }
         m = Material.COBBLESTONE_WALL;
         m1 = Material.RED_STAINED_GLASS;
-        m2 = Material.FURNACE;
-        if (serverIs114()) {
-            m2 = Material.BLAST_FURNACE;
-        }
+        m2 = Material.BLAST_FURNACE;
+        
         s = ChatColor.AQUA + "AutoMiner";
     
         if (event.getBlockPlaced().getType().equals(Material.HOPPER)) {
@@ -174,9 +172,7 @@ public class MachineFunctions extends API implements Listener {
                             Block blocks = bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 2);
                             setBlock(blocks, blocks.getType(), BlockFace.WEST);
                             block.setType(Material.RED_STAINED_GLASS);
-                            if (serverIs113()) {
-                                setBlock(blocks, m2, BlockFace.WEST);
-                            }
+                            setBlock(blocks, m2, BlockFace.WEST);
                             p.getWorld().playEffect(l, Effect.MOBSPAWNER_FLAMES, 0);
                         }
                         if (!verify) {
@@ -192,79 +188,68 @@ public class MachineFunctions extends API implements Listener {
                 }
             }
         }
-        //POTION
-        m = Material.COBBLESTONE_WALL;
-        m1 = Material.STONE_BRICK_STAIRS;
-        m2 = Material.STONE_BRICK_SLAB;
-        m3 = Material.LIME_STAINED_GLASS;
-        
-        s = ChatColor.AQUA + "Potion";
+        //OBSIDIAN CARVER
+        m = Material.GRINDSTONE;
+        m1 = Material.MAGMA_BLOCK;
+        m2 = Material.COBBLESTONE_SLAB;
     
-        if (event.getBlockPlaced().getType().equals(Material.HOPPER)) {
+        s = ChatColor.AQUA + "Obsidian Carver";
+    
+        if (event.getBlockPlaced().getType().equals(Material.DRAGON_HEAD)) {
             if (im.hasDisplayName()) {
                 if (im.getDisplayName().equals(s)) {
-                    if (p.getWorld().getEnvironment() == World.Environment.NORMAL) {
-                    
-                        if (mconfig.getKeys(false).isEmpty()) {
-                            id = "0";
-                        } else {
-                            for (String key : mconfig.getKeys(false)) {
-                                a = Integer.parseInt(mconfig.getConfigurationSection(key).getName());
-                            }
-                            if (!mconfig.getKeys(false).isEmpty()) {
-                                id = a + 1 + "";
-                            }
-                        }
-                        if (event.isCancelled()) {
-                            return;
-                        }
-                    
-                        newMachine(id, "Potion", p, true, Material.SPLASH_POTION);
     
-                        ItemStack it = new ItemStack(Material.COBBLESTONE_WALL, 1);
-                        ItemMeta itm = it.getItemMeta();
-                        itm.setDisplayName(ChatColor.AQUA + "Port-a-Wall");
-                        it.setItemMeta(itm);
-                        
-                        bl.setType(Material.AIR);
-                        blockPlace(bl, Material.DISPENSER, id, p, it);
-                        blockPlace(easyBlockLoc(bl, l, 0, 1, 0), m2, id, p, it);
-                        blockPlace(easyBlockLoc(bl, l, 0, 0, 1), m1, id, p, it);
-                        blockPlace(easyBlockLoc(bl, l, 1, 0, 1), m, id, p, it);
-                        blockPlace(easyBlockLoc(bl, l, -1, 0, 1), m, id, p, it);
-                        blockPlace(easyBlockLoc(bl, l, 1, 0, 0), m, id, p, it);
-                        blockPlace(easyBlockLoc(bl, l, -1, 0, 0), m, id, p, it);
-                        blockPlace(easyBlockLoc(bl, l, 2, 0, 0), m1, id, p, it);
-                        blockPlace(easyBlockLoc(bl, l, -2, 0, 0), m1, id, p, it);
-                        blockPlace(easyBlockLoc(bl, l, 2, 0, -1), m, id, p, it);
-                        blockPlace(easyBlockLoc(bl, l, -2, 0, -1), m, id, p, it);
-    
-                        blockPlace(easyBlockLoc(bl, l, 0, 0, -1), m3, id, p, it);
-                        blockPlace(easyBlockLoc(bl, l, 0, 0, -2), m3, id, p, it);
-                        blockPlace(easyBlockLoc(bl, l, 0, 0, -3), m3, id, p, it);
-                        blockPlace(easyBlockLoc(bl, l, 0, 0, -4), m3, id, p, it);
-                        blockPlace(easyBlockLoc(bl, l, 1, 0, -1), m3, id, p, it);
-                        blockPlace(easyBlockLoc(bl, l, 1, 0, -2), m3, id, p, it);
-                        blockPlace(easyBlockLoc(bl, l, 1, 0, -3), m3, id, p, it);
-                        blockPlace(easyBlockLoc(bl, l, 1, 0, -4), m3, id, p, it);
-                        blockPlace(easyBlockLoc(bl, l, -1, 0, -1), m3, id, p, it);
-                        blockPlace(easyBlockLoc(bl, l, -1, 0, -2), m3, id, p, it);
-                        blockPlace(easyBlockLoc(bl, l, -1, 0, -3), m3, id, p, it);
-                        blockPlace(easyBlockLoc(bl, l, -1, 0, -4), m3, id, p, it);
-                        
-                        if (verify) {
-                            p.getWorld().playEffect(l, Effect.MOBSPAWNER_FLAMES, 0);
-                        }
-                        if (!verify) {
-                            event.setCancelled(true);
-                            p.sendMessage("§cCould not place.");
-                            blockBreak(l);
-                        }
-                        verify = true;
+                    if (mconfig.getKeys(false).isEmpty()) {
+                        id = "0";
                     } else {
-                        p.sendMessage("§cThis Machine can only be placed in the Overworld.");
-                        event.getBlockPlaced().setType(Material.AIR);
+                        for (String key : mconfig.getKeys(false)) {
+                            a = Integer.parseInt(mconfig.getConfigurationSection(key).getName());
+                        }
+                        if (!mconfig.getKeys(false).isEmpty()) {
+                            id = a + 1 + "";
+                        }
                     }
+                    if (event.isCancelled()) {
+                        return;
+                    }
+    
+                    newMachine(id, "AutoMiner", p, true, Material.HOPPER);
+    
+                    ItemStack it = new ItemStack(Material.COBBLESTONE_WALL, 1);
+                    ItemMeta itm = it.getItemMeta();
+                    itm.setDisplayName(ChatColor.AQUA + "Port-a-Wall");
+                    it.setItemMeta(itm);
+    
+                    bl.setType(Material.AIR);
+                    blockPlace(bl, Material.DRAGON_HEAD, id, p, it);
+                    blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 1, l.getBlockZ()), Material.OAK_FENCE, id, p, it);
+                    blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 2, l.getBlockZ()), m, id, p, it);
+    
+                    blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 1), m1, id, p, it);
+                    blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 2), m2, id, p, it);
+                    blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 3), m, id, p, it);
+                    blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 1, l.getBlockZ() - 3), m, id, p, it);
+                    blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 1, l.getBlockZ() - 2), m, id, p, it);
+                    blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 2, l.getBlockZ() - 1), m, id, p, it);
+                    blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 2, l.getBlockZ() - 2), m, id, p, it);
+    
+                    if (verify) {
+                        Block block = bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 1);
+                        Block blocks = bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 2);
+                        setBlock(blocks, blocks.getType(), BlockFace.WEST);
+                        block.setType(Material.RED_STAINED_GLASS);
+                        setBlock(blocks, m2, BlockFace.WEST);
+                        p.getWorld().playEffect(l, Effect.MOBSPAWNER_FLAMES, 0);
+                    }
+                    if (!verify) {
+                        event.setCancelled(true);
+                        p.sendMessage("§cCould not place.");
+                        blockBreak(l);
+                    }
+                    verify = true;
+                } else {
+                    p.sendMessage("§cThis Machine can only be placed in the Overworld.");
+                    event.getBlockPlaced().setType(Material.AIR);
                 }
             }
         }
@@ -503,7 +488,7 @@ public class MachineFunctions extends API implements Listener {
             chance = 20;
         }
         if (i == 2) {
-            chance = 75;
+            chance = 70;
         }
         if (i == 3) {
             chance = 85;

@@ -56,6 +56,8 @@ public class MachineGUI extends API implements CommandExecutor, Listener {
         ItemMeta wallMeta = wall.getItemMeta();
         ItemStack drill = new ItemStack(Material.HOPPER, 1);
         ItemMeta drillMeta = drill.getItemMeta();
+        ItemStack obby = new ItemStack(Material.DRAGON_HEAD, 1);
+        ItemMeta obbyMeta = obby.getItemMeta();
         
         //Item meta
         List<String> Lore0 = new ArrayList<String>();
@@ -108,11 +110,25 @@ public class MachineGUI extends API implements CommandExecutor, Listener {
         Lore.add("§b" + num + "x " + "§7DUST");
         drillMeta.setLore(Lore);
         drill.setItemMeta(drillMeta);
+        Lore.clear();
+    
+        //Obsidian Carver
+        obbyMeta.setDisplayName(ChatColor.AQUA + "Obsidian Carver");
+        num = plugin.getConfig().getInt(ChatColor.stripColor("machine." +
+                obbyMeta.getDisplayName().toLowerCase().replace(" ", "-") + ".cost"));
+        Lore.add("");
+        Lore.add("§7Automatically mines materials");
+        Lore.add("§7over time and collects them.");
+        Lore.add("");
+        Lore.add("§b" + num + "x " + "§7DUST");
+        obbyMeta.setLore(Lore);
+        obby.setItemMeta(obbyMeta);
         
         //Inventory set
         inv.setItem(0, wall);
         inv.setItem(1, drill);
-        inv.setItem(2, un);
+        inv.setItem(2, obby);
+        inv.setItem(3, un);
         
         player.openInventory(inv);
         
@@ -172,6 +188,27 @@ public class MachineGUI extends API implements CommandExecutor, Listener {
                             if (player.getInventory().containsAtLeast(glow, num)) {
                                 player.getInventory().removeItem(glow);
                                 player.getInventory().addItem(drill);
+                            } else {
+                                player.sendMessage(plugin.getConfig().getString("insufficient-dust-msg").replace('&', '§'));
+                            }
+                        } catch (Exception ignored) {
+                            player.closeInventory();
+                        }
+                        break;
+                    case DRAGON_HEAD:
+                        try {
+                            List<String> Lore = new ArrayList<String>();
+                            ItemStack obby = new ItemStack(Material.DRAGON_HEAD, 1);
+                            ItemMeta obbyMeta = obby.getItemMeta();
+                            obbyMeta.setDisplayName(ChatColor.AQUA + "Obsidian Carver");
+                            obbyMeta.setLore(Lore);
+                            obby.setItemMeta(obbyMeta);
+                            int num = plugin.getConfig().getInt(ChatColor.stripColor("machine." +
+                                    obbyMeta.getDisplayName().toLowerCase().replace(" ", "-") + ".cost"));
+                            glow.setAmount(num);
+                            if (player.getInventory().containsAtLeast(glow, num)) {
+                                player.getInventory().removeItem(glow);
+                                player.getInventory().addItem(obby);
                             } else {
                                 player.sendMessage(plugin.getConfig().getString("insufficient-dust-msg").replace('&', '§'));
                             }

@@ -68,6 +68,10 @@ public class Fates extends JavaPlugin implements Listener {
 		new ConfigGUI(this);
 		Metrics metrics = new Metrics(this);
 		Logger log = this.getLogger();
+		if(!Bukkit.getVersion().contains("1.16")) {
+			this.getLogger().info("AdvancedWeapons is not compatible with your server version");
+		}
+		
 		FileConfiguration config = this.getConfig();
 		File name = createFile("playerdata.yml");
 		FileConfiguration nameconfig = createYamlFile(name);
