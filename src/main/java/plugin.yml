@@ -1,9 +1,9 @@
 main: com.gmail.evstike.AdvancedWeapons.Fates
 name: AdvancedWeapons
-version: 1.5.1
+version: 1.5.3
 author: miner328
-depend: [Vault]
 api-version: 1.13
+softdepend: [Vault]
 description: Conquer enemies with custom enchanted gear and powerful magical items.
 commands:
   advancedweapons:
@@ -18,9 +18,6 @@ commands:
   machines:
     description: Power up ancient machinery
     aliases: [awmachines, buymachines]
-  ignite:
-    description: Ignite a player on fire
-    aliases: [awignite, fire]
   hidden:
     description: Completely hide yourself from players
     aliases: [awhidden, hide]

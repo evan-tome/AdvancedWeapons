@@ -8,6 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.*;
+import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -433,6 +434,77 @@ public class WeaponFunctions extends API implements Listener {
                         }
                     }
                     lfire.remove(ent.getUniqueId());
+                }
+            }
+        }
+    }
+    
+    @EventHandler
+    public void onGrapple(PlayerFishEvent e) {
+        if (e.getState() == PlayerFishEvent.State.CAUGHT_ENTITY) {
+            if (e.getCaught() instanceof LeashHitch) {
+                LeashHitch l = (LeashHitch) e.getCaught();
+                Player p = e.getPlayer();
+                if (p.getInventory().getItemInHand().getItemMeta().getDisplayName().equals("§cGrappling Hook")) {
+                    l.setCustomNameVisible(true);
+                    l.setCustomName("§6§l⭐");
+                    //Location d = e.getCaught().getLocation();
+                    Location d = e.getHook().getLocation();
+                    Vector v = d.toVector().subtract(p.getLocation().toVector()).normalize();
+                    p.setVelocity(v.multiply(2.0));
+                    p.getItemInHand().setDurability((short) (p.getItemInHand().getDurability() + 16));
+    
+                    FileConfiguration conf = plugin.getConfig();
+                    if (conf.getString("weapon.grappling-hook.msg").equals("actionbar")) {
+                        sendActionBar(p, ChatColor.GOLD + "GRAPPLING");
+                    }
+                    if (conf.getString("weapon.grappling-hook.msg").equals("true")) {
+                        p.sendMessage(ChatColor.GOLD + "GRAPPLING");
+                    }
+                    if (conf.getString("weapon.grappling-hook.msg").equals("false")) {
+                        return;
+                    }
+    
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+                        @Override
+                        public void run() {
+                            l.setCustomNameVisible(false);
+                        }
+                    }, 20L);
+                }
+            }
+        }
+    }
+    
+    @EventHandler
+    public void onHook(ProjectileHitEvent e) {
+        if (e.getEntity() instanceof FishHook) {
+            if (e.getHitEntity() instanceof LeashHitch) {
+                if (e.getEntity().getShooter() instanceof Player) {
+                    Player p = (Player) e.getEntity().getShooter();
+                    if (p.getInventory().getItemInHand().getItemMeta().getDisplayName().equals("§cGrappling Hook")) {
+    
+                        FileConfiguration conf = plugin.getConfig();
+                        if (conf.getString("weapon.grappling-hook.msg").equals("actionbar")) {
+                            sendActionBar(p, ChatColor.GREEN + "HOOKED");
+                        }
+                        if (conf.getString("weapon.grappling-hook.msg").equals("true")) {
+                            p.sendMessage(ChatColor.GREEN + "HOOKED");
+                        }
+                        if (conf.getString("weapon.grappling-hook.msg").equals("false")) {
+                            return;
+                        }
+                        LeashHitch l = (LeashHitch) e.getHitEntity();
+                        l.setCustomName("§a§l+");
+                        l.setCustomNameVisible(true);
+                        
+                        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+                            @Override
+                            public void run() {
+                                l.setCustomNameVisible(false);
+                            }
+                        }, 100L);
+                    }
                 }
             }
         }

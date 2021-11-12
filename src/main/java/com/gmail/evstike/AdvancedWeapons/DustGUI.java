@@ -238,10 +238,6 @@ public class DustGUI extends API implements CommandExecutor, Listener {
     @EventHandler
     private void onInventoryClick(InventoryClickEvent event) {
         
-        File name = plugin.createFile("playerdata.yml");
-        FileConfiguration nameconfig = plugin.createYamlFile(name);
-        plugin.saveYamlFile(nameconfig, name);
-        
         if (!ChatColor.stripColor(event.getView().getTitle()).equalsIgnoreCase("Dust Bank"))
             return;
         Player player = (Player) event.getWhoClicked();
@@ -254,6 +250,9 @@ public class DustGUI extends API implements CommandExecutor, Listener {
                 return;
             }
             if (event.getClickedInventory().getType().equals(InventoryType.CHEST)) {
+                File name = plugin.createFile("playerdata.yml");
+                FileConfiguration nameconfig = plugin.createYamlFile(name);
+                plugin.saveYamlFile(nameconfig, name);
                 //XP
                 if (event.getRawSlot() == 0) {
                     if (event.getClick() == ClickType.LEFT) {

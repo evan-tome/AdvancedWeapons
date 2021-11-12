@@ -56,6 +56,8 @@ public class MachineGUI extends API implements CommandExecutor, Listener {
         ItemMeta wallMeta = wall.getItemMeta();
         ItemStack drill = new ItemStack(Material.HOPPER, 1);
         ItemMeta drillMeta = drill.getItemMeta();
+        ItemStack hitch = new ItemStack(Material.OAK_FENCE, 1);
+        ItemMeta hitchMeta = hitch.getItemMeta();
         ItemStack obby = new ItemStack(Material.DRAGON_HEAD, 1);
         ItemMeta obbyMeta = obby.getItemMeta();
         
@@ -112,6 +114,18 @@ public class MachineGUI extends API implements CommandExecutor, Listener {
         drill.setItemMeta(drillMeta);
         Lore.clear();
     
+        //Grappling Post
+        hitchMeta.setDisplayName(ChatColor.AQUA + "Grappling Post");
+        num = plugin.getConfig().getInt(ChatColor.stripColor("machine." +
+                hitchMeta.getDisplayName().toLowerCase().replace(" ", "-") + ".cost"));
+        Lore.add("");
+        Lore.add("§7Can be hooked onto");
+        Lore.add("§7by a Grappling Hook.");
+        Lore.add("");
+        Lore.add("§b" + num + "x " + "§7DUST");
+        hitchMeta.setLore(Lore);
+        hitch.setItemMeta(hitchMeta);
+    
         //Obsidian Carver
         obbyMeta.setDisplayName(ChatColor.AQUA + "Obsidian Carver");
         num = plugin.getConfig().getInt(ChatColor.stripColor("machine." +
@@ -127,8 +141,10 @@ public class MachineGUI extends API implements CommandExecutor, Listener {
         //Inventory set
         inv.setItem(0, wall);
         inv.setItem(1, drill);
-        inv.setItem(2, obby);
-        inv.setItem(3, un);
+        inv.setItem(2, hitch);
+        //inv.setItem(3, un);
+        //inv.setItem(2, obby);
+        //inv.setItem(3, un);
         
         player.openInventory(inv);
         
@@ -188,6 +204,27 @@ public class MachineGUI extends API implements CommandExecutor, Listener {
                             if (player.getInventory().containsAtLeast(glow, num)) {
                                 player.getInventory().removeItem(glow);
                                 player.getInventory().addItem(drill);
+                            } else {
+                                player.sendMessage(plugin.getConfig().getString("insufficient-dust-msg").replace('&', '§'));
+                            }
+                        } catch (Exception ignored) {
+                            player.closeInventory();
+                        }
+                        break;
+                    case OAK_FENCE:
+                        try {
+                            List<String> Lore = new ArrayList<String>();
+                            ItemStack hitch = new ItemStack(Material.OAK_FENCE, 1);
+                            ItemMeta hitchMeta = hitch.getItemMeta();
+                            hitchMeta.setDisplayName(ChatColor.AQUA + "Grappling Post");
+                            hitchMeta.setLore(Lore);
+                            hitch.setItemMeta(hitchMeta);
+                            int num = plugin.getConfig().getInt(ChatColor.stripColor("machine." +
+                                    hitchMeta.getDisplayName().toLowerCase().replace(" ", "-") + ".cost"));
+                            glow.setAmount(num);
+                            if (player.getInventory().containsAtLeast(glow, num)) {
+                                player.getInventory().removeItem(glow);
+                                player.getInventory().addItem(hitch);
                             } else {
                                 player.sendMessage(plugin.getConfig().getString("insufficient-dust-msg").replace('&', '§'));
                             }

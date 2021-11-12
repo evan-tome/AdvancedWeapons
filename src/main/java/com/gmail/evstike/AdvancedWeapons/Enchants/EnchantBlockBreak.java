@@ -154,15 +154,22 @@ public class EnchantBlockBreak extends API implements Listener {
                                     if (item.contains("msg")) {
                                         if (item.getBoolean("msg") == true) {
                                             if (item.contains("chatmsg")) {
-                                                String ent = "";
-                                                if (p != null) {
-                                                    ent = StringUtils.capitaliseAllWords(p.getType().getName().toLowerCase().replace("_", " "));
-                                                }
+    
+                                                String attackt = StringUtils.capitaliseAllWords(p.getType().getName().toLowerCase().replace("_", " "));
+                                                String defendt = StringUtils.capitaliseAllWords(p.getType().getName().toLowerCase().replace("_", " "));
+                                                String block = StringUtils.capitaliseAllWords(e.getBlock().getType().name().toLowerCase().replace("_", " "));
+    
+                                                String user = p.getDisplayName();
+    
                                                 effects = StringUtils.capitaliseAllWords
                                                         (item.getStringList("effects").toString().replace("[", "").replace("]", ""));
-                                                p.sendMessage(item.getString("chatmsg").replace("{defender}", ent)
-                                                        .replace("{user}", p.getName()).replace("{potion}", effects).replace("{damage}", effects));
-                                                effects = "";
+    
+                                                p.sendMessage(item.getString("chatmsg").replace("{attacker}", p.getName())
+                                                        .replace("{defender}", p.getName()).replace("{attackertype}", attackt)
+                                                        .replace("{defendertype}", defendt).replace("{effects}", effects).replace("{user}", user)
+                                                        .replace("{block}", block)
+                                                        .replace("{user}", p.getName()).replace("{potion}", effects).replace("{damage}", effects)
+                                                        .replace("&", "§"));
                                             }
                                         }
                                     }

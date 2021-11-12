@@ -138,10 +138,20 @@ public class EnchantInteract extends API implements Listener {
                                         }
                                         if (item.contains("msg")) {
                                             if (item.getBoolean("msg") == true) {
+    
+                                                String attackt = StringUtils.capitaliseAllWords(p.getType().getName().toLowerCase().replace("_", " "));
+                                                String defendt = StringUtils.capitaliseAllWords(p.getType().getName().toLowerCase().replace("_", " "));
+    
+                                                String user = p.getDisplayName();
+    
                                                 effects = StringUtils.capitaliseAllWords
                                                         (item.getStringList("effects").toString().replace("[", "").replace("]", ""));
-                                                p.sendMessage(item.getString("chatmsg").replace("{user}", p.getName()).replace("{potion}", effects));
-                                                effects = "";
+    
+                                                p.sendMessage(item.getString("chatmsg").replace("{attacker}", p.getName())
+                                                        .replace("{defender}", p.getName()).replace("{attackertype}", attackt)
+                                                        .replace("{defendertype}", defendt).replace("{effects}", effects).replace("{user}", user)
+                                                        .replace("{user}", p.getName()).replace("{potion}", effects).replace("{damage}", effects)
+                                                        .replace("&", "§"));
                                             }
                                         }
                                         if (config.getBoolean("durability") == true) {

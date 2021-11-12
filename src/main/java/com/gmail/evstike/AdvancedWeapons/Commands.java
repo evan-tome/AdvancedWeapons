@@ -5,10 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-
-import java.io.File;
 
 public class Commands extends API implements CommandExecutor {
 
@@ -21,9 +18,8 @@ public class Commands extends API implements CommandExecutor {
 		public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 			if (hasCommandPerm(sender, cmd, commandLabel, plugin.getConfig()) == false) {
 
-				File filename = plugin.createFile("playerdata.yml");
-				FileConfiguration nameconfig = plugin.createYamlFile(filename);
-				plugin.saveYamlFile(nameconfig, filename);
+//				File filename = plugin.createFile("playerdata.yml");
+//				FileConfiguration nameconfig = plugin.createYamlFile(filename);
 
 				if (cmd.getName().equalsIgnoreCase("ignite")) {
 					if (args.length != 1) {

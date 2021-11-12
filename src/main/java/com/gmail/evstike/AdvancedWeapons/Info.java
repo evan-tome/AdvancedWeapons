@@ -231,7 +231,7 @@ public class Info extends ConfigGUI implements CommandExecutor, TabCompleter {
 			if (plugin.getConfig().getBoolean("discord-message")) {
 				Random rand = new Random();
 				int n = rand.nextInt(100) + 1;
-				if (n <= 10) {
+				if (n <= 5) {
 					sender.sendMessage("§aNeed AdvancedWeapons support? Join our Discord:");
 					sender.sendMessage("§bhttps://discord.gg/gUKbxJm");
 				}

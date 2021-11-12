@@ -13,6 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 
@@ -39,6 +40,8 @@ public class Fates extends JavaPlugin implements Listener {
 		Bukkit.getServer().getPluginManager().registerEvents(new EnchantItemOther(this), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new EnchantItemSelf(this), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new EnchantBlockBreak(this), this);
+		Bukkit.getServer().getPluginManager().registerEvents(new EnchantArrowSelf(this), this);
+		Bukkit.getServer().getPluginManager().registerEvents(new EnchantArrowOther(this), this);
 		
 		Bukkit.getServer().getPluginManager().registerEvents(new MachineGUI(this), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new Coinflip(this), this);
@@ -58,7 +61,6 @@ public class Fates extends JavaPlugin implements Listener {
 		this.getCommand("weapons").setExecutor(new WeaponGUI(this));
 		this.getCommand("advancedweapons").setExecutor(new Info(this));
 		this.getCommand("advancedweapons").setTabCompleter(new Info(this));
-		this.getCommand("ignite").setExecutor(new Commands(this));
 		this.getCommand("hidden").setExecutor(new Hidden(this));
 		this.getCommand("hidden").setTabCompleter(new Hidden(this));
 		this.getCommand("machines").setExecutor(new MachineGUI(this));
@@ -68,7 +70,7 @@ public class Fates extends JavaPlugin implements Listener {
 		new ConfigGUI(this);
 		Metrics metrics = new Metrics(this);
 		Logger log = this.getLogger();
-		if(!Bukkit.getVersion().contains("1.16")) {
+		if(!Bukkit.getVersion().contains("1.17")) {
 			this.getLogger().info("AdvancedWeapons is not compatible with your server version");
 		}
 		
@@ -119,12 +121,45 @@ public class Fates extends JavaPlugin implements Listener {
 		File wname = createFile("customweapons.yml");
 		FileConfiguration wconfig = createYamlFile(wname);
 		
-		this.saveDefaultConfig();
-		this.reloadConfig();
 		saveYamlFile(nameconfig, name);
         saveYamlFile(mconfig, mname);
 		saveYamlFile(iconfig, iname);
 		saveYamlFile(wconfig, wname);
+		
+		this.saveDefaultConfig();
+		
+		//UPDATER CONFIG
+
+		File update = createFile("updater.yml");
+		FileConfiguration updateconfig = createYamlFile(update);
+		
+		ArrayList l = new ArrayList();
+		ArrayList l2 = new ArrayList();
+		for (String key2 : updateconfig.getKeys(true)) {
+			l.add(key2);
+		}
+		for (String key3 : config.getKeys(true)) {
+			l2.add(key3);
+		}
+		for (String key : config.getDefaults().getKeys(true)) {
+			if (!l.contains(key)) {
+				if (!l2.contains(key)) {
+					Object s = config.getDefaults().get(key);
+					config.set(key, s);
+					saveYamlFile(config, createFile("config.yml"));
+				}
+			}
+		}
+		l.clear();
+		l2.clear();
+		
+		for (String key : config.getDefaults().getKeys(false)) {
+			updateconfig.options().header("DO NOT EDIT OR DELETE");
+			Object s = config.getDefaults().get(key);
+			updateconfig.set(key, s);
+		}
+		saveYamlFile(updateconfig, update);
+		
 		if (metrics.isEnabled()) {
 			log.info("AdvancedWeapons is using bStats");
 		}
@@ -163,6 +198,7 @@ public class Fates extends JavaPlugin implements Listener {
 	public static Economy getEconomy() {
 		return econ;
 	}
+	
 	File createTempFile(String filename) {
 
 		File c = new File(getDataFolder().getAbsolutePath());

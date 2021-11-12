@@ -203,6 +203,10 @@ public class CustomEnchantGUI extends API implements CommandExecutor, Listener {
 		ceM.setLore(Lore);
 		ce.setItemMeta(ceM);
 		t.addItem(ce);
+		ceM.setDisplayName("§eBow");
+		ceM.setLore(Lore);
+		ce.setItemMeta(ceM);
+		t.addItem(ce);
 		
 		player.openInventory(t);
 	}
@@ -439,6 +443,13 @@ public class CustomEnchantGUI extends API implements CommandExecutor, Listener {
 									speed1M.getDisplayName().toLowerCase().replace(" ", "-") + ".type")).equals("tool")) {
 								if (!isTool(player)) {
 									player.sendMessage("§cYou must be holding a tool to enchant your item.");
+									return;
+								}
+							}
+							if (plugin.getConfig().getString(ChatColor.stripColor("enchant." +
+									speed1M.getDisplayName().toLowerCase().replace(" ", "-") + ".type")).equals("bow")) {
+								if (!isTool(player)) {
+									player.sendMessage("§cYou must be holding a bow to enchant your item.");
 									return;
 								}
 							}

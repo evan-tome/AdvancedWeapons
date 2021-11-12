@@ -36,9 +36,9 @@ public class CEditor extends API implements CommandExecutor, Listener {
     HashMap<UUID, String> hash = new HashMap<UUID, String>();
     HashMap<UUID, String> ench = new HashMap<UUID, String>();
     
-    List<String> potion = Arrays.asList("interact", "attackself", "attackother", "armorself", "armorother", "itemself", "itemother", "blockbreak");
-    List<String> damage = Arrays.asList("attackself", "attackother", "armorself", "armorother", "itemself", "itemother");
-    List<String> explosion = Arrays.asList("interact", "attackself", "attackother", "armorself", "armorother", "itemself", "itemother", "blockbreak");
+    List<String> potion = Arrays.asList("interact", "attackself", "attackother", "armorself", "armorother", "itemself", "itemother", "blockbreak", "arrowself", "arrowother");
+    List<String> damage = Arrays.asList("attackself", "attackother", "armorself", "armorother", "itemself", "itemother", "arrowself", "arrowother");
+    List<String> explosion = Arrays.asList("interact", "attackself", "attackother", "armorself", "armorother", "itemself", "itemother", "blockbreak", "arrowself", "arrowother");
     List<String> fortune = Collections.singletonList("blockbreak");
     
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
@@ -398,6 +398,18 @@ public class CEditor extends API implements CommandExecutor, Listener {
                 }
             }
         t.addItem(ce);
+        ce.setType(Material.BOW);
+        ceM.setDisplayName("§eBow");
+        Lore.add("§8Bow, Crossbow");
+        ceM.setLore(Lore);
+        ce.setItemMeta(ceM);
+        Lore.clear();
+        if(plugin.getConfig().getConfigurationSection("enchant."+enchPath(ench.get(player.getUniqueId()))).contains("type")) {
+            if (plugin.getConfig().getString("enchant." + enchPath(ench.get(player.getUniqueId())) + ".type").equals("bow")) {
+                ce.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
+            }
+        }
+        t.addItem(ce);
         
         player.openInventory(t);
     }
@@ -548,6 +560,14 @@ public class CEditor extends API implements CommandExecutor, Listener {
             Lore.add("§aCurrent value: §c" + plugin.getConfig().getBoolean("enchant." + enchPath(ench.get(player.getUniqueId())) + ".msg"));
         }
         Lore.add("§7Does the message display?");
+        ceM.setLore(Lore);
+        ce.setItemMeta(ceM);
+        Lore.clear();
+        t.addItem(ce);
+    
+        ceM.setDisplayName("§ePlaceholders");
+        ce.setType(Material.KNOWLEDGE_BOOK);
+        Lore.add("§7Placeholders to use in the message");
         ceM.setLore(Lore);
         ce.setItemMeta(ceM);
         Lore.clear();
@@ -963,7 +983,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
                         case PAPER:
                             if (!event.getView().getTitle().contains("Lore")) {
                                 hash.put(player.getUniqueId(), "name");
-                                player.sendMessage("§aEnter the name with the tier (I, II, III, etc.)");
+                                player.sendMessage("§aEnter the name and tier (Example I, Example V, etc.)");
                                 player.closeInventory();
                             }
                             if (event.getView().getTitle().contains("Lore")) {
@@ -1073,6 +1093,18 @@ public class CEditor extends API implements CommandExecutor, Listener {
                             player.sendMessage("§aEnter the line (use '&' for color codes)");
                             player.closeInventory();
                             break;
+                        case KNOWLEDGE_BOOK:
+                            player.sendMessage("§a==Placeholders==");
+                            player.sendMessage("§a{user} §7- name of the user with the enchantment");
+                            player.sendMessage("§a{attacker} §7- name of the attacker");
+                            player.sendMessage("§a{defender} §7- name of the defender");
+                            player.sendMessage("§a{attackertype} §7- type of the attacker");
+                            player.sendMessage("§a{defendertype} §7- type of the defender");
+                            player.sendMessage("§a{effects} §7- effects given (potion, damage)");
+                            player.sendMessage("§a{potion} §7- potion effects given");
+                            player.sendMessage("§a{damage} §7- damage taken");
+                            player.sendMessage("§a{block} §7- block broken");
+                            break;
                     }
                     ItemStack ci = event.getCurrentItem();
                     ItemMeta ciM = ci.getItemMeta();
@@ -1091,6 +1123,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
                             event.getCurrentItem().addUnsafeEnchantment(Enchantment.DURABILITY, 1);
                             plugin.getConfig().set("enchant." + enchPath(ench.get(player.getUniqueId())) + ".type",
                                     ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName().toLowerCase()));
+                            updateConfig();
                         }
                     }
                     if (event.getView().getTitle().contains("Function")) {
@@ -1215,7 +1248,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
             event.setCancelled(true);
             switch (hash.get(player.getUniqueId())) {
                 case "name":
-                    if (enchlevelString(s) < 1 || s.trim().length() < 4) {
+                    if (enchlevelString(s) < 1 || !s.trim().contains(" ")) {
                         player.sendMessage("§cYou did not enter a tier (I, II, III, etc.). Try again");
                     } else {
                         hash.remove(player.getUniqueId());
@@ -1376,7 +1409,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
                     s = s.trim();
                     String[] sp4 = s.split(",");
                     for (String ps : sp4) {
-                        if (EntityType.fromName(ps)!=null) {
+                        if (EntityType.fromName(ps.trim())!=null) {
                             al.add(ps.trim().toUpperCase());
                         } else if (ps.equals("poison")) {
                             al.add(ps.trim());
@@ -1386,10 +1419,14 @@ public class CEditor extends API implements CommandExecutor, Listener {
                             f4.add(ps.trim());
                         }
                     }
-                    if(!f4.isEmpty()) {
-                        player.sendMessage("§cCould not add: "+listToString(f4).trim());
+                    if (!f4.isEmpty()) {
+                        player.sendMessage("§cCould not add: " + listToString(f4).trim());
                     }
-                    plugin.getConfig().set("enchant."+enchPath(ench.get(player.getUniqueId()))+".affected", al);
+                    if (!al.isEmpty()) {
+                        plugin.getConfig().set("enchant." + enchPath(ench.get(player.getUniqueId())) + ".affected", al);
+                    } else {
+                        plugin.getConfig().set("enchant." + enchPath(ench.get(player.getUniqueId())) + ".affected", null);
+                    }
                     updateConfig();
                     hash.remove(player.getUniqueId());
                     al.clear();
@@ -1402,7 +1439,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
                     s = s.trim();
                     String[] sp5 = s.split(",");
                     for (String ps : sp5) {
-                        if (EntityType.fromName(ps)!=null) {
+                        if (EntityType.fromName(ps.trim())!=null) {
                             il.add(ps.trim().toUpperCase());
                         } else if (ps.equals("poison")) {
                             il.add(ps.trim());
@@ -1412,10 +1449,14 @@ public class CEditor extends API implements CommandExecutor, Listener {
                             f5.add(ps.trim());
                         }
                     }
-                    if(!f5.isEmpty()) {
+                    if (!f5.isEmpty()) {
                         player.sendMessage("§cCould not add: "+listToString(f5).trim());
                     }
-                    plugin.getConfig().set("enchant."+enchPath(ench.get(player.getUniqueId()))+".immune", il);
+                    if (!il.isEmpty()) {
+                        plugin.getConfig().set("enchant." + enchPath(ench.get(player.getUniqueId())) + ".immune", il);
+                    } else {
+                        plugin.getConfig().set("enchant." + enchPath(ench.get(player.getUniqueId())) + ".immune", null);
+                    }
                     updateConfig();
                     hash.remove(player.getUniqueId());
                     il.clear();

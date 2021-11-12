@@ -184,15 +184,20 @@ public class EnchantAttackOther extends API implements Listener {
                                             if (item.contains("msg")) {
                                                 if (item.getBoolean("msg") == true) {
                                                     if (item.contains("chatmsg")) {
-                                                        String ent = "";
-                                                        if (defender != null) {
-                                                            ent = StringUtils.capitaliseAllWords(defender.getType().getName().toLowerCase().replace("_", " "));
-                                                        }
+                                                        
+                                                        String attackt = StringUtils.capitaliseAllWords(attacker.getType().getName().toLowerCase().replace("_", " "));
+                                                        String defendt = StringUtils.capitaliseAllWords(defender.getType().getName().toLowerCase().replace("_", " "));
+    
+                                                        String user = attacker.getDisplayName();
+    
                                                         effects = StringUtils.capitaliseAllWords
                                                                 (item.getStringList("effects").toString().replace("[", "").replace("]", ""));
-                                                        attacker.sendMessage(item.getString("chatmsg").replace("{defender}", ent)
-                                                                .replace("{user}", attacker.getName()).replace("{potion}", effects).replace("{damage}", effects));
-                                                        effects = "";
+    
+                                                        attacker.sendMessage(item.getString("chatmsg").replace("{attacker}", attacker.getName())
+                                                                .replace("{defender}", defender.getName()).replace("{attackertype}", attackt)
+                                                                .replace("{defendertype}", defendt).replace("{effects}", effects).replace("{user}", user)
+                                                                .replace("{user}", defender.getName()).replace("{potion}", effects).replace("{damage}", effects)
+                                                                .replace("&", "§"));
                                                     }
                                                 }
                                             }

@@ -34,10 +34,6 @@ public class Coinflip extends API implements CommandExecutor, Listener {
         if (hasCommandPerm(sender, cmd, commandLabel, plugin.getConfig()) == false) {
             if (cmd.getName().equalsIgnoreCase("coinflip")) {
                 
-                File filename = plugin.createFile("playerdata.yml");
-                FileConfiguration nameconfig = plugin.createYamlFile(filename);
-                plugin.saveYamlFile(nameconfig, filename);
-                
                 if (!(sender instanceof Player)) {
                     
                     sender.sendMessage("§cError: §4Only Players can use this command!");

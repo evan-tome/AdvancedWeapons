@@ -25,14 +25,23 @@ dust-item:
 dust-obtainable:
   - ANCIENT_DEBRIS:50
   - DIAMOND_ORE:40
+  - DEEPSLATE_DIAMOND_ORE:40
   - EMERALD_ORE:35
+  - DEEPSLATE_EMERALD_ORE:35
   - LAPIS_ORE:25
+  - DEEPSLATE_LAPIS_ORE:25
   - REDSTONE_ORE:20
+  - DEEPSLATE_REDSTONE_ORE:20
   - NETHER_GOLD_ORE:15
   - GOLD_ORE:15
+  - DEEPSLATE_GOLD_ORE:15
   - IRON_ORE:10
+  - DEEPSLATE_IRON_ORE:10
   - NETHER_QUARTZ_ORE:5
+  - COPPER_ORE:5
+  - DEEPSLATE_COPPER_ORE:5
   - COAL_ORE:5
+  - DEEPSLATE_COAL_ORE:5
 # Weapons
 weapon:
   the-destroyer:
@@ -55,14 +64,17 @@ weapon:
   spirit-leash:
     msg: true
     cost: 14
+  grappling-hook:
+    msg: actionbar
+    cost: 14
 # Machines
 machine:
   port-a-wall:
     cost: 20
   autominer:
     cost: 160
-  obsidian-carver:
-    cost: 32
+  grappling-post:
+    cost: 20
 # Custom Enchantments
 enchant:
   rush-i:
@@ -424,7 +436,7 @@ enchant:
     lore:
       - "&7Gives saturation after mining"
       - "&7a block of gold ore."
-      - "&7Saturation I - 4s"
+      - "&7Saturation I - 1s"
     chance: 25
     cost: 16
     type: tool
@@ -433,8 +445,9 @@ enchant:
     function: potion
     blocks:
       - GOLD_ORE
+      - DEEPSLATE_GOLD_ORE
       - NETHER_GOLD_ORE
     effects:
       - SATURATION
-    duration: 4
+    duration: 1
     amplifier: 0

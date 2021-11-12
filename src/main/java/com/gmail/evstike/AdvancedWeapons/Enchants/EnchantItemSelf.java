@@ -22,6 +22,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.List;
 import java.util.Random;
 
+@SuppressWarnings("deprecation")
 public class EnchantItemSelf extends API implements Listener {
     Fates plugin;
     
@@ -136,15 +137,20 @@ public class EnchantItemSelf extends API implements Listener {
                                             if (item.contains("msg")) {
                                                 if (item.getBoolean("msg") == true) {
                                                     if (item.contains("chatmsg")) {
-                                                        String ent = "";
-                                                        if (defender != null) {
-                                                            ent = StringUtils.capitaliseAllWords(attacker.getType().getName().toLowerCase().replace("_", " "));
-                                                        }
+                                                        
+                                                        String attackt = StringUtils.capitaliseAllWords(attacker.getType().getName().toLowerCase().replace("_", " "));
+                                                        String defendt = StringUtils.capitaliseAllWords(defender.getType().getName().toLowerCase().replace("_", " "));
+                                                        
+                                                        String user = defender.getDisplayName();
+                                                        
                                                         effects = StringUtils.capitaliseAllWords
                                                                 (item.getStringList("effects").toString().replace("[", "").replace("]", ""));
-                                                        defender.sendMessage(item.getString("chatmsg").replace("{attacker}", ent)
-                                                                .replace("{user}", defender.getName()).replace("{potion}", effects).replace("{damage}", effects));
-                                                        effects = "";
+                                                        
+                                                        defender.sendMessage(item.getString("chatmsg").replace("{attacker}", attacker.getName())
+                                                                .replace("{defender}", defender.getName()).replace("{attackertype}", attackt)
+                                                                .replace("{defendertype}", defendt).replace("{effects}", effects).replace("{user}", user)
+                                                                .replace("{user}", defender.getName()).replace("{potion}", effects).replace("{damage}", effects)
+                                                                .replace("&", "§"));
                                                     }
                                                 }
                                             }

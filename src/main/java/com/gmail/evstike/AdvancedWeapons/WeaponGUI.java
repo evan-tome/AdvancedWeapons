@@ -68,7 +68,10 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
         ItemStack snow = new ItemStack(Material.SNOWBALL);
         ItemMeta snowMeta = snow.getItemMeta();
         ItemStack lead = new ItemStack(Material.LEAD);
-        ItemMeta leadMeta = snow.getItemMeta();
+        ItemMeta leadMeta = lead.getItemMeta();
+        ItemStack grapple = new ItemStack(Material.FISHING_ROD);
+        ItemMeta grappleMeta = grapple.getItemMeta();
+        
         ItemStack custom = new ItemStack(Material.CHEST);
         ItemMeta customMeta = custom.getItemMeta();
         
@@ -190,6 +193,18 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
         Lore7.add("§b" + num7 + "x " + "§7DUST");
         leadMeta.setLore(Lore7);
         lead.setItemMeta(leadMeta);
+    
+        List<String> Lore8 = new ArrayList<String>();
+        grappleMeta.setDisplayName(ChatColor.RED + "Grappling Hook");
+        int num8 = plugin.getConfig().getInt(ChatColor.stripColor("weapon." +
+                grappleMeta.getDisplayName().toLowerCase().replace(" ", "-") + ".cost"));
+        Lore8.add("");
+        Lore8.add("§7This grappling hook attaches to Grappling");
+        Lore8.add("§7Posts to propel its user to new heights.");
+        Lore8.add("");
+        Lore8.add("§b" + num8 + "x " + "§7DUST");
+        grappleMeta.setLore(Lore8);
+        grapple.setItemMeta(grappleMeta);
         
         List<String> LoreF = new ArrayList<String>();
         customMeta.setDisplayName(ChatColor.LIGHT_PURPLE + "More Weapons");
@@ -209,7 +224,7 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
         inv.setItem(4, bo);
         inv.setItem(5, snow);
         inv.setItem(6, lead);
-        inv.setItem(7, un);
+        inv.setItem(7, grapple);
         
         inv.setItem(8, custom);
         
@@ -441,7 +456,7 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
                     }
                     switch (event.getCurrentItem().getType()) {
                         case LEAD:
-                            
+            
                             try {
                                 List<String> Lore7 = new ArrayList<String>();
                                 ItemStack lead = new ItemStack(Material.LEAD, 1);
@@ -453,7 +468,7 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
                                 int num = plugin.getConfig().getInt(ChatColor.stripColor("weapon." +
                                         leadMeta.getDisplayName().toLowerCase().replace(" ", "-") + ".cost"));
                                 glow.setAmount(num);
-                                
+                
                                 if (player.getInventory().containsAtLeast(glow, num)) {
                                     player.getInventory().removeItem(glow);
                                     hasAvaliableSlot(player, lead, s);
@@ -461,7 +476,34 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
                                 } else {
                                     player.sendMessage(plugin.getConfig().getString("insufficient-dust-msg").replace('&', '§'));
                                 }
-                                
+                
+                            } catch (Exception ignored) {
+                                player.closeInventory();
+                                return;
+                            }
+                    }
+                    switch (event.getCurrentItem().getType()) {
+                        case FISHING_ROD:
+            
+                            try {
+                                List<String> Lore7 = new ArrayList<String>();
+                                ItemStack grapple = new ItemStack(Material.FISHING_ROD, 1);
+                                ItemMeta grappleMeta = grapple.getItemMeta();
+                                grappleMeta.setDisplayName(ChatColor.RED + "Grappling Hook");
+                                grappleMeta.setLore(Lore7);
+                                grapple.setItemMeta(grappleMeta);
+                                int num = plugin.getConfig().getInt(ChatColor.stripColor("weapon." +
+                                        grappleMeta.getDisplayName().toLowerCase().replace(" ", "-") + ".cost"));
+                                glow.setAmount(num);
+                
+                                if (player.getInventory().containsAtLeast(glow, num)) {
+                                    player.getInventory().removeItem(glow);
+                                    hasAvaliableSlot(player, grapple, s);
+                                    return;
+                                } else {
+                                    player.sendMessage(plugin.getConfig().getString("insufficient-dust-msg").replace('&', '§'));
+                                }
+                
                             } catch (Exception ignored) {
                                 player.closeInventory();
                                 return;

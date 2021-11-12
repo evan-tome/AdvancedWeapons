@@ -9,16 +9,21 @@ import org.bukkit.block.data.Orientable;
 import org.bukkit.block.data.Rotatable;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LeashHitch;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.hanging.HangingBreakEvent;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.scheduler.BukkitScheduler;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.util.List;
@@ -177,7 +182,7 @@ public class MachineFunctions extends API implements Listener {
                         }
                         if (!verify) {
                             event.setCancelled(true);
-                            p.sendMessage("§cCould not place.");
+                            p.sendMessage("§cNot enough space to place this.");
                             blockBreak(l);
                         }
                         verify = true;
@@ -185,6 +190,54 @@ public class MachineFunctions extends API implements Listener {
                         p.sendMessage("§cThis Machine can only be placed in the Overworld.");
                         event.getBlockPlaced().setType(Material.AIR);
                     }
+                }
+            }
+        }
+        //GRAPPLING POST
+        s = ChatColor.AQUA + "Grappling Post";
+    
+        if (event.getBlockPlaced().getType().equals(Material.OAK_FENCE)) {
+            if (im.hasDisplayName()) {
+                if (im.getDisplayName().equals(s)) {
+    
+                    if (mconfig.getKeys(false).isEmpty()) {
+                        id = "0";
+                    } else {
+                        for (String key : mconfig.getKeys(false)) {
+                            a = Integer.parseInt(mconfig.getConfigurationSection(key).getName());
+                        }
+                        if (!mconfig.getKeys(false).isEmpty()) {
+                            id = a + 1 + "";
+                        }
+                    }
+                    if (event.isCancelled()) {
+                        return;
+                    }
+    
+                    newMachine(id, "Grappling Post", p, true, Material.OAK_FENCE);
+    
+                    ItemStack it = new ItemStack(Material.COBBLESTONE_WALL, 1);
+                    ItemMeta itm = it.getItemMeta();
+                    itm.setDisplayName(ChatColor.AQUA + "Grappling Post");
+                    it.setItemMeta(itm);
+    
+                    bl.setType(Material.AIR);
+                    blockPlace(bl, Material.OAK_FENCE, id, p, it);
+                    Location loc = event.getBlockPlaced().getLocation();
+                    Location loc2 = event.getBlockPlaced().getLocation();
+                    loc.setY(loc.getY() - 1);
+                    loc2.setY(loc2.getY() + 1);
+                    m = loc.getBlock().getType();
+                    m2 = loc2.getBlock().getType();
+                    loc.getBlock().setType(Material.AIR);
+                    loc2.getBlock().setType(Material.AIR);
+    
+                    LeashHitch hitch = (LeashHitch) p.getWorld().spawnEntity(event.getBlockPlaced().getLocation(), EntityType.LEASH_HITCH);
+                    Bukkit.getEntity(hitch.getUniqueId()).setPersistent(true);
+                    Bukkit.getEntity(hitch.getUniqueId()).setInvulnerable(true);
+                    loc.getBlock().setType(m);
+                    loc2.getBlock().setType(m2);
+    
                 }
             }
         }
@@ -260,7 +313,6 @@ public class MachineFunctions extends API implements Listener {
 
         File mname = plugin.createFile("machines.yml");
         FileConfiguration mconfig = plugin.createYamlFile(mname);
-
         File name = plugin.createFile("machineinv.yml");
         FileConfiguration config = plugin.createYamlFile(name);
 
@@ -283,58 +335,113 @@ public class MachineFunctions extends API implements Listener {
             }
         }
     }
+    
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onLeashInteract(PlayerInteractAtEntityEvent event) {
 
+        Entity e = event.getRightClicked();
+        if (e instanceof LeashHitch) {
+            LeashHitch el = (LeashHitch) e;
+            Block bl = el.getLocation().getBlock();
+            Location l = bl.getLocation();
+
+            File mname = plugin.createFile("machines.yml");
+            FileConfiguration mconfig = plugin.createYamlFile(mname);
+            File name = plugin.createFile("machineinv.yml");
+            FileConfiguration config = plugin.createYamlFile(name);
+
+            for (String key : mconfig.getKeys(false)) {
+                ConfigurationSection item = mconfig.getConfigurationSection(key);
+                if (item.getString("type").equals("Grappling Post")) {
+                    List<String> list = item.getStringList("list");
+                    if (list.contains(c(l))) {
+                        blockBreak(l);
+                    }
+                }
+            }
+        }
+    }
+    
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onLeashDamage(HangingBreakEvent event) {
+        
+        Entity e = event.getEntity();
+        if (e instanceof LeashHitch) {
+            LeashHitch el = (LeashHitch) e;
+            Block bl = el.getLocation().getBlock();
+            Location l = bl.getLocation();
+            
+            File mname = plugin.createFile("machines.yml");
+            FileConfiguration mconfig = plugin.createYamlFile(mname);
+            File name = plugin.createFile("machineinv.yml");
+            FileConfiguration config = plugin.createYamlFile(name);
+            
+            for (String key : mconfig.getKeys(false)) {
+                ConfigurationSection item = mconfig.getConfigurationSection(key);
+                if (item.getString("type").equals("Grappling Post")) {
+                    List<String> list = item.getStringList("list");
+                    if (list.contains(c(l))) {
+                        //blockBreak(l);
+                        event.setCancelled(true);
+                    }
+                }
+            }
+        }
+    }
+    
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onLoad(PluginEnableEvent event) {
         Mortis();
     }
 
     public void Mortis() {
-        BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
-        scheduler.scheduleSyncRepeatingTask(plugin, new Runnable() {
-                    @Override
-                    public void run() {
-                        boolean full = false; //machine is not full
-                        
-                        File minv = plugin.createFile("machineinv.yml");
-                        FileConfiguration minvC = plugin.createYamlFile(minv);
-                        File mname = plugin.createFile("machines.yml");
-                        FileConfiguration mconfig = plugin.createYamlFile(mname);
-                        
-                        for (String key : minvC.getKeys(false)) {
-                            ConfigurationSection section = minvC.getConfigurationSection(key);
-                            if (section.getString("type").equals("AutoMiner")) {
-                                List<String> l = section.getStringList("list");
-                                for (String s : l) {
-                                    int in = l.indexOf(s); //index of material
-                                    String[] words = s.split(":");
-                                    String firstWord = words[0];
-                                    String lastWord = s.substring(s.lastIndexOf(":") + 1);
-                                    int i = Integer.parseInt(lastWord) + 1;
-                                    if (i <= maxSize(in)) {
-                                        Random rand = new Random();
-                                        int n = rand.nextInt(100) + 1;
-                                        if (n <= matChance(in)) {
-                                            l.set(l.indexOf(s), firstWord + ":" + i);
-                                        }
-                                        if (getLastWord(l.get(0)) == maxSize(0) || getLastWord(l.get(1)) == maxSize(1) || //check if a stack is full
-                                                getLastWord(l.get(2)) == maxSize(2) || getLastWord(l.get(3)) == maxSize(3)) {
-                                            full = true; //if a slot is full
-                                        }
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                File minv = plugin.createFile("machineinv.yml");
+                FileConfiguration minvC = plugin.createYamlFile(minv);
+                File mname = plugin.createFile("machines.yml");
+                FileConfiguration mconfig = plugin.createYamlFile(mname);
+    
+                boolean full = false; //machine is not full
+                if (minvC.getKeys(false).size() > 0) {
+                    for (String key : minvC.getKeys(false)) {
+                        ConfigurationSection section = minvC.getConfigurationSection(key);
+                        if (section.getString("type").equals("AutoMiner")) {
+                
+                            List<String> l = section.getStringList("list");
+                            for (String s : l) {
+                                int in = l.indexOf(s); //index of material
+                                String[] words = s.split(":");
+                                String firstWord = words[0];
+                                String lastWord = s.substring(s.lastIndexOf(":") + 1);
+                                int i = Integer.parseInt(lastWord) + 1;
+                                if (i <= maxSize(in)) {
+                                    Random rand = new Random();
+                                    int n = rand.nextInt(100) + 1;
+                                    if (n <= matChance(in)) {
+                                        l.set(l.indexOf(s), firstWord + ":" + i);
                                     }
-                                    section.set("list", l);
-                                    plugin.saveYamlFile(minvC, minv);
-                                    if (full) {
-                                        Block block = str2loc(mconfig.getStringList(key + ".list").get(3), key);
-                                        block.setType(Material.LIME_STAINED_GLASS);
-                                        full = false;
+                                    if (getLastWord(l.get(0)) == maxSize(0) || getLastWord(l.get(1)) == maxSize(1) || //check if a stack is full
+                                            getLastWord(l.get(2)) == maxSize(2) || getLastWord(l.get(3)) == maxSize(3)) {
+                                        full = true; //if a slot is full
                                     }
+                                }
+                                section.set("list", l);
+                                plugin.saveYamlFile(minvC, minv);
+                                if (full) {
+                                    Block block = str2loc(mconfig.getStringList(key + ".list").get(3), key);
+                                    block.setType(Material.LIME_STAINED_GLASS);
+                                    full = false;
                                 }
                             }
                         }
                     }
-                }, 0L, 480L);
+                }
+            }
+        }.runTaskTimer(plugin, 20L, 500L);
     }
+    
     public int getLastWord(String s) {
         String[] words = s.split(":");
         String lastWord = s.substring(s.lastIndexOf(":") + 1);
@@ -482,10 +589,10 @@ public class MachineFunctions extends API implements Listener {
 
         int chance = 0;
         if (i == 0) {
-            chance = 10;
+            chance = 5;
         }
         if (i == 1) {
-            chance = 20;
+            chance = 15;
         }
         if (i == 2) {
             chance = 70;

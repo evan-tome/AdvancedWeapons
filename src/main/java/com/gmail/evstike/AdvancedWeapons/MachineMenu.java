@@ -33,22 +33,22 @@ public class MachineMenu extends API implements Listener {
     public MachineMenu(Fates instance) {
         this.plugin = instance;
     }
-
+    
     @EventHandler(
             priority = EventPriority.HIGHEST
     )
     public void onMachineOpen(PlayerInteractEvent event) {
-        File mname = this.plugin.createFile("machines.yml");
-        FileConfiguration mconfig = this.plugin.createYamlFile(mname);
-        this.plugin.saveYamlFile(mconfig, mname);
-        File name = this.plugin.createFile("machineinv.yml");
-        FileConfiguration config = this.plugin.createYamlFile(name);
-        this.plugin.saveYamlFile(config, name);
         Player p = event.getPlayer();
         if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK) && !p.isSneaking()) {
             Block bl = event.getClickedBlock();
             Location l = bl.getLocation();
             ItemStack i = p.getInventory().getItemInHand();
+            
+            File mname = this.plugin.createFile("machines.yml");
+            FileConfiguration mconfig = this.plugin.createYamlFile(mname);
+            File name = this.plugin.createFile("machineinv.yml");
+            FileConfiguration config = this.plugin.createYamlFile(name);
+            
             for (String key : mconfig.getKeys(false)) {
                 ConfigurationSection item = mconfig.getConfigurationSection(key);
                 List<String> list = item.getStringList("list");
