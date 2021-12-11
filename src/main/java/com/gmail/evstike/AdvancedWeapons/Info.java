@@ -38,18 +38,18 @@ public class Info extends ConfigGUI implements CommandExecutor, TabCompleter {
 			FileConfiguration mconfig = plugin.createYamlFile(mname);
 			plugin.saveYamlFile(mconfig, mname);
 
-			List<String> a = Arrays.asList("help", "pages", "enchants", "commands", "dust", "discord", "author", "guide", "ver", "version", "download",
+			List<String> a = Arrays.asList("help", "pages", "stats", "enchants", "commands", "dust", "discord", "author", "guide", "ver", "version", "download",
 					"permissions", "admin", "config", "reload", "rl");
 
 			if (args.length == 0 || args.length == 1 && args[0].equals("help")) {
 				String ver = Bukkit.getServer().getPluginManager().getPlugin("AdvancedWeapons").getDescription().getVersion();
 				String author = Bukkit.getServer().getPluginManager().getPlugin("AdvancedWeapons").getDescription().getAuthors().toString().replace("[", "");
 				sender.sendMessage(ChatColor.GOLD + ("AdvancedWeapons version §b" + ver + "§6 by §b" + author + "§a.").replace("]", ""));
-				sender.sendMessage(ChatColor.GOLD + "Do §a/" + commandLabel + " pages §6for more information.");
+				sender.sendMessage(ChatColor.GOLD + "Use §a/" + commandLabel + " pages §6for more information.");
 			}
 			if (args.length > 0 && !a.contains(args[0].toLowerCase())) {
 				sender.sendMessage(ChatColor.GOLD + "Unknown page §c\"" + args[0] + '"' + "§6. Please specify a page.");
-				sender.sendMessage(ChatColor.GOLD + "Do §a/" + commandLabel + " pages §6for more information.");
+				sender.sendMessage(ChatColor.GOLD + "Use §a/" + commandLabel + " pages §6for more information.");
 			}
 			if (args.length == 1) {
 				if (args[0].equalsIgnoreCase("pages")) {
@@ -60,7 +60,7 @@ public class Info extends ConfigGUI implements CommandExecutor, TabCompleter {
 					sender.sendMessage("§a- §6commands");
 					sender.sendMessage("§a- §6dust");
 					sender.sendMessage("§a- §6discord");
-					sender.sendMessage("§a- §6guide");
+					//sender.sendMessage("§a- §6guide");
 					sender.sendMessage("§a- §6author");
 					sender.sendMessage("§a- §6version");
 					sender.sendMessage("§a- §6download");
@@ -72,6 +72,28 @@ public class Info extends ConfigGUI implements CommandExecutor, TabCompleter {
 					}
 
 					sender.sendMessage("§6-================-");
+				}
+				if (args[0].equalsIgnoreCase("stats")) {
+					sender.sendMessage("§6-=" + sender.getName() +"'s Stats=-");
+					
+					File pfile = plugin.createFile("playerdata.yml");
+					FileConfiguration pconf = plugin.createYamlFile(pfile);
+					Player p = (Player) sender;
+					
+					ConfigurationSection item = pconf.getConfigurationSection("playerdata." + p.getUniqueId());
+					int dust = item.getInt("dust");
+					int wins = item.getInt("coinflip.wins");
+					int losses = item.getInt("coinflip.losses");
+					double wl = wins*1.0/losses;
+					sender.sendMessage("§aGeneral:");
+					sender.sendMessage("§a- §6Dust: §7" + dust);
+					sender.sendMessage("§aCoinflip:");
+					sender.sendMessage("§a- §6Wins: §7" + wins);
+					sender.sendMessage("§a- §6Losses: §7" + losses);
+					sender.sendMessage("§a- §6W/L: §7" + Math.round(wl*100)/100.0);
+					
+					sender.sendMessage("§6-================-");
+					max.clear();
 				}
 				if (args[0].equalsIgnoreCase("enchants")) {
 					sender.sendMessage("§6-=Enchants=-");
@@ -122,10 +144,10 @@ public class Info extends ConfigGUI implements CommandExecutor, TabCompleter {
 				if (args[0].equalsIgnoreCase("dust")) {
 					sender.sendMessage("§6-=Dust=-");
 					sender.sendMessage("§6Purchase Dust using §a/dust");
-					sender.sendMessage("§aDust is an AdvancedWeapons currency used to");
-					sender.sendMessage("§aenchant your items and buy magical weapons");
-					sender.sendMessage("§aLegends say that Dust can be used to power");
-					sender.sendMessage("§aancient machinery.");
+					sender.sendMessage("§7Dust is an AdvancedWeapons currency used to");
+					sender.sendMessage("§7enchant your items and buy magical weapons");
+					sender.sendMessage("§7Legends say that Dust can be used to power");
+					sender.sendMessage("§7ancient machinery.");
 					sender.sendMessage("§6-================-");
 				}
 				if (args[0].equalsIgnoreCase("permissions") && sender.hasPermission("advancedweapons.admin")) {
@@ -150,10 +172,10 @@ public class Info extends ConfigGUI implements CommandExecutor, TabCompleter {
 				}
 				if (args[0].equalsIgnoreCase("admin") && sender.hasPermission("advancedweapons.admin")) {
 					sender.sendMessage("§6-=Admin Pages=-");
-					sender.sendMessage("§a- §6admin");
-					sender.sendMessage("§a- §6permissions");
-					sender.sendMessage("§a- §6reload");
-					sender.sendMessage("§a- §6config");
+					sender.sendMessage("§a- §badmin");
+					sender.sendMessage("§a- §bpermissions");
+					sender.sendMessage("§a- §breload");
+					sender.sendMessage("§a- §bconfig");
 					sender.sendMessage("§6-================-");
 				}
 				if (args[0].equalsIgnoreCase("discord")) {
@@ -250,7 +272,7 @@ public class Info extends ConfigGUI implements CommandExecutor, TabCompleter {
 				return null;
 			}
 		} else {
-			List<String> a = Arrays.asList("help", "pages", "enchants", "commands", "dust", "discord", "author", "guide", "version", "download");
+			List<String> a = Arrays.asList("help", "pages", "stats", "enchants", "commands", "dust", "discord", "author", "version", "download");
 			List<String> b = Arrays.asList("admin", "permissions", "reload", "config");
 			List<String> f = Lists.newArrayList();
 			if (args.length == 1) {

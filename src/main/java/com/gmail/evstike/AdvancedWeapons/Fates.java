@@ -42,9 +42,14 @@ public class Fates extends JavaPlugin implements Listener {
 		Bukkit.getServer().getPluginManager().registerEvents(new EnchantBlockBreak(this), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new EnchantArrowSelf(this), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new EnchantArrowOther(this), this);
+		Bukkit.getServer().getPluginManager().registerEvents(new EnchantArrowLand(this), this);
 		
 		Bukkit.getServer().getPluginManager().registerEvents(new MachineGUI(this), this);
-		Bukkit.getServer().getPluginManager().registerEvents(new Coinflip(this), this);
+		
+		Coinflip coinflip = new Coinflip(this);
+		Bukkit.getServer().getPluginManager().registerEvents(coinflip, this);
+		
+		
 		Bukkit.getServer().getPluginManager().registerEvents(new CakeListener(this), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new WeaponFunctions(this), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new UpdateCheck(this), this);
@@ -64,13 +69,13 @@ public class Fates extends JavaPlugin implements Listener {
 		this.getCommand("hidden").setExecutor(new Hidden(this));
 		this.getCommand("hidden").setTabCompleter(new Hidden(this));
 		this.getCommand("machines").setExecutor(new MachineGUI(this));
-		this.getCommand("coinflip").setExecutor(new Coinflip(this));
+		this.getCommand("coinflip").setExecutor(coinflip);
 		this.getCommand("ceditor").setExecutor(new CEditor(this));
 		new API(this);
 		new ConfigGUI(this);
 		Metrics metrics = new Metrics(this);
 		Logger log = this.getLogger();
-		if(!Bukkit.getVersion().contains("1.17")) {
+		if(!Bukkit.getVersion().contains("1.18")) {
 			this.getLogger().info("AdvancedWeapons is not compatible with your server version");
 		}
 		
@@ -122,7 +127,7 @@ public class Fates extends JavaPlugin implements Listener {
 		FileConfiguration wconfig = createYamlFile(wname);
 		
 		saveYamlFile(nameconfig, name);
-        saveYamlFile(mconfig, mname);
+		saveYamlFile(mconfig, mname);
 		saveYamlFile(iconfig, iname);
 		saveYamlFile(wconfig, wname);
 		
@@ -173,7 +178,7 @@ public class Fates extends JavaPlugin implements Listener {
 
 				new UpdateCheck(this, 67760).getVersion(version -> {
                     if (this.getDescription().getVersion().contains("-beta")) {
-                        logger.info("You are using a beta version of AdvancedWeapons");
+                        logger.info("You are using a beta version of AdvancedWeapons. Some features may be unstable");
                     }
 					if (this.getDescription().getVersion().replace("-beta", "").equalsIgnoreCase(version)) {
 						logger.info("You are using the latest version of AdvancedWeapons: " + version);

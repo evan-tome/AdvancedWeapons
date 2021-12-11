@@ -54,6 +54,7 @@ public class EnchantAttackOther extends API implements Listener {
                 ItemMeta im = i.getItemMeta();
                 int dur = i.getDurability();
                 
+                
                 if (im != null) {
                     if (im.hasLore()) {
                         for (String s : im.getLore()) {
@@ -151,6 +152,7 @@ public class EnchantAttackOther extends API implements Listener {
                                                         } else {
                                                             Bukkit.getLogger().warning(n + " does not have a duration.");
                                                         }
+                                                        
                                                         defender.addPotionEffect(new PotionEffect(PotionEffectType.getByName(effect.toUpperCase()), ti, l));
                                                     }
                                                 }
@@ -165,7 +167,7 @@ public class EnchantAttackOther extends API implements Listener {
                                             if (function.equals("explosion")) {
                                                 Location loc = defender.getLocation();
                                                 
-                                                Boolean destroy = true;
+                                                Boolean destroy = false;
                                                 int power = 1;
                                                 if (item.contains("destroy")) {
                                                     destroy = item.getBoolean("destroy");

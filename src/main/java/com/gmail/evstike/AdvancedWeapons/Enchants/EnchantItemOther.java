@@ -118,7 +118,7 @@ public class EnchantItemOther extends API implements Listener {
                                                 Location loc = defender.getLocation();
                                                 loc = attacker.getLocation();
                                                 
-                                                Boolean destroy = true;
+                                                Boolean destroy = false;
                                                 int power = 1;
                                                 if (item.contains("destroy")) {
                                                     destroy = item.getBoolean("destroy");

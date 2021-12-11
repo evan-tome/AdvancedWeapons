@@ -117,7 +117,7 @@ public class EnchantBlockBreak extends API implements Listener {
                                     if (function.equals("explosion")) {
                                         Location loc = p.getLocation();
                                     
-                                        Boolean destroy = true;
+                                        Boolean destroy = false;
                                         int power = 1;
                                         if (item.contains("destroy")) {
                                             destroy = item.getBoolean("destroy");

@@ -11,13 +11,13 @@ import org.bukkit.event.block.BlockBreakEvent;
 import java.util.Random;
 
 public class DustFunctions extends API implements Listener {
-
+    
     Fates plugin;
-
+    
     public DustFunctions(Fates instance) {
         plugin = instance;
     }
-
+    
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         Block block = event.getBlock();
@@ -35,9 +35,7 @@ public class DustFunctions extends API implements Listener {
                 if (n <= w) {
                     event.getBlock().getLocation().getWorld().dropItemNaturally(
                             event.getBlock().getLocation(), dust(plugin.getConfig().getStringList("dust-item")));
-                    if (serverIs113()) {
-                        event.getPlayer().spawnParticle(Particle.ENCHANTMENT_TABLE, event.getBlock().getLocation(), 4);
-                    }
+                    event.getPlayer().spawnParticle(Particle.ENCHANTMENT_TABLE, event.getBlock().getLocation(), 4);
                 }
             }
         }

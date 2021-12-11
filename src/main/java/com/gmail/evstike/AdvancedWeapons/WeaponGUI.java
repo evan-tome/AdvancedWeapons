@@ -118,8 +118,8 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
         int num2 = plugin.getConfig().getInt(ChatColor.stripColor("weapon." +
                 slayMeta.getDisplayName().toLowerCase().replace(" ", "-") + ".cost"));
         slayMeta.addEnchant(Enchantment.DAMAGE_UNDEAD, 3, true);
-        slayMeta.addEnchant(Enchantment.FIRE_ASPECT, 2, true);
-        Lore2.add("§7Butcher II");
+        slayMeta.addEnchant(Enchantment.FIRE_ASPECT, 1, true);
+        Lore2.add("§7Butcher I");
         Lore2.add("");
         Lore2.add("§7This deadly axe is rumoured");
         Lore2.add("§7to heal its user at low health");
@@ -269,7 +269,6 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
                     switch (event.getCurrentItem().getType()) {
                         case DIAMOND_SWORD:
                             
-                            try {
                                 
                                 List<String> Lore = new ArrayList<String>();
                                 ItemStack dest = new ItemStack(Material.DIAMOND_SWORD, 1);
@@ -293,21 +292,15 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
                                     player.sendMessage(plugin.getConfig().getString("insufficient-dust-msg").replace('&', '§'));
                                 }
                                 
-                            } catch (Exception ignored) {
-                                player.closeInventory();
-                                return;
-                            }
                     }
                     switch (event.getCurrentItem().getType()) {
                         case DIAMOND_AXE:
-                            
-                            try {
                                 
                                 List<String> Lore = new ArrayList<String>();
                                 ItemStack slay = new ItemStack(Material.DIAMOND_AXE, 1);
                                 ItemMeta slayMeta = slay.getItemMeta();
                                 slayMeta.setDisplayName(ChatColor.RED + "The Slayer");
-                                Lore.add("§7Butcher II");
+                                Lore.add("§7Butcher I");
                                 slayMeta.setLore(Lore);
                                 slay.setItemMeta(slayMeta);
                                 int num = plugin.getConfig().getInt(ChatColor.stripColor("weapon." +
@@ -317,22 +310,16 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
                                 if (player.getInventory().containsAtLeast(glow, num)) {
                                     player.getInventory().removeItem(glow);
                                     slay.addUnsafeEnchantment(Enchantment.DAMAGE_UNDEAD, 3);
-                                    slay.addUnsafeEnchantment(Enchantment.FIRE_ASPECT, 2);
+                                    slay.addUnsafeEnchantment(Enchantment.FIRE_ASPECT, 1);
                                     hasAvaliableSlot(player, slay, s);
                                     return;
                                 } else {
                                     player.sendMessage(plugin.getConfig().getString("insufficient-dust-msg").replace('&', '§'));
                                 }
                                 
-                            } catch (Exception ignored) {
-                                player.closeInventory();
-                                return;
-                            }
                     }
                     switch (event.getCurrentItem().getType()) {
                         case STICK:
-                            
-                            try {
                                 
                                 List<String> Lore3 = new ArrayList<String>();
                                 ItemStack sig = new ItemStack(Material.STICK, 1);
@@ -354,16 +341,10 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
                                     player.sendMessage(plugin.getConfig().getString("insufficient-dust-msg").replace('&', '§'));
                                 }
                                 
-                            } catch (Exception ignored) {
-                                player.closeInventory();
-                                return;
-                            }
                     }
                     switch (event.getCurrentItem().getType()) {
                         case BLAZE_ROD:
                             
-                            try {
-                                
                                 List<String> Lore4 = new ArrayList<String>();
                                 ItemStack rod = new ItemStack(Material.BLAZE_ROD, 1);
                                 ItemMeta rodMeta = rod.getItemMeta();
@@ -393,15 +374,9 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
                                     //ActionBarAPI.sendActionBar(p,"**§6§lFIREBALL§f**", 40);
                                 }
                                 
-                            } catch (Exception ignored) {
-                                player.closeInventory();
-                                return;
-                            }
                     }
                     switch (event.getCurrentItem().getType()) {
                         case BONE:
-                            
-                            try {
                                 
                                 List<String> Lore5 = new ArrayList<String>();
                                 ItemStack bo = new ItemStack(Material.BONE, 1);
@@ -422,15 +397,10 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
                                     player.sendMessage(plugin.getConfig().getString("insufficient-dust-msg").replace('&', '§'));
                                 }
                                 
-                            } catch (Exception ignored) {
-                                player.closeInventory();
-                                return;
-                            }
                     }
                     switch (event.getCurrentItem().getType()) {
                         case SNOWBALL:
                             
-                            try {
                                 List<String> Lore6 = new ArrayList<String>();
                                 ItemStack snow = new ItemStack(Material.SNOWBALL, 6);
                                 ItemMeta snowMeta = snow.getItemMeta();
@@ -449,15 +419,10 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
                                     player.sendMessage(plugin.getConfig().getString("insufficient-dust-msg").replace('&', '§'));
                                 }
                                 
-                            } catch (Exception ignored) {
-                                player.closeInventory();
-                                return;
-                            }
                     }
                     switch (event.getCurrentItem().getType()) {
                         case LEAD:
-            
-                            try {
+                            
                                 List<String> Lore7 = new ArrayList<String>();
                                 ItemStack lead = new ItemStack(Material.LEAD, 1);
                                 ItemMeta leadMeta = lead.getItemMeta();
@@ -476,16 +441,11 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
                                 } else {
                                     player.sendMessage(plugin.getConfig().getString("insufficient-dust-msg").replace('&', '§'));
                                 }
-                
-                            } catch (Exception ignored) {
-                                player.closeInventory();
-                                return;
-                            }
+                                
                     }
                     switch (event.getCurrentItem().getType()) {
                         case FISHING_ROD:
-            
-                            try {
+                            
                                 List<String> Lore7 = new ArrayList<String>();
                                 ItemStack grapple = new ItemStack(Material.FISHING_ROD, 1);
                                 ItemMeta grappleMeta = grapple.getItemMeta();
@@ -503,11 +463,7 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
                                 } else {
                                     player.sendMessage(plugin.getConfig().getString("insufficient-dust-msg").replace('&', '§'));
                                 }
-                
-                            } catch (Exception ignored) {
-                                player.closeInventory();
-                                return;
-                            }
+                                
                     }
                     switch (event.getCurrentItem().getType()) {
                         case CHEST:

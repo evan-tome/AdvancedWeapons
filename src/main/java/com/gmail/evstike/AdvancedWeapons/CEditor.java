@@ -36,10 +36,11 @@ public class CEditor extends API implements CommandExecutor, Listener {
     HashMap<UUID, String> hash = new HashMap<UUID, String>();
     HashMap<UUID, String> ench = new HashMap<UUID, String>();
     
-    List<String> potion = Arrays.asList("interact", "attackself", "attackother", "armorself", "armorother", "itemself", "itemother", "blockbreak", "arrowself", "arrowother");
-    List<String> damage = Arrays.asList("attackself", "attackother", "armorself", "armorother", "itemself", "itemother", "arrowself", "arrowother");
-    List<String> explosion = Arrays.asList("interact", "attackself", "attackother", "armorself", "armorother", "itemself", "itemother", "blockbreak", "arrowself", "arrowother");
+    List<String> potion = Arrays.asList("interact", "attackself", "attackother", "armorself", "armorother", "itemself", "itemother", "blockbreak", "arrowland");
+    List<String> damage = Arrays.asList("attackself", "attackother", "armorself", "armorother", "itemself", "itemother");
+    List<String> explosion = Arrays.asList("interact", "attackself", "attackother", "armorself", "armorother", "itemself", "itemother", "blockbreak", "arrowland");
     List<String> fortune = Collections.singletonList("blockbreak");
+    List<String> summon = Collections.singletonList("arrowland");
     
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         if (!hasCommandPerm(sender, cmd, commandLabel, plugin.getConfig())) {
@@ -125,9 +126,9 @@ public class CEditor extends API implements CommandExecutor, Listener {
             int num = item.getInt("cost");
             String speed1Type = item.getString("type");
             
-            Lore.add("§7" + StringUtils.capitalize(speed1Type) + " Enchantment");
+            Lore.add("§8" + StringUtils.capitalize(speed1Type) + " Enchantment");
             for (String line : item.getStringList("lore")) {
-                Lore.add(line.replace('&','§'));
+                Lore.add(line.replace('&','§').replace("{chance}", item.getString("chance")));
             }
             Lore.add("");
             Lore.add("§b" + num + "x " + "§7DUST");
@@ -182,9 +183,9 @@ public class CEditor extends API implements CommandExecutor, Listener {
             int num = item.getInt("cost");
             String speed1Type = item.getString("type");
             
-            Lore.add("§7" + StringUtils.capitalize(speed1Type) + " Enchantment");
+            Lore.add("§8" + StringUtils.capitalize(speed1Type) + " Enchantment");
             for (String line : item.getStringList("lore")) {
-                Lore.add(line.replace('&','§'));
+                Lore.add(line.replace('&','§').replace("{chance}", item.getString("chance")));
             }
             Lore.add("");
             Lore.add("§b" + num + "x " + "§7DUST");
@@ -211,7 +212,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
         if(!plugin.getConfig().getStringList("enchant."+enchPath(ench.get(player.getUniqueId()))+".lore").isEmpty()) {
             List<String> e = plugin.getConfig().getStringList("enchant." + enchPath(s) + ".lore");
             for (String es : e) {
-                Lore.add(ChatColor.translateAlternateColorCodes('&', es));
+                Lore.add(ChatColor.translateAlternateColorCodes('&', es).replace("{chance}", plugin.getConfig().getString("enchant." + enchPath(s) + ".chance")));
             }
         } else {
             Lore.add("§7null");
@@ -716,9 +717,100 @@ public class CEditor extends API implements CommandExecutor, Listener {
         
         player.openInventory(t);
     }
+    //EXPLOSION
+    private void openMobCoinGUI(Player player) {
+        Inventory t = Bukkit.createInventory(null, 9, "CE Editor - SuperMobCoins");
+        
+        t.setItem(t.getSize() - 1, back());
+        
+        List<String> Lore = new ArrayList<>();
+        ItemStack ce = new ItemStack(Material.YELLOW_STAINED_GLASS_PANE);
+        ItemMeta ceM = ce.getItemMeta();
+        
+        ceM.setDisplayName("§ePower");
+        Lore.add("§7Power of the explosion");
+        Lore.add("§aCurrent value: §7" + plugin.getConfig().getInt("enchant." + enchPath(ench.get(player.getUniqueId())) + ".power"));
+        ceM.setLore(Lore);
+        ce.setItemMeta(ceM);
+        Lore.clear();
+        t.addItem(ce);
+        
+        ceM.setDisplayName("§eDestroy");
+        if (plugin.getConfig().getBoolean("enchant." + enchPath(ench.get(player.getUniqueId())) + ".destroy")) {
+            ce.setType(Material.LIME_STAINED_GLASS_PANE);
+            Lore.add("§aCurrent value: §a" + plugin.getConfig().getBoolean("enchant." + enchPath(ench.get(player.getUniqueId())) + ".destroy"));
+        } else {
+            ce.setType(Material.RED_STAINED_GLASS_PANE);
+            Lore.add("§aCurrent value: §c" + plugin.getConfig().getBoolean("enchant." + enchPath(ench.get(player.getUniqueId())) + ".destroy"));
+        }
+        Lore.add("§7Does the explosion destroy blocks?");
+        ceM.setLore(Lore);
+        ce.setItemMeta(ceM);
+        Lore.clear();
+        t.addItem(ce);
+        
+        player.openInventory(t);
+    }
+    //SUMMON
+    private void openSummonGUI(Player player) {
+        Inventory t = Bukkit.createInventory(null, 9, "CE Editor - Summon");
+        
+        t.setItem(t.getSize() - 1, back());
+        
+        List<String> Lore = new ArrayList<String>();
+        ItemStack ce = new ItemStack(Material.YELLOW_STAINED_GLASS_PANE);
+        ItemMeta ceM = ce.getItemMeta();
+        
+        ceM.setDisplayName("§eEntity");
+        Lore.add("§7Entity spawned");
+        Lore.add("§aCurrent value: §7" + plugin.getConfig().getString("enchant." + enchPath(ench.get(player.getUniqueId())) + ".entity"));
+        ceM.setLore(Lore);
+        ce.setItemMeta(ceM);
+        Lore.clear();
+        t.addItem(ce);
+        
+        ceM.setDisplayName("§eDropAtPlayer");
+        if (plugin.getConfig().getBoolean("enchant." + enchPath(ench.get(player.getUniqueId())) + ".dropatplayer")) {
+            ce.setType(Material.LIME_STAINED_GLASS_PANE);
+            Lore.add("§aCurrent value: §a" + plugin.getConfig().getBoolean("enchant." + enchPath(ench.get(player.getUniqueId())) + ".dropatplayer"));
+        } else {
+            ce.setType(Material.RED_STAINED_GLASS_PANE);
+            Lore.add("§aCurrent value: §c" + plugin.getConfig().getBoolean("enchant." + enchPath(ench.get(player.getUniqueId())) + ".dropatplayer"));
+        }
+        Lore.add("§7Does the mob spawn at the player or at the block?");
+        ceM.setLore(Lore);
+        ce.setItemMeta(ceM);
+        Lore.clear();
+        t.addItem(ce);
+    
+        ce.setType(Material.YELLOW_STAINED_GLASS_PANE);
+        ceM.setDisplayName("§eDuration");
+        Lore.add("§7Time before the mob despawns");
+        Lore.add("§aCurrent value: §7" + plugin.getConfig().getInt("enchant." + enchPath(ench.get(player.getUniqueId())) + ".duration")+"s");
+        ceM.setLore(Lore);
+        ce.setItemMeta(ceM);
+        Lore.clear();
+        t.addItem(ce);
+    
+        ceM.setDisplayName("§eDespawn");
+        if (plugin.getConfig().getBoolean("enchant." + enchPath(ench.get(player.getUniqueId())) + ".despawn")) {
+            ce.setType(Material.LIME_STAINED_GLASS_PANE);
+            Lore.add("§aCurrent value: §a" + plugin.getConfig().getBoolean("enchant." + enchPath(ench.get(player.getUniqueId())) + ".despawn"));
+        } else {
+            ce.setType(Material.RED_STAINED_GLASS_PANE);
+            Lore.add("§aCurrent value: §c" + plugin.getConfig().getBoolean("enchant." + enchPath(ench.get(player.getUniqueId())) + ".despawn"));
+        }
+        Lore.add("§7Does the mob despawn?");
+        ceM.setLore(Lore);
+        ce.setItemMeta(ceM);
+        Lore.clear();
+        t.addItem(ce);
+        
+        player.openInventory(t);
+    }
     //EVENTS
     private void openEventGUI(Player player) {
-        Inventory t = Bukkit.createInventory(null, 9, "CE Editor - Events");
+        Inventory t = Bukkit.createInventory(null, 18, "CE Editor - Events");
         
         t.setItem(t.getSize() - 1, back());
         
@@ -804,6 +896,16 @@ public class CEditor extends API implements CommandExecutor, Listener {
         ce.setItemMeta(ceM);
         Lore.clear();
         t.addItem(ce);
+    
+        ce.setType(Material.BOW);
+        ceM.setDisplayName("§eArrowLand");
+        Lore.add("§7Activates when an arrow lands on a block");
+        Lore.add("§8Held item must contain enchantment");
+        Lore.add("§aTarget: §7User");
+        ceM.setLore(Lore);
+        ce.setItemMeta(ceM);
+        Lore.clear();
+        t.addItem(ce);
         
         for(ItemStack i : t.getContents()) {
             if(i!=null) {
@@ -831,7 +933,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
         ItemMeta potM = pot.getItemMeta();
         
         potM.setDisplayName("§ePotion");
-        Lore.add("§7Gives a potion effect");
+        Lore.add("§7Applies a potion effect");
         if(!containsEvent((ench.get(player.getUniqueId())), potion)) {
             pot.setType(Material.RED_STAINED_GLASS_PANE);
             Lore.add("§cNot compatible with the selected events");
@@ -877,6 +979,18 @@ public class CEditor extends API implements CommandExecutor, Listener {
         ce.setItemMeta(ceM);
         Lore.clear();
         t.addItem(ce);
+    
+        ce.setType(Material.ZOMBIE_SPAWN_EGG);
+        ceM.setDisplayName("§eSummon");
+        Lore.add("§7Spawns a mob");
+        if(!containsEvent((ench.get(player.getUniqueId())), summon)) {
+            ce.setType(Material.RED_STAINED_GLASS_PANE);
+            Lore.add("§cNot compatible with the selected events");
+        }
+        ceM.setLore(Lore);
+        ce.setItemMeta(ceM);
+        Lore.clear();
+        t.addItem(ce);
         
         for(ItemStack i : t.getContents()) {
             if(i!=null) {
@@ -911,7 +1025,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
                 ceM.setDisplayName("§b" + amount);
                 Lore.add(s.replace('&', '§'));
                 Lore.add("");
-                Lore.add("§6RIGHT-CLICK to delete line");
+                Lore.add("§cRIGHT-CLICK to delete line");
                 ceM.setLore(Lore);
                 ce.setItemMeta(ceM);
                 n.addItem(ce);
@@ -957,12 +1071,14 @@ public class CEditor extends API implements CommandExecutor, Listener {
                         case ARROW:
                             List<String> home = Arrays.asList("- Delete", "- Edit", "- Create");
                             List<String> function = Arrays.asList("- Potion", "- Damage", "- Explosion", "- Fortune");
-                            if (listHasInvName(home, event.getView().getTitle())) {
-                                player.openInventory(i());
-                            } else if (listHasInvName(function, event.getView().getTitle())) {
-                                openFunctionGUI(player);
-                            } else {
-                                openCreateGUI(player, ench.get(player.getUniqueId()));
+                            if (ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName()).contains("Back")) {
+                                if (listHasInvName(home, event.getView().getTitle())) {
+                                    player.openInventory(i());
+                                } else if (listHasInvName(function, event.getView().getTitle())) {
+                                    openFunctionGUI(player);
+                                } else {
+                                    openCreateGUI(player, ench.get(player.getUniqueId()));
+                                }
                             }
                             break;
                         case BOOK:
@@ -1073,6 +1189,9 @@ public class CEditor extends API implements CommandExecutor, Listener {
                         case TNT:
                             openExplosionGUI(player);
                             break;
+                        case ZOMBIE_SPAWN_EGG:
+                            openSummonGUI(player);
+                            break;
                         case GRASS_BLOCK:
                             if (!event.getView().getTitle().contains("- Dimension")) {
                                 hash.put(player.getUniqueId(), "blocks");
@@ -1162,7 +1281,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
                     }
                     if (event.getView().getTitle().contains("Events")) {
                         List<String> e = plugin.getConfig().getStringList("enchant." + enchPath(ench.get(player.getUniqueId())) + ".events");
-                        if (event.getCurrentItem().getType() != Material.ARROW) {
+                        if (!ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName()).contains("Back")) {
                             if (event.getCurrentItem().containsEnchantment(Enchantment.DURABILITY)) {
                                 event.getCurrentItem().removeEnchantment(Enchantment.DURABILITY);
                                 e.remove(ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName()).toLowerCase());
@@ -1215,6 +1334,18 @@ public class CEditor extends API implements CommandExecutor, Listener {
                             player.closeInventory();
                         }
                     }
+                    if (event.getView().getTitle().contains("Summon")) {
+                        if (ChatColor.stripColor(ci.getItemMeta().getDisplayName()).contains("Entity")) {
+                            hash.put(player.getUniqueId(), "entity");
+                            player.sendMessage("§aEnter a valid entity name");
+                            player.closeInventory();
+                        }
+                        if (ChatColor.stripColor(ci.getItemMeta().getDisplayName()).contains("Duration")) {
+                            hash.put(player.getUniqueId(), "duration");
+                            player.sendMessage("§aEnter an integer for the duration");
+                            player.closeInventory();
+                        }
+                    }
                     if (!event.getView().getTitle().contains("Function") && !event.getView().getTitle().contains("Create")) {
                         if (ci.getType() == Material.RED_STAINED_GLASS_PANE || ci.getType() == Material.LIME_STAINED_GLASS_PANE) {
                             String name = ChatColor.stripColor(ciM.getDisplayName()).toLowerCase();
@@ -1254,6 +1385,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
                         hash.remove(player.getUniqueId());
                         ench.put(player.getUniqueId(), s);
                         plugin.getConfig().set("enchant."+enchPath(s)+".name", "&e"+s);
+                        plugin.getConfig().set("enchant."+enchPath(s)+".chance", 0);
                         updateConfig();
                         openInv(player);
                     }
@@ -1267,7 +1399,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
                 case "lore":
                     List<String> lore = plugin.getConfig().getStringList("enchant."+enchPath(ench.get(player.getUniqueId()))+".lore");
                     hash.remove(player.getUniqueId());
-                    lore.add(s);
+                    lore.add(s.replace("§", "&"));
                     plugin.getConfig().set("enchant."+enchPath(ench.get(player.getUniqueId()))+".lore", lore);
                     updateConfig();
                     openLoreInv(player);
@@ -1402,6 +1534,20 @@ public class CEditor extends API implements CommandExecutor, Listener {
                     bl.clear();
                     f3.clear();
                     openInv(player);
+                    break;
+                case "entity":
+                    s = s.trim();
+                    String m = null;
+                    if (EntityType.fromName(s.trim())!=null) {
+                        m = s.trim().toUpperCase();
+                    } else {
+                        player.sendMessage("§cCould not set: "+s.trim());
+                    }
+                    plugin.getConfig().set("enchant."+enchPath(ench.get(player.getUniqueId()))+".entity", m);
+                    updateConfig();
+                    hash.remove(player.getUniqueId());
+                    m = null;
+                    openFunctionInv(player);
                     break;
                 case "affected":
                     List<String> al = new ArrayList<>(Collections.emptyList());

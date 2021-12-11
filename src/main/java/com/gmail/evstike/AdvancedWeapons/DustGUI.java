@@ -22,6 +22,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @SuppressWarnings("deprecation")
@@ -237,10 +238,17 @@ public class DustGUI extends API implements CommandExecutor, Listener {
     
     @EventHandler
     private void onInventoryClick(InventoryClickEvent event) {
+        Player player = (Player) event.getWhoClicked();
+        
+        List<String> type = Arrays.asList("PLAYER", "CHEST", "BARREL", "HOPPER", "DISPENSER", "DROPPER", "CREATIVE", "ENDER_CHEST");
+        if (event.getClickedInventory() != null && !type.contains(event.getClickedInventory().getType().name())) {
+            if(event.getCursor().isSimilar(dust(plugin.getConfig().getStringList("dust-item")))) {
+                event.setCancelled(true);
+            }
+        }
         
         if (!ChatColor.stripColor(event.getView().getTitle()).equalsIgnoreCase("Dust Bank"))
             return;
-        Player player = (Player) event.getWhoClicked();
         if (event.getInventory().getHolder() == null) {
             event.setCancelled(true);
     

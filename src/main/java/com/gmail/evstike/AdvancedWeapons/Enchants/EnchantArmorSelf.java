@@ -170,7 +170,7 @@ public class EnchantArmorSelf extends API implements Listener {
                                                         if (events.contains("armorself")) {
                                                             loc = defender.getLocation();
                                                         }
-                                                        Boolean destroy = true;
+                                                        Boolean destroy = false;
                                                         int power = 1;
                                                         if (item.contains("destroy")) {
                                                             destroy = item.getBoolean("destroy");

@@ -18,9 +18,6 @@ public class Commands extends API implements CommandExecutor {
 		public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 			if (hasCommandPerm(sender, cmd, commandLabel, plugin.getConfig()) == false) {
 
-//				File filename = plugin.createFile("playerdata.yml");
-//				FileConfiguration nameconfig = plugin.createYamlFile(filename);
-
 				if (cmd.getName().equalsIgnoreCase("ignite")) {
 					if (args.length != 1) {
 						sender.sendMessage("§cError: §4Please specify a player.");

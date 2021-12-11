@@ -112,9 +112,9 @@ public class CustomEnchantGUI extends API implements CommandExecutor, Listener {
 			int num = item.getInt("cost");
 			String speed1Type = item.getString("type");
 
-			Lore.add("§7" + StringUtils.capitalize(speed1Type) + " Enchantment");
+			Lore.add("§8" + StringUtils.capitalize(speed1Type) + " Enchantment");
 			for (String line : item.getStringList("lore")) {
-				Lore.add(line.replace('&','§'));
+				Lore.add(line.replace('&','§').replace("{chance}", item.getString("chance")));
 			}
 			Lore.add("");
 			Lore.add("§b" + num + "x " + "§7DUST");
@@ -240,9 +240,9 @@ public class CustomEnchantGUI extends API implements CommandExecutor, Listener {
 				ItemStack ce = new ItemStack(Material.BOOK);
 				ItemMeta ceM = ce.getItemMeta();
 				ceM.setDisplayName(item.getString("name").replace('&', '§'));
-				Lore.add("§7" + StringUtils.capitalize(speed1Type) + " Enchantment");
+				Lore.add("§8" + StringUtils.capitalize(speed1Type) + " Enchantment");
 				for (String line : item.getStringList("lore")) {
-					Lore.add(line.replace('&','§'));
+					Lore.add(line.replace('&','§').replace("{chance}", item.getString("chance")));
 				}
 				Lore.add("");
 				Lore.add("§b" + num + "x " + "§7DUST");
@@ -316,9 +316,9 @@ public class CustomEnchantGUI extends API implements CommandExecutor, Listener {
 						ItemStack ce = new ItemStack(Material.BOOK);
 						ItemMeta ceM = ce.getItemMeta();
 						ceM.setDisplayName(item.getString("name").replace('&', '§'));
-						Lore.add("§7" + StringUtils.capitalize(speed1Type) + " Enchantment");
+						Lore.add("§8" + StringUtils.capitalize(speed1Type) + " Enchantment");
 						for (String line : item.getStringList("lore")) {
-							Lore.add(line.replace('&', '§'));
+							Lore.add(line.replace('&', '§').replace("{chance}", item.getString("chance")));
 						}
 						Lore.add("");
 						Lore.add("§b" + num + "x " + "§7DUST");
@@ -448,7 +448,7 @@ public class CustomEnchantGUI extends API implements CommandExecutor, Listener {
 							}
 							if (plugin.getConfig().getString(ChatColor.stripColor("enchant." +
 									speed1M.getDisplayName().toLowerCase().replace(" ", "-") + ".type")).equals("bow")) {
-								if (!isTool(player)) {
+								if (!isBow(player)) {
 									player.sendMessage("§cYou must be holding a bow to enchant your item.");
 									return;
 								}

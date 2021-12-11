@@ -56,10 +56,8 @@ public class EnchantInteract extends API implements Listener {
         List<Action> actions = Arrays.asList(Action.LEFT_CLICK_AIR, Action.RIGHT_CLICK_AIR, Action.LEFT_CLICK_BLOCK, Action.RIGHT_CLICK_BLOCK);
         if (actions.contains(event.getAction())) {
             
-            if (serverIs19()) {
-                if (event.getHand().equals(EquipmentSlot.OFF_HAND)) {
-                    return;
-                }
+            if (event.getHand().equals(EquipmentSlot.OFF_HAND)) {
+                return;
             }
             if (im != null) {
                 if (im.hasLore()) {
@@ -119,7 +117,7 @@ public class EnchantInteract extends API implements Listener {
                                         if (function.equals("explosion")) {
                                             if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
                                                 Location loc = event.getClickedBlock().getLocation();
-                                                Boolean destroy = true;
+                                                Boolean destroy = false;
                                                 int power = 1;
                                                 if (item.contains("destroy")) {
                                                     destroy = item.getBoolean("destroy");
@@ -138,15 +136,15 @@ public class EnchantInteract extends API implements Listener {
                                         }
                                         if (item.contains("msg")) {
                                             if (item.getBoolean("msg") == true) {
-    
+                                                
                                                 String attackt = StringUtils.capitaliseAllWords(p.getType().getName().toLowerCase().replace("_", " "));
                                                 String defendt = StringUtils.capitaliseAllWords(p.getType().getName().toLowerCase().replace("_", " "));
-    
+                                                
                                                 String user = p.getDisplayName();
-    
+                                                
                                                 effects = StringUtils.capitaliseAllWords
                                                         (item.getStringList("effects").toString().replace("[", "").replace("]", ""));
-    
+                                                
                                                 p.sendMessage(item.getString("chatmsg").replace("{attacker}", p.getName())
                                                         .replace("{defender}", p.getName()).replace("{attackertype}", attackt)
                                                         .replace("{defendertype}", defendt).replace("{effects}", effects).replace("{user}", user)

@@ -45,28 +45,28 @@ dust-obtainable:
 # Weapons
 weapon:
   the-destroyer:
-    cost: 20
+    cost: 32
   the-slayer:
     msg: true
-    cost: 20
+    cost: 32
   the-dropper:
     msg: true
-    cost: 12
+    cost: 14
   fireball-launcher:
     msg: true
-    cost: 10
+    cost: 14
   the-skeletal-sword:
     msg: true
-    cost: 14
+    cost: 16
   ice-chunk:
     msg: true
     cost: 12
   spirit-leash:
     msg: true
-    cost: 14
+    cost: 16
   grappling-hook:
     msg: actionbar
-    cost: 14
+    cost: 16
 # Machines
 machine:
   port-a-wall:
@@ -82,6 +82,7 @@ enchant:
     lore:
       - "&7Gives you a quick rush of speed."
       - "&7Speed I - 4s"
+      - "&8{chance}% chance"
     chance: 10
     cost: 8
     type: weapon
@@ -97,6 +98,7 @@ enchant:
     lore:
       - "&7Gives you a quick rush of speed."
       - "&7Speed I - 6s"
+      - "&8{chance}% chance"
     chance: 10
     cost: 16
     type: weapon
@@ -112,6 +114,7 @@ enchant:
     lore:
       - "&7Gives you a quick rush of speed."
       - "&7Speed I - 8s"
+      - "&8{chance}% chance"
     chance: 10
     cost: 32
     type: weapon
@@ -127,6 +130,7 @@ enchant:
     lore:
       - "&7Lets you jump to new heights."
       - "&7Bounce I - 4s"
+      - "&8{chance}% chance"
     chance: 1
     cost: 8
     type: weapon
@@ -142,6 +146,7 @@ enchant:
     lore:
       - "&7Lets you jump to new heights."
       - "&7Bounce I - 6s"
+      - "&8{chance}% chance"
     chance: 10
     cost: 16
     type: weapon
@@ -157,6 +162,7 @@ enchant:
     lore:
       - "&7Lets you jump to new heights."
       - "&7Bounce I - 8s"
+      - "&8{chance}% chance"
     chance: 10
     cost: 32
     type: weapon
@@ -172,6 +178,7 @@ enchant:
     lore:
       - "&7Hit faster when hyper."
       - "&7Haste I - 4s"
+      - "&8{chance}% chance"
     chance: 10
     cost: 8
     type: weapon
@@ -187,6 +194,7 @@ enchant:
     lore:
       - "&7Hit faster when hyper."
       - "&7Haste I - 6s"
+      - "&8{chance}% chance"
     chance: 1
     cost: 16
     type: weapon
@@ -202,6 +210,7 @@ enchant:
     lore:
       - "&7Hit faster when hyper."
       - "&7Haste I - 8s"
+      - "&8{chance}% chance"
     chance: 10
     cost: 32
     type: weapon
@@ -217,6 +226,7 @@ enchant:
     lore:
       - "&7Inflicts poison on your enemies."
       - "&7Poison I - 4s"
+      - "&8{chance}% chance"
     chance: 10
     cost: 8
     type: weapon
@@ -234,6 +244,7 @@ enchant:
     lore:
       - "&7Inflicts poison on your enemies."
       - "&7Poison I - 8s"
+      - "&8{chance}% chance"
     chance: 10
     cost: 16
     type: weapon
@@ -251,6 +262,7 @@ enchant:
     lore:
       - "&7Inflicts poison on your enemies."
       - "&7Poison I - 8s"
+      - "&8{chance}% chance"
     chance: 10
     cost: 32
     type: weapon
@@ -269,6 +281,7 @@ enchant:
       - "&7Deals more damage to endermen"
       - "&7and endermites"
       - "&7+1 damage"
+      - "&8{chance}% chance"
     chance: 100
     cost: 8
     type: weapon
@@ -286,6 +299,7 @@ enchant:
       - "&7Deals more damage to endermen"
       - "&7and endermites"
       - "&7+1.5 damage"
+      - "&8{chance}% chance"
     chance: 100
     cost: 16
     type: weapon
@@ -303,6 +317,7 @@ enchant:
       - "&7Deals more damage to endermen"
       - "&7and endermites"
       - "&7+2 damage"
+      - "&8{chance}% chance"
     chance: 100
     cost: 32
     type: weapon
@@ -314,12 +329,49 @@ enchant:
     affected:
       - ENDERMAN
       - ENDERMITE
+  end-ender-iv:
+    name: "&eEnd Ender IV"
+    lore:
+      - "&7Deals more damage to endermen"
+      - "&7and endermites"
+      - "&7+2.5 damage"
+      - "&8{chance}% chance"
+    chance: 100
+    cost: 64
+    type: weapon
+    events:
+      - attackother
+    function: damage
+    effects:
+      - 2.5
+    affected:
+      - ENDERMAN
+      - ENDERMITE
+  end-ender-v:
+    name: "&eEnd Ender V"
+    lore:
+      - "&7Deals more damage to endermen"
+      - "&7and endermites"
+      - "&7+3 damage"
+      - "&8{chance}% chance"
+    chance: 100
+    cost: 128
+    type: weapon
+    events:
+      - attackother
+    function: damage
+    effects:
+      - 3
+    affected:
+      - ENDERMAN
+      - ENDERMITE
   butcher-i:
     name: "&eButcher I"
     lore:
       - "&7Deals more damage"
       - "&7to farm animals."
       - "&7+0.5 damage"
+      - "&8{chance}% chance"
     chance: 100
     cost: 8
     type: weapon
@@ -342,6 +394,7 @@ enchant:
       - "&7Deals more damage"
       - "&7to farm animals."
       - "&7+1 damage"
+      - "&8{chance}% chance"
     chance: 100
     cost: 16
     type: weapon
@@ -364,6 +417,7 @@ enchant:
       - "&7Deals more damage"
       - "&7to farm animals."
       - "&7+1.5 damage"
+      - "&8{chance}% chance"
     chance: 100
     cost: 32
     type: weapon
@@ -380,12 +434,59 @@ enchant:
       - HORSE
       - DONKEY
       - MULE
+  butcher-iv:
+    name: "&eButcher IV"
+    lore:
+      - "&7Deals more damage"
+      - "&7to farm animals."
+      - "&7+2 damage"
+      - "&8{chance}% chance"
+    chance: 100
+    cost: 64
+    type: weapon
+    events:
+      - attackother
+    function: damage
+    effects:
+      - 1.5
+    affected:
+      - COW
+      - PIG
+      - SHEEP
+      - CHICKEN
+      - HORSE
+      - DONKEY
+      - MULE
+  butcher-v:
+    name: "&eButcher V"
+    lore:
+      - "&7Deals more damage"
+      - "&7to farm animals."
+      - "&7+2.5 damage"
+      - "&8{chance}% chance"
+    chance: 100
+    cost: 128
+    type: weapon
+    events:
+      - attackother
+    function: damage
+    effects:
+      - 2.5
+    affected:
+      - COW
+      - PIG
+      - SHEEP
+      - CHICKEN
+      - HORSE
+      - DONKEY
+      - MULE
   tolerance-i:
     name: "&eTolerance I"
     lore:
       - "&7Gives resistance after taking more"
       - "&7than a certain amount of damage."
       - "&7Resistance I at 40% health - 4s"
+      - "&8{chance}% chance"
     chance: 25
     cost: 8
     type: armor
@@ -403,6 +504,7 @@ enchant:
       - "&7Gives resistance after taking more"
       - "&7than a certain amount of damage."
       - "&7Resistance I at 40% health - 6s"
+      - "&8{chance}% chance"
     chance: 25
     cost: 16
     type: armor
@@ -420,6 +522,7 @@ enchant:
       - "&7Gives resistance after taking more"
       - "&7than a certain amount of damage."
       - "&7Resistance I at 40% health - 8s"
+      - "&8{chance}% chance"
     chance: 25
     cost: 32
     type: armor
@@ -437,6 +540,7 @@ enchant:
       - "&7Gives saturation after mining"
       - "&7a block of gold ore."
       - "&7Saturation I - 1s"
+      - "&8{chance}% chance"
     chance: 25
     cost: 16
     type: tool

@@ -46,13 +46,11 @@ public class WeaponFunctions extends API implements Listener {
         
         List<Action> actions = Arrays.asList(Action.LEFT_CLICK_AIR, Action.RIGHT_CLICK_AIR, Action.LEFT_CLICK_BLOCK, Action.RIGHT_CLICK_BLOCK);
         if (actions.contains(event.getAction())) {
-    
-            if (serverIs19()) {
-                if (event.getHand().equals(EquipmentSlot.OFF_HAND)) {
-                    return;
-                }
+            
+            if (event.getHand().equals(EquipmentSlot.OFF_HAND)) {
+                return;
             }
-    
+            
             if (i.getType().equals(Material.DIAMOND_SWORD)) {
                 if (im.hasDisplayName()) {
                     if (im.getDisplayName().equals(ChatColor.RED + "The Destroyer")) {
@@ -157,22 +155,20 @@ public class WeaponFunctions extends API implements Listener {
                             fireball.setShooter(p);
                             lfireball.add(fireball.getUniqueId());
                             lfire.add(fireball.getUniqueId());
-                            if (serverIs19()) {
-                                p.spawnParticle(Particle.FLAME, loc, 1);
-                            }
-    
+                            p.spawnParticle(Particle.FLAME, loc, 1);
+                            
                             if (im.hasLore()) {
                                 if (im.getLore().get(0) != null) {
                                     List<String> lore = im.getLore();
                                     int ammo = Integer.parseInt(ChatColor.stripColor(lore.get(0)));
                                     int am = ammo - 1;
-    
+                                    
                                     if (ammo > 1) {
                                         lore.set(0, "§7" + am);
                                         im.setLore(lore);
                                         i.setItemMeta(im);
                                     }
-    
+                                    
                                     if (ammo == 1) {
                                         ItemStack b = new ItemStack(Material.BLAZE_ROD, 1);
                                         ItemMeta bMeta = b.getItemMeta();
@@ -272,7 +268,7 @@ public class WeaponFunctions extends API implements Listener {
             LivingEntity mob = e.getEntity();
             ItemStack i = p.getInventory().getItemInHand();
             ItemMeta im = i.getItemMeta();
-    
+            
             if (i.getType().equals(Material.BONE)) {
                 if (im.hasDisplayName()) {
                     if (im.getDisplayName().equals(ChatColor.RED + "The Skeletal Sword")) {
@@ -285,13 +281,13 @@ public class WeaponFunctions extends API implements Listener {
                             List<String> lore = im.getLore();
                             int ammo = Integer.parseInt(ChatColor.stripColor(lore.get(0)));
                             int am = ammo - 1;
-    
+                            
                             if (ammo > 1) {
                                 lore.set(0, "§7" + am);
                                 im.setLore(lore);
                                 i.setItemMeta(im);
                             }
-    
+                            
                             if (ammo == 1) {
                                 ItemStack b = new ItemStack(Material.BONE, 1);
                                 ItemMeta bMeta = b.getItemMeta();
@@ -357,7 +353,7 @@ public class WeaponFunctions extends API implements Listener {
             LivingEntity e = (LivingEntity) event.getEntity();
             if (event.getDamager() instanceof Snowball) {
                 Snowball ent = (Snowball) event.getDamager();
-    
+                
                 if (ent.getShooter() instanceof Player) {
                     Player p = (Player) ent.getShooter();
                     if (lsnowball.contains(ent.getUniqueId())) {
@@ -365,7 +361,7 @@ public class WeaponFunctions extends API implements Listener {
                         BlockData fallingDustData = Material.matchMaterial(Material.SNOW_BLOCK.toString()).createBlockData();
                         e.getWorld().spawnParticle(Particle.FALLING_DUST, e.getEyeLocation(), 10, 0.3, 0.3, 0.3, fallingDustData);
                         lsnowball.remove(ent.getUniqueId());
-    
+                        
                         if (conf.getString("weapon.ice-chunk.msg").equals("actionbar")) {
                             sendActionBar(p, ChatColor.WHITE + "BRRRR... YOU HIT A " + e.getType().name().replace("_", " ") + " WITH AN ICE CHUNK");
                         }
@@ -453,7 +449,7 @@ public class WeaponFunctions extends API implements Listener {
                     Vector v = d.toVector().subtract(p.getLocation().toVector()).normalize();
                     p.setVelocity(v.multiply(2.0));
                     p.getItemInHand().setDurability((short) (p.getItemInHand().getDurability() + 16));
-    
+                    
                     FileConfiguration conf = plugin.getConfig();
                     if (conf.getString("weapon.grappling-hook.msg").equals("actionbar")) {
                         sendActionBar(p, ChatColor.GOLD + "GRAPPLING");
@@ -464,7 +460,7 @@ public class WeaponFunctions extends API implements Listener {
                     if (conf.getString("weapon.grappling-hook.msg").equals("false")) {
                         return;
                     }
-    
+                    
                     Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
                         @Override
                         public void run() {
@@ -483,7 +479,7 @@ public class WeaponFunctions extends API implements Listener {
                 if (e.getEntity().getShooter() instanceof Player) {
                     Player p = (Player) e.getEntity().getShooter();
                     if (p.getInventory().getItemInHand().getItemMeta().getDisplayName().equals("§cGrappling Hook")) {
-    
+                        
                         FileConfiguration conf = plugin.getConfig();
                         if (conf.getString("weapon.grappling-hook.msg").equals("actionbar")) {
                             sendActionBar(p, ChatColor.GREEN + "HOOKED");

@@ -25,16 +25,16 @@ import java.util.Map;
 
 @SuppressWarnings("deprecation")
 public class EnchantGUI extends API implements CommandExecutor, Listener, TabCompleter {
-
+    
     Fates plugin;
-
+    
     public EnchantGUI(Fates instance) {
         plugin = instance;
     }
-
+    
     public static int num;
     public boolean b = false;
-
+    
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         if (hasCommandPerm(sender, cmd, commandLabel, plugin.getConfig()) == false) {
             if (cmd.getName().equalsIgnoreCase("enchgui")) {
@@ -58,7 +58,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                     }
                     if (args.length == 2) {
                         if (isInt(args[0]) && args[1].equalsIgnoreCase("safe")) {
-
+                            
                             num = Integer.parseInt(args[0]);
                             openGUI(player);
                             return false;
@@ -66,7 +66,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                     }
                     if (args.length == 2) {
                         if (isInt(args[0]) && args[1].equalsIgnoreCase("unsafe")) {
-
+                            
                             num = Integer.parseInt(args[0]);
                             openUnsafeGUI(player);
                             return false;
@@ -81,13 +81,13 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
         }
         return false;
     }
-
+    
     //SAFE
     private void openGUI(Player player) {
         Inventory inv = Bukkit.createInventory(null, 54, "Enchantment Menu");
-
+        
         ItemStack i = player.getInventory().getItemInHand();
-
+        
         if (i == null || i.getType() == Material.AIR) {
         } else {
             //SHARPNESS
@@ -96,7 +96,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             sharpMeta.setDisplayName(ChatColor.YELLOW + "Sharpness §7(" + num + ")");
             sharpMeta.addEnchant(Enchantment.DAMAGE_ALL, num, true);
             sharp.setItemMeta(sharpMeta);
-
+            
             if (num >= Enchantment.DAMAGE_ALL.getStartLevel()) {
                 if (num <= Enchantment.DAMAGE_ALL.getMaxLevel()) {
                     if (Enchantment.DAMAGE_ALL.canEnchantItem(i)) {
@@ -110,7 +110,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             smiteMeta.setDisplayName(ChatColor.YELLOW + "Smite §7(" + num + ")");
             smiteMeta.addEnchant(Enchantment.DAMAGE_UNDEAD, num, true);
             smite.setItemMeta(smiteMeta);
-
+            
             if (num >= Enchantment.DAMAGE_UNDEAD.getStartLevel()) {
                 if (num <= Enchantment.DAMAGE_UNDEAD.getMaxLevel()) {
                     if (Enchantment.DAMAGE_UNDEAD.canEnchantItem(i)) {
@@ -124,7 +124,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             baneMeta.setDisplayName(ChatColor.YELLOW + "Bane of Arthropods §7(" + num + ")");
             baneMeta.addEnchant(Enchantment.DAMAGE_ARTHROPODS, num, true);
             bane.setItemMeta(baneMeta);
-
+            
             if (num >= Enchantment.DAMAGE_ARTHROPODS.getStartLevel()) {
                 if (num <= Enchantment.DAMAGE_ARTHROPODS.getMaxLevel()) {
                     if (Enchantment.DAMAGE_ARTHROPODS.canEnchantItem(i)) {
@@ -138,7 +138,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             knockMeta.setDisplayName(ChatColor.YELLOW + "Knockback §7(" + num + ")");
             knockMeta.addEnchant(Enchantment.KNOCKBACK, num, true);
             knock.setItemMeta(knockMeta);
-
+            
             if (num >= Enchantment.KNOCKBACK.getStartLevel()) {
                 if (num <= Enchantment.KNOCKBACK.getMaxLevel()) {
                     if (Enchantment.KNOCKBACK.canEnchantItem(i)) {
@@ -152,7 +152,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             fireMeta.setDisplayName(ChatColor.YELLOW + "Fire Aspect §7(" + num + ")");
             fireMeta.addEnchant(Enchantment.FIRE_ASPECT, num, true);
             fire.setItemMeta(fireMeta);
-
+            
             if (num >= Enchantment.FIRE_ASPECT.getStartLevel()) {
                 if (num <= Enchantment.FIRE_ASPECT.getMaxLevel()) {
                     if (Enchantment.FIRE_ASPECT.canEnchantItem(i)) {
@@ -161,19 +161,17 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                 }
             }
             //SWEEPING EDGE
-            if (serverIs1111()) {
-                ItemStack sweep = new ItemStack(Material.DIAMOND_SWORD);
-                ItemMeta sweepMeta = sweep.getItemMeta();
-                sweepMeta.setDisplayName(ChatColor.YELLOW + "Sweeping Edge §7(" + num + ")");
-                sweepMeta.addEnchant(Enchantment.SWEEPING_EDGE, num, true);
-                sweep.setItemMeta(sweepMeta);
-
-
-                if (num >= Enchantment.SWEEPING_EDGE.getStartLevel()) {
-                    if (num <= Enchantment.SWEEPING_EDGE.getMaxLevel()) {
-                        if (Enchantment.SWEEPING_EDGE.canEnchantItem(i)) {
-                            inv.addItem(sweep);
-                        }
+            ItemStack sweep = new ItemStack(Material.DIAMOND_SWORD);
+            ItemMeta sweepMeta = sweep.getItemMeta();
+            sweepMeta.setDisplayName(ChatColor.YELLOW + "Sweeping Edge §7(" + num + ")");
+            sweepMeta.addEnchant(Enchantment.SWEEPING_EDGE, num, true);
+            sweep.setItemMeta(sweepMeta);
+            
+            
+            if (num >= Enchantment.SWEEPING_EDGE.getStartLevel()) {
+                if (num <= Enchantment.SWEEPING_EDGE.getMaxLevel()) {
+                    if (Enchantment.SWEEPING_EDGE.canEnchantItem(i)) {
+                        inv.addItem(sweep);
                     }
                 }
             }
@@ -183,7 +181,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             lootMeta.setDisplayName(ChatColor.YELLOW + "Looting §7(" + num + ")");
             lootMeta.addEnchant(Enchantment.LOOT_BONUS_MOBS, num, true);
             loot.setItemMeta(lootMeta);
-
+            
             if (num >= Enchantment.LOOT_BONUS_MOBS.getStartLevel()) {
                 if (num <= Enchantment.LOOT_BONUS_MOBS.getMaxLevel()) {
                     if (Enchantment.LOOT_BONUS_MOBS.canEnchantItem(i)) {
@@ -197,7 +195,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             unbMeta.setDisplayName(ChatColor.YELLOW + "Unbreaking §7(" + num + ")");
             unbMeta.addEnchant(Enchantment.DURABILITY, num, true);
             unb.setItemMeta(unbMeta);
-
+            
             if (num >= Enchantment.DURABILITY.getStartLevel()) {
                 if (num <= Enchantment.DURABILITY.getMaxLevel()) {
                     if (Enchantment.DURABILITY.canEnchantItem(i)) {
@@ -206,18 +204,16 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                 }
             }
             //MENDING
-            if (serverIs19()) {
-                ItemStack mend = new ItemStack(Material.BOOK);
-                ItemMeta mendMeta = mend.getItemMeta();
-                mendMeta.setDisplayName(ChatColor.YELLOW + "Mending §7(" + num + ")");
-                mendMeta.addEnchant(Enchantment.MENDING, num, true);
-                mend.setItemMeta(mendMeta);
-
-                if (num >= Enchantment.MENDING.getStartLevel()) {
-                    if (num <= Enchantment.MENDING.getMaxLevel()) {
-                        if (Enchantment.MENDING.canEnchantItem(i)) {
-                            inv.addItem(mend);
-                        }
+            ItemStack mend = new ItemStack(Material.BOOK);
+            ItemMeta mendMeta = mend.getItemMeta();
+            mendMeta.setDisplayName(ChatColor.YELLOW + "Mending §7(" + num + ")");
+            mendMeta.addEnchant(Enchantment.MENDING, num, true);
+            mend.setItemMeta(mendMeta);
+            
+            if (num >= Enchantment.MENDING.getStartLevel()) {
+                if (num <= Enchantment.MENDING.getMaxLevel()) {
+                    if (Enchantment.MENDING.canEnchantItem(i)) {
+                        inv.addItem(mend);
                     }
                 }
             }
@@ -227,7 +223,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             silkMeta.setDisplayName(ChatColor.YELLOW + "Silk Touch §7(" + num + ")");
             silkMeta.addEnchant(Enchantment.SILK_TOUCH, num, true);
             silk.setItemMeta(silkMeta);
-
+            
             if (num >= Enchantment.SILK_TOUCH.getStartLevel()) {
                 if (num <= Enchantment.SILK_TOUCH.getMaxLevel()) {
                     if (Enchantment.SILK_TOUCH.canEnchantItem(i)) {
@@ -241,7 +237,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             effMeta.setDisplayName(ChatColor.YELLOW + "Efficiency §7(" + num + ")");
             effMeta.addEnchant(Enchantment.DIG_SPEED, num, true);
             eff.setItemMeta(effMeta);
-
+            
             if (num >= Enchantment.DIG_SPEED.getStartLevel()) {
                 if (num <= Enchantment.DIG_SPEED.getMaxLevel()) {
                     if (Enchantment.DIG_SPEED.canEnchantItem(i)) {
@@ -255,7 +251,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             fortMeta.setDisplayName(ChatColor.YELLOW + "Fortune §7(" + num + ")");
             fortMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, num, true);
             fort.setItemMeta(fortMeta);
-
+            
             if (num >= Enchantment.LOOT_BONUS_BLOCKS.getStartLevel()) {
                 if (num <= Enchantment.LOOT_BONUS_BLOCKS.getMaxLevel()) {
                     if (Enchantment.LOOT_BONUS_BLOCKS.canEnchantItem(i)) {
@@ -269,7 +265,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             powMeta.setDisplayName(ChatColor.YELLOW + "Power §7(" + num + ")");
             powMeta.addEnchant(Enchantment.ARROW_DAMAGE, num, true);
             pow.setItemMeta(powMeta);
-
+            
             if (num >= Enchantment.ARROW_DAMAGE.getStartLevel()) {
                 if (num <= Enchantment.ARROW_DAMAGE.getMaxLevel()) {
                     if (Enchantment.ARROW_DAMAGE.canEnchantItem(i)) {
@@ -283,7 +279,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             flameMeta.setDisplayName(ChatColor.YELLOW + "Flame §7(" + num + ")");
             flameMeta.addEnchant(Enchantment.ARROW_FIRE, num, true);
             flame.setItemMeta(flameMeta);
-
+            
             if (num >= Enchantment.ARROW_FIRE.getStartLevel()) {
                 if (num <= Enchantment.ARROW_FIRE.getMaxLevel()) {
                     if (Enchantment.ARROW_FIRE.canEnchantItem(i)) {
@@ -297,7 +293,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             punMeta.setDisplayName(ChatColor.YELLOW + "Punch §7(" + num + ")");
             punMeta.addEnchant(Enchantment.ARROW_KNOCKBACK, num, true);
             pun.setItemMeta(punMeta);
-
+            
             if (num >= Enchantment.ARROW_KNOCKBACK.getStartLevel()) {
                 if (num <= Enchantment.ARROW_KNOCKBACK.getMaxLevel()) {
                     if (Enchantment.ARROW_KNOCKBACK.canEnchantItem(i)) {
@@ -311,7 +307,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             infMeta.setDisplayName(ChatColor.YELLOW + "Infinity §7(" + num + ")");
             infMeta.addEnchant(Enchantment.ARROW_INFINITE, num, true);
             inf.setItemMeta(infMeta);
-
+            
             if (num >= Enchantment.ARROW_INFINITE.getStartLevel()) {
                 if (num <= Enchantment.ARROW_INFINITE.getMaxLevel()) {
                     if (Enchantment.ARROW_INFINITE.canEnchantItem(i)) {
@@ -320,50 +316,44 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                 }
             }
             //PIERCING
-            if (serverIs114()) {
-                ItemStack pie = new ItemStack(Material.CROSSBOW);
-                ItemMeta pieMeta = pie.getItemMeta();
-                pieMeta.setDisplayName(ChatColor.YELLOW + "Piercing §7(" + num + ")");
-                pieMeta.addEnchant(Enchantment.PIERCING, num, true);
-                pie.setItemMeta(pieMeta);
-
-                if (num >= Enchantment.PIERCING.getStartLevel()) {
-                    if (num <= Enchantment.PIERCING.getMaxLevel()) {
-                        if (Enchantment.PIERCING.canEnchantItem(i)) {
-                            inv.addItem(pie);
-                        }
+            ItemStack pie = new ItemStack(Material.CROSSBOW);
+            ItemMeta pieMeta = pie.getItemMeta();
+            pieMeta.setDisplayName(ChatColor.YELLOW + "Piercing §7(" + num + ")");
+            pieMeta.addEnchant(Enchantment.PIERCING, num, true);
+            pie.setItemMeta(pieMeta);
+            
+            if (num >= Enchantment.PIERCING.getStartLevel()) {
+                if (num <= Enchantment.PIERCING.getMaxLevel()) {
+                    if (Enchantment.PIERCING.canEnchantItem(i)) {
+                        inv.addItem(pie);
                     }
                 }
             }
             //QUICKFIRE
-            if (serverIs114()) {
-                ItemStack qui = new ItemStack(Material.CROSSBOW);
-                ItemMeta quiMeta = qui.getItemMeta();
-                quiMeta.setDisplayName(ChatColor.YELLOW + "Quick Charge §7(" + num + ")");
-                quiMeta.addEnchant(Enchantment.QUICK_CHARGE, num, true);
-                qui.setItemMeta(quiMeta);
-
-                if (num >= Enchantment.QUICK_CHARGE.getStartLevel()) {
-                    if (num <= Enchantment.QUICK_CHARGE.getMaxLevel()) {
-                        if (Enchantment.QUICK_CHARGE.canEnchantItem(i)) {
-                            inv.addItem(qui);
-                        }
+            ItemStack qui = new ItemStack(Material.CROSSBOW);
+            ItemMeta quiMeta = qui.getItemMeta();
+            quiMeta.setDisplayName(ChatColor.YELLOW + "Quick Charge §7(" + num + ")");
+            quiMeta.addEnchant(Enchantment.QUICK_CHARGE, num, true);
+            qui.setItemMeta(quiMeta);
+            
+            if (num >= Enchantment.QUICK_CHARGE.getStartLevel()) {
+                if (num <= Enchantment.QUICK_CHARGE.getMaxLevel()) {
+                    if (Enchantment.QUICK_CHARGE.canEnchantItem(i)) {
+                        inv.addItem(qui);
                     }
                 }
             }
             //MULTISHOT
-            if (serverIs114()) {
-                ItemStack mul = new ItemStack(Material.CROSSBOW);
-                ItemMeta mulMeta = mul.getItemMeta();
-                mulMeta.setDisplayName(ChatColor.YELLOW + "Multishot §7(" + num + ")");
-                mulMeta.addEnchant(Enchantment.MULTISHOT, num, true);
-                mul.setItemMeta(mulMeta);
-
-                if (num >= Enchantment.MULTISHOT.getStartLevel()) {
-                    if (num <= Enchantment.MULTISHOT.getMaxLevel()) {
-                        if (Enchantment.MULTISHOT.canEnchantItem(i)) {
-                            inv.addItem(mul);
-                        }
+            ItemStack mul = new ItemStack(Material.CROSSBOW);
+            ItemMeta mulMeta = mul.getItemMeta();
+            mulMeta.setDisplayName(ChatColor.YELLOW + "Multishot §7(" + num + ")");
+            mulMeta.addEnchant(Enchantment.MULTISHOT, num, true);
+            mul.setItemMeta(mulMeta);
+            
+            if (num >= Enchantment.MULTISHOT.getStartLevel()) {
+                if (num <= Enchantment.MULTISHOT.getMaxLevel()) {
+                    if (Enchantment.MULTISHOT.canEnchantItem(i)) {
+                        inv.addItem(mul);
                     }
                 }
             }
@@ -373,7 +363,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             affMeta.setDisplayName(ChatColor.YELLOW + "Aqua Affinity §7(" + num + ")");
             affMeta.addEnchant(Enchantment.WATER_WORKER, num, true);
             aff.setItemMeta(affMeta);
-
+            
             if (num >= Enchantment.WATER_WORKER.getStartLevel()) {
                 if (num <= Enchantment.WATER_WORKER.getMaxLevel()) {
                     if (Enchantment.WATER_WORKER.canEnchantItem(i)) {
@@ -387,7 +377,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             respMeta.setDisplayName(ChatColor.YELLOW + "Respiration §7(" + num + ")");
             respMeta.addEnchant(Enchantment.OXYGEN, num, true);
             resp.setItemMeta(respMeta);
-
+            
             if (num >= Enchantment.OXYGEN.getStartLevel()) {
                 if (num <= Enchantment.OXYGEN.getMaxLevel()) {
                     if (Enchantment.OXYGEN.canEnchantItem(i)) {
@@ -401,7 +391,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             protMeta.setDisplayName(ChatColor.YELLOW + "Protection §7(" + num + ")");
             protMeta.addEnchant(Enchantment.PROTECTION_PROJECTILE, num, true);
             prot.setItemMeta(protMeta);
-
+            
             if (num >= Enchantment.PROTECTION_ENVIRONMENTAL.getStartLevel()) {
                 if (num <= Enchantment.PROTECTION_ENVIRONMENTAL.getMaxLevel()) {
                     if (Enchantment.PROTECTION_ENVIRONMENTAL.canEnchantItem(i)) {
@@ -415,7 +405,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             bprotMeta.setDisplayName(ChatColor.YELLOW + "Blast Protection §7(" + num + ")");
             bprotMeta.addEnchant(Enchantment.PROTECTION_EXPLOSIONS, num, true);
             bprot.setItemMeta(bprotMeta);
-
+            
             if (num >= Enchantment.PROTECTION_EXPLOSIONS.getStartLevel()) {
                 if (num <= Enchantment.PROTECTION_EXPLOSIONS.getMaxLevel()) {
                     if (Enchantment.PROTECTION_EXPLOSIONS.canEnchantItem(i)) {
@@ -429,7 +419,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             fprotMeta.setDisplayName(ChatColor.YELLOW + "Fire Protection §7(" + num + ")");
             fprotMeta.addEnchant(Enchantment.PROTECTION_FIRE, num, true);
             fprot.setItemMeta(fprotMeta);
-
+            
             if (num >= Enchantment.PROTECTION_FIRE.getStartLevel()) {
                 if (num <= Enchantment.PROTECTION_FIRE.getMaxLevel()) {
                     if (Enchantment.PROTECTION_FIRE.canEnchantItem(i)) {
@@ -443,7 +433,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             projMeta.setDisplayName(ChatColor.YELLOW + "Projectile Protection §7(" + num + ")");
             projMeta.addEnchant(Enchantment.PROTECTION_PROJECTILE, num, true);
             proj.setItemMeta(projMeta);
-
+            
             if (num >= Enchantment.PROTECTION_PROJECTILE.getStartLevel()) {
                 if (num <= Enchantment.PROTECTION_PROJECTILE.getMaxLevel()) {
                     if (Enchantment.PROTECTION_PROJECTILE.canEnchantItem(i)) {
@@ -457,7 +447,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             fallMeta.setDisplayName(ChatColor.YELLOW + "Feather Falling §7(" + num + ")");
             fallMeta.addEnchant(Enchantment.PROTECTION_FALL, num, true);
             fall.setItemMeta(fallMeta);
-
+            
             if (num >= Enchantment.PROTECTION_FALL.getStartLevel()) {
                 if (num <= Enchantment.PROTECTION_FALL.getMaxLevel()) {
                     if (Enchantment.PROTECTION_FALL.canEnchantItem(i)) {
@@ -471,7 +461,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             thornsMeta.setDisplayName(ChatColor.YELLOW + "Thorns §7(" + num + ")");
             thornsMeta.addEnchant(Enchantment.THORNS, num, true);
             thorns.setItemMeta(thornsMeta);
-
+            
             if (num >= Enchantment.THORNS.getStartLevel()) {
                 if (num <= Enchantment.THORNS.getMaxLevel()) {
                     if (Enchantment.THORNS.canEnchantItem(i)) {
@@ -485,8 +475,8 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             strMeta.setDisplayName(ChatColor.YELLOW + "Depth Strider §7(" + num + ")");
             strMeta.addEnchant(Enchantment.DEPTH_STRIDER, num, true);
             str.setItemMeta(strMeta);
-
-
+            
+            
             if (num >= Enchantment.DEPTH_STRIDER.getStartLevel()) {
                 if (num <= Enchantment.DEPTH_STRIDER.getMaxLevel()) {
                     if (Enchantment.DEPTH_STRIDER.canEnchantItem(i)) {
@@ -495,34 +485,30 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                 }
             }
             //FROST WALKER
-            if (serverIs19()) {
-                ItemStack fro = new ItemStack(Material.DIAMOND_BOOTS);
-                ItemMeta froMeta = fro.getItemMeta();
-                froMeta.setDisplayName(ChatColor.YELLOW + "Frost Walker §7(" + num + ")");
-                froMeta.addEnchant(Enchantment.FROST_WALKER, num, true);
-                fro.setItemMeta(froMeta);
-
-                if (num >= Enchantment.FROST_WALKER.getStartLevel()) {
-                    if (num <= Enchantment.FROST_WALKER.getMaxLevel()) {
-                        if (Enchantment.FROST_WALKER.canEnchantItem(i)) {
-                            inv.addItem(fro);
-                        }
+            ItemStack fro = new ItemStack(Material.DIAMOND_BOOTS);
+            ItemMeta froMeta = fro.getItemMeta();
+            froMeta.setDisplayName(ChatColor.YELLOW + "Frost Walker §7(" + num + ")");
+            froMeta.addEnchant(Enchantment.FROST_WALKER, num, true);
+            fro.setItemMeta(froMeta);
+            
+            if (num >= Enchantment.FROST_WALKER.getStartLevel()) {
+                if (num <= Enchantment.FROST_WALKER.getMaxLevel()) {
+                    if (Enchantment.FROST_WALKER.canEnchantItem(i)) {
+                        inv.addItem(fro);
                     }
                 }
             }
             //SOUL SPEED
-            if (serverIs116()) {
-                ItemStack ss = new ItemStack(Material.DIAMOND_BOOTS);
-                ItemMeta ssMeta = ss.getItemMeta();
-                ssMeta.setDisplayName(ChatColor.YELLOW + "Soul Speed §7(" + num + ")");
-                ssMeta.addEnchant(Enchantment.SOUL_SPEED, num, true);
-                ss.setItemMeta(ssMeta);
-
-                if (num >= Enchantment.SOUL_SPEED.getStartLevel()) {
-                    if (num <= Enchantment.SOUL_SPEED.getMaxLevel()) {
-                        if (Enchantment.SOUL_SPEED.canEnchantItem(i)) {
-                            inv.addItem(ss);
-                        }
+            ItemStack ss = new ItemStack(Material.DIAMOND_BOOTS);
+            ItemMeta ssMeta = ss.getItemMeta();
+            ssMeta.setDisplayName(ChatColor.YELLOW + "Soul Speed §7(" + num + ")");
+            ssMeta.addEnchant(Enchantment.SOUL_SPEED, num, true);
+            ss.setItemMeta(ssMeta);
+            
+            if (num >= Enchantment.SOUL_SPEED.getStartLevel()) {
+                if (num <= Enchantment.SOUL_SPEED.getMaxLevel()) {
+                    if (Enchantment.SOUL_SPEED.canEnchantItem(i)) {
+                        inv.addItem(ss);
                     }
                 }
             }
@@ -532,7 +518,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             lureMeta.setDisplayName(ChatColor.YELLOW + "Lure §7(" + num + ")");
             lureMeta.addEnchant(Enchantment.LURE, num, true);
             lure.setItemMeta(lureMeta);
-
+            
             if (num >= Enchantment.LURE.getStartLevel()) {
                 if (num <= Enchantment.LURE.getMaxLevel()) {
                     if (Enchantment.LURE.canEnchantItem(i)) {
@@ -546,7 +532,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
             luckMeta.setDisplayName(ChatColor.YELLOW + "Luck of the Sea §7(" + num + ")");
             luckMeta.addEnchant(Enchantment.LUCK, num, true);
             luck.setItemMeta(luckMeta);
-
+            
             if (num >= Enchantment.LUCK.getStartLevel()) {
                 if (num <= Enchantment.LUCK.getMaxLevel()) {
                     if (Enchantment.LUCK.canEnchantItem(i)) {
@@ -555,112 +541,102 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                 }
             }
             //CHANNELING
-            if (serverIs113()) {
-                ItemStack chan = new ItemStack(Material.TRIDENT);
-                ItemMeta chanMeta = chan.getItemMeta();
-                chanMeta.setDisplayName(ChatColor.YELLOW + "Channeling §7(" + num + ")");
-                chanMeta.addEnchant(Enchantment.CHANNELING, num, true);
-                chan.setItemMeta(chanMeta);
-
-                if (num >= Enchantment.CHANNELING.getStartLevel()) {
-                    if (num <= Enchantment.CHANNELING.getMaxLevel()) {
-                        if (Enchantment.CHANNELING.canEnchantItem(i)) {
-                            inv.addItem(chan);
-                        }
+            ItemStack chan = new ItemStack(Material.TRIDENT);
+            ItemMeta chanMeta = chan.getItemMeta();
+            chanMeta.setDisplayName(ChatColor.YELLOW + "Channeling §7(" + num + ")");
+            chanMeta.addEnchant(Enchantment.CHANNELING, num, true);
+            chan.setItemMeta(chanMeta);
+            
+            if (num >= Enchantment.CHANNELING.getStartLevel()) {
+                if (num <= Enchantment.CHANNELING.getMaxLevel()) {
+                    if (Enchantment.CHANNELING.canEnchantItem(i)) {
+                        inv.addItem(chan);
                     }
                 }
             }
             //RIPTIDE
-            if (serverIs113()) {
-                ItemStack rip = new ItemStack(Material.TRIDENT);
-                ItemMeta ripMeta = rip.getItemMeta();
-                ripMeta.setDisplayName(ChatColor.YELLOW + "Riptide §7(" + num + ")");
-                ripMeta.addEnchant(Enchantment.RIPTIDE, num, true);
-                rip.setItemMeta(ripMeta);
-
-                if (num >= Enchantment.RIPTIDE.getStartLevel()) {
-                    if (num <= Enchantment.RIPTIDE.getMaxLevel()) {
-                        if (Enchantment.RIPTIDE.canEnchantItem(i)) {
-                            inv.addItem(rip);
-                        }
+            ItemStack rip = new ItemStack(Material.TRIDENT);
+            ItemMeta ripMeta = rip.getItemMeta();
+            ripMeta.setDisplayName(ChatColor.YELLOW + "Riptide §7(" + num + ")");
+            ripMeta.addEnchant(Enchantment.RIPTIDE, num, true);
+            rip.setItemMeta(ripMeta);
+            
+            if (num >= Enchantment.RIPTIDE.getStartLevel()) {
+                if (num <= Enchantment.RIPTIDE.getMaxLevel()) {
+                    if (Enchantment.RIPTIDE.canEnchantItem(i)) {
+                        inv.addItem(rip);
                     }
                 }
             }
             //LOYALTY
-            if (serverIs113()) {
-                ItemStack loy = new ItemStack(Material.TRIDENT);
-                ItemMeta loyMeta = loy.getItemMeta();
-                loyMeta.setDisplayName(ChatColor.YELLOW + "Loyalty §7(" + num + ")");
-                loyMeta.addEnchant(Enchantment.LOYALTY, num, true);
-                loy.setItemMeta(loyMeta);
-
-                if (num >= Enchantment.LOYALTY.getStartLevel()) {
-                    if (num <= Enchantment.LOYALTY.getMaxLevel()) {
-                        if (Enchantment.LOYALTY.canEnchantItem(i)) {
-                            inv.addItem(loy);
-                        }
+            ItemStack loy = new ItemStack(Material.TRIDENT);
+            ItemMeta loyMeta = loy.getItemMeta();
+            loyMeta.setDisplayName(ChatColor.YELLOW + "Loyalty §7(" + num + ")");
+            loyMeta.addEnchant(Enchantment.LOYALTY, num, true);
+            loy.setItemMeta(loyMeta);
+            
+            if (num >= Enchantment.LOYALTY.getStartLevel()) {
+                if (num <= Enchantment.LOYALTY.getMaxLevel()) {
+                    if (Enchantment.LOYALTY.canEnchantItem(i)) {
+                        inv.addItem(loy);
                     }
                 }
             }
             //CURSE OF BINDING
-            if (serverIs111()) {
-                ItemStack bind = new ItemStack(Material.SLIME_BALL);
-                ItemMeta bindMeta = bind.getItemMeta();
-                bindMeta.setDisplayName(ChatColor.RED + "Curse of Binding §7(" + num + ")");
-                bindMeta.addEnchant(Enchantment.BINDING_CURSE, num, true);
-                bind.setItemMeta(bindMeta);
-
-                if (num >= Enchantment.BINDING_CURSE.getStartLevel()) {
-                    if (num <= Enchantment.BINDING_CURSE.getMaxLevel()) {
-                        if (Enchantment.BINDING_CURSE.canEnchantItem(i)) {
-                            inv.addItem(bind);
-                        }
+            ItemStack bind = new ItemStack(Material.SLIME_BALL);
+            ItemMeta bindMeta = bind.getItemMeta();
+            bindMeta.setDisplayName(ChatColor.RED + "Curse of Binding §7(" + num + ")");
+            bindMeta.addEnchant(Enchantment.BINDING_CURSE, num, true);
+            bind.setItemMeta(bindMeta);
+            
+            if (num >= Enchantment.BINDING_CURSE.getStartLevel()) {
+                if (num <= Enchantment.BINDING_CURSE.getMaxLevel()) {
+                    if (Enchantment.BINDING_CURSE.canEnchantItem(i)) {
+                        inv.addItem(bind);
                     }
                 }
             }
             //CURSE OF VANISHING
-            if (serverIs111()) {
-                ItemStack van = new ItemStack(Material.ENDER_EYE);
-                ItemMeta vanMeta = van.getItemMeta();
-                vanMeta.setDisplayName(ChatColor.RED + "Curse of Vanishing §7(" + num + ")");
-                vanMeta.addEnchant(Enchantment.VANISHING_CURSE, num, true);
-                van.setItemMeta(vanMeta);
-
-                if (num >= Enchantment.VANISHING_CURSE.getStartLevel()) {
-                    if (num <= Enchantment.VANISHING_CURSE.getMaxLevel()) {
-                        if (Enchantment.VANISHING_CURSE.canEnchantItem(i)) {
-                            inv.addItem(van);
-                        }
+            ItemStack van = new ItemStack(Material.ENDER_EYE);
+            ItemMeta vanMeta = van.getItemMeta();
+            vanMeta.setDisplayName(ChatColor.RED + "Curse of Vanishing §7(" + num + ")");
+            vanMeta.addEnchant(Enchantment.VANISHING_CURSE, num, true);
+            van.setItemMeta(vanMeta);
+            
+            if (num >= Enchantment.VANISHING_CURSE.getStartLevel()) {
+                if (num <= Enchantment.VANISHING_CURSE.getMaxLevel()) {
+                    if (Enchantment.VANISHING_CURSE.canEnchantItem(i)) {
+                        inv.addItem(van);
                     }
                 }
             }
         }
-
+        
         ItemStack close = new ItemStack(Material.BARRIER);
         ItemMeta closeMeta = close.getItemMeta();
         ItemStack lvl = new ItemStack(Material.EXPERIENCE_BOTTLE);
         ItemMeta lvlMeta = lvl.getItemMeta();
-
+        
         closeMeta.setDisplayName(ChatColor.RED + "Close");
         close.setItemMeta(closeMeta);
-
+        
         List<String> Lore = new ArrayList<String>();
         lvlMeta.setDisplayName(ChatColor.GREEN + "Enchantment Level");
         Lore.add("§7Level: " + num);
         lvlMeta.setLore(Lore);
         lvl.setItemMeta(lvlMeta);
-
+        
         inv.setItem(49, close);
         inv.setItem(53, lvl);
-
+        
         player.openInventory(inv);
-
+        
     }
-
+    
     //UNSAFE
     private void openUnsafeGUI(Player player) {
         Inventory inv = Bukkit.createInventory(null, 54, "Unsafe Enchantment Menu");
-
+        
         //SHARPNESS
         ItemStack sharp = new ItemStack(Material.DIAMOND_SWORD);
         ItemMeta sharpMeta = sharp.getItemMeta();
@@ -697,14 +673,12 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
         fire.setItemMeta(fireMeta);
         inv.addItem(fire);
         //SWEEPING EDGE
-        if (serverIs1111()) {
-            ItemStack sweep = new ItemStack(Material.DIAMOND_SWORD);
-            ItemMeta sweepMeta = sweep.getItemMeta();
-            sweepMeta.setDisplayName(ChatColor.YELLOW + "Sweeping Edge §7(" + num + ")");
-            sweepMeta.addEnchant(Enchantment.SWEEPING_EDGE, num, true);
-            sweep.setItemMeta(sweepMeta);
-            inv.addItem(sweep);
-        }
+        ItemStack sweep = new ItemStack(Material.DIAMOND_SWORD);
+        ItemMeta sweepMeta = sweep.getItemMeta();
+        sweepMeta.setDisplayName(ChatColor.YELLOW + "Sweeping Edge §7(" + num + ")");
+        sweepMeta.addEnchant(Enchantment.SWEEPING_EDGE, num, true);
+        sweep.setItemMeta(sweepMeta);
+        inv.addItem(sweep);
         //LOOTING
         ItemStack loot = new ItemStack(Material.DIAMOND_SWORD);
         ItemMeta lootMeta = loot.getItemMeta();
@@ -720,14 +694,12 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
         unb.setItemMeta(unbMeta);
         inv.addItem(unb);
         //MENDING
-        if (serverIs19()) {
-            ItemStack mend = new ItemStack(Material.BOOK);
-            ItemMeta mendMeta = mend.getItemMeta();
-            mendMeta.setDisplayName(ChatColor.YELLOW + "Mending §7(" + num + ")");
-            mendMeta.addEnchant(Enchantment.MENDING, num, true);
-            mend.setItemMeta(mendMeta);
-            inv.addItem(mend);
-        }
+        ItemStack mend = new ItemStack(Material.BOOK);
+        ItemMeta mendMeta = mend.getItemMeta();
+        mendMeta.setDisplayName(ChatColor.YELLOW + "Mending §7(" + num + ")");
+        mendMeta.addEnchant(Enchantment.MENDING, num, true);
+        mend.setItemMeta(mendMeta);
+        inv.addItem(mend);
         //SILK TOUCH
         ItemStack silk = new ItemStack(Material.DIAMOND_PICKAXE);
         ItemMeta silkMeta = silk.getItemMeta();
@@ -778,32 +750,26 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
         inf.setItemMeta(infMeta);
         inv.addItem(inf);
         //PIERCING
-        if (serverIs114()) {
-            ItemStack pie = new ItemStack(Material.CROSSBOW);
-            ItemMeta pieMeta = pie.getItemMeta();
-            pieMeta.setDisplayName(ChatColor.YELLOW + "Piercing §7(" + num + ")");
-            pieMeta.addEnchant(Enchantment.PIERCING, num, true);
-            pie.setItemMeta(pieMeta);
-            inv.addItem(pie);
-        }
+        ItemStack pie = new ItemStack(Material.CROSSBOW);
+        ItemMeta pieMeta = pie.getItemMeta();
+        pieMeta.setDisplayName(ChatColor.YELLOW + "Piercing §7(" + num + ")");
+        pieMeta.addEnchant(Enchantment.PIERCING, num, true);
+        pie.setItemMeta(pieMeta);
+        inv.addItem(pie);
         //QUICKFIRE
-        if (serverIs114()) {
-            ItemStack qui = new ItemStack(Material.CROSSBOW);
-            ItemMeta quiMeta = qui.getItemMeta();
-            quiMeta.setDisplayName(ChatColor.YELLOW + "Quick Charge §7(" + num + ")");
-            quiMeta.addEnchant(Enchantment.QUICK_CHARGE, num, true);
-            qui.setItemMeta(quiMeta);
-            inv.addItem(qui);
-        }
+        ItemStack qui = new ItemStack(Material.CROSSBOW);
+        ItemMeta quiMeta = qui.getItemMeta();
+        quiMeta.setDisplayName(ChatColor.YELLOW + "Quick Charge §7(" + num + ")");
+        quiMeta.addEnchant(Enchantment.QUICK_CHARGE, num, true);
+        qui.setItemMeta(quiMeta);
+        inv.addItem(qui);
         //MULTISHOT
-        if (serverIs114()) {
-            ItemStack mul = new ItemStack(Material.CROSSBOW);
-            ItemMeta mulMeta = mul.getItemMeta();
-            mulMeta.setDisplayName(ChatColor.YELLOW + "Multishot §7(" + num + ")");
-            mulMeta.addEnchant(Enchantment.MULTISHOT, num, true);
-            mul.setItemMeta(mulMeta);
-            inv.addItem(mul);
-        }
+        ItemStack mul = new ItemStack(Material.CROSSBOW);
+        ItemMeta mulMeta = mul.getItemMeta();
+        mulMeta.setDisplayName(ChatColor.YELLOW + "Multishot §7(" + num + ")");
+        mulMeta.addEnchant(Enchantment.MULTISHOT, num, true);
+        mul.setItemMeta(mulMeta);
+        inv.addItem(mul);
         //AQUA AFFINITY
         ItemStack aff = new ItemStack(Material.DIAMOND_HELMET);
         ItemMeta affMeta = aff.getItemMeta();
@@ -868,23 +834,19 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
         str.setItemMeta(strMeta);
         inv.addItem(str);
         //FROST WALKER
-        if (serverIs19()) {
-            ItemStack fro = new ItemStack(Material.DIAMOND_BOOTS);
-            ItemMeta froMeta = fro.getItemMeta();
-            froMeta.setDisplayName(ChatColor.YELLOW + "Frost Walker §7(" + num + ")");
-            froMeta.addEnchant(Enchantment.FROST_WALKER, num, true);
-            fro.setItemMeta(froMeta);
-            inv.addItem(fro);
-        }
+        ItemStack fro = new ItemStack(Material.DIAMOND_BOOTS);
+        ItemMeta froMeta = fro.getItemMeta();
+        froMeta.setDisplayName(ChatColor.YELLOW + "Frost Walker §7(" + num + ")");
+        froMeta.addEnchant(Enchantment.FROST_WALKER, num, true);
+        fro.setItemMeta(froMeta);
+        inv.addItem(fro);
         //SOUL SPEED
-        if (serverIs116()) {
-            ItemStack ss = new ItemStack(Material.DIAMOND_BOOTS);
-            ItemMeta ssMeta = ss.getItemMeta();
-            ssMeta.setDisplayName(ChatColor.YELLOW + "Soul Speed §7(" + num + ")");
-            ssMeta.addEnchant(Enchantment.SOUL_SPEED, num, true);
-            ss.setItemMeta(ssMeta);
-            inv.addItem(ss);
-        }
+        ItemStack ss = new ItemStack(Material.DIAMOND_BOOTS);
+        ItemMeta ssMeta = ss.getItemMeta();
+        ssMeta.setDisplayName(ChatColor.YELLOW + "Soul Speed §7(" + num + ")");
+        ssMeta.addEnchant(Enchantment.SOUL_SPEED, num, true);
+        ss.setItemMeta(ssMeta);
+        inv.addItem(ss);
         //LURE
         ItemStack lure = new ItemStack(Material.FISHING_ROD);
         ItemMeta lureMeta = lure.getItemMeta();
@@ -900,83 +862,73 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
         luck.setItemMeta(luckMeta);
         inv.addItem(luck);
         //CHANNELING
-        if (serverIs113()) {
-            ItemStack chan = new ItemStack(Material.TRIDENT);
-            ItemMeta chanMeta = chan.getItemMeta();
-            chanMeta.setDisplayName(ChatColor.YELLOW + "Channeling §7(" + num + ")");
-            chanMeta.addEnchant(Enchantment.CHANNELING, num, true);
-            chan.setItemMeta(chanMeta);
-            inv.addItem(chan);
-        }
+        ItemStack chan = new ItemStack(Material.TRIDENT);
+        ItemMeta chanMeta = chan.getItemMeta();
+        chanMeta.setDisplayName(ChatColor.YELLOW + "Channeling §7(" + num + ")");
+        chanMeta.addEnchant(Enchantment.CHANNELING, num, true);
+        chan.setItemMeta(chanMeta);
+        inv.addItem(chan);
         //RIPTIDE
-        if (serverIs113()) {
-            ItemStack rip = new ItemStack(Material.TRIDENT);
-            ItemMeta ripMeta = rip.getItemMeta();
-            ripMeta.setDisplayName(ChatColor.YELLOW + "Riptide §7(" + num + ")");
-            ripMeta.addEnchant(Enchantment.RIPTIDE, num, true);
-            rip.setItemMeta(ripMeta);
-            inv.addItem(rip);
-        }
+        ItemStack rip = new ItemStack(Material.TRIDENT);
+        ItemMeta ripMeta = rip.getItemMeta();
+        ripMeta.setDisplayName(ChatColor.YELLOW + "Riptide §7(" + num + ")");
+        ripMeta.addEnchant(Enchantment.RIPTIDE, num, true);
+        rip.setItemMeta(ripMeta);
+        inv.addItem(rip);
         //LOYALTY
-        if (serverIs113()) {
-            ItemStack loy = new ItemStack(Material.TRIDENT);
-            ItemMeta loyMeta = loy.getItemMeta();
-            loyMeta.setDisplayName(ChatColor.YELLOW + "Loyalty §7(" + num + ")");
-            loyMeta.addEnchant(Enchantment.LOYALTY, num, true);
-            loy.setItemMeta(loyMeta);
-            inv.addItem(loy);
-        }
+        ItemStack loy = new ItemStack(Material.TRIDENT);
+        ItemMeta loyMeta = loy.getItemMeta();
+        loyMeta.setDisplayName(ChatColor.YELLOW + "Loyalty §7(" + num + ")");
+        loyMeta.addEnchant(Enchantment.LOYALTY, num, true);
+        loy.setItemMeta(loyMeta);
+        inv.addItem(loy);
         //CURSE OF BINDING
-        if (serverIs111()) {
-            ItemStack bind = new ItemStack(Material.SLIME_BALL);
-            ItemMeta bindMeta = bind.getItemMeta();
-            bindMeta.setDisplayName(ChatColor.RED + "Curse of Binding §7(" + num + ")");
-            bindMeta.addEnchant(Enchantment.BINDING_CURSE, num, true);
-            bind.setItemMeta(bindMeta);
-            inv.addItem(bind);
-        }
+        ItemStack bind = new ItemStack(Material.SLIME_BALL);
+        ItemMeta bindMeta = bind.getItemMeta();
+        bindMeta.setDisplayName(ChatColor.RED + "Curse of Binding §7(" + num + ")");
+        bindMeta.addEnchant(Enchantment.BINDING_CURSE, num, true);
+        bind.setItemMeta(bindMeta);
+        inv.addItem(bind);
         //CURSE OF VANISHING
-        if (serverIs111()) {
-            ItemStack van = new ItemStack(Material.ENDER_EYE);
-            ItemMeta vanMeta = van.getItemMeta();
-            vanMeta.setDisplayName(ChatColor.RED + "Curse of Vanishing §7(" + num + ")");
-            vanMeta.addEnchant(Enchantment.VANISHING_CURSE, num, true);
-            van.setItemMeta(vanMeta);
-            inv.addItem(van);
-        }
-
+        ItemStack van = new ItemStack(Material.ENDER_EYE);
+        ItemMeta vanMeta = van.getItemMeta();
+        vanMeta.setDisplayName(ChatColor.RED + "Curse of Vanishing §7(" + num + ")");
+        vanMeta.addEnchant(Enchantment.VANISHING_CURSE, num, true);
+        van.setItemMeta(vanMeta);
+        inv.addItem(van);
+        
         ItemStack close = new ItemStack(Material.BARRIER);
         ItemMeta closeMeta = close.getItemMeta();
         ItemStack lvl = new ItemStack(Material.EXPERIENCE_BOTTLE);
         ItemMeta lvlMeta = lvl.getItemMeta();
-
+        
         closeMeta.setDisplayName(ChatColor.RED + "Close");
         close.setItemMeta(closeMeta);
-
+        
         List<String> Lore = new ArrayList<String>();
         lvlMeta.setDisplayName(ChatColor.GREEN + "Enchantment Level");
         Lore.add("§7Level: " + num);
         lvlMeta.setLore(Lore);
         lvl.setItemMeta(lvlMeta);
-
+        
         inv.setItem(49, close);
         inv.setItem(53, lvl);
-
+        
         player.openInventory(inv);
-
+        
     }
-
+    
     @SuppressWarnings("incomplete-switch")
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         if (!ChatColor.stripColor(event.getView().getTitle()).equals("Enchantment Menu") &&
                 !ChatColor.stripColor(event.getView().getTitle()).contains("Unsafe Enchantment Menu"))
             return;
-
+        
         Player player = (Player) event.getWhoClicked();
         if (event.getInventory().getHolder()==null) {
             event.setCancelled(true);
-    
+            
             if (event.getCurrentItem() == null || event.getCurrentItem().getType() == Material.AIR) {
                 return;
             }
@@ -984,17 +936,17 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                 return;
             }
             Map<Enchantment, Integer> itemEnchants = player.getInventory().getItemInHand().getItemMeta().getEnchants();
-    
+            
             if (event.getClickedInventory().getType().equals(InventoryType.CHEST)) {
-        
+                
                 if (event.getCurrentItem().getType() != Material.BARRIER && event.getCurrentItem().getType() != Material.EXPERIENCE_BOTTLE) {
                     if (event.getCurrentItem().hasItemMeta()) {
                         if (event.getCurrentItem().getItemMeta().hasDisplayName()) {
                             if (player.getInventory().getItemInHand().getType() != Material.AIR) {
-                        
+                                
                                 for (Enchantment enchantment : event.getCurrentItem().getItemMeta().getEnchants().keySet()) {
                                     for (Enchantment ench : itemEnchants.keySet()) {
-                                
+                                        
                                         if (!ChatColor.stripColor(event.getView().getTitle()).equalsIgnoreCase("Unsafe Enchantment Menu")) {
                                             if (player.getInventory().getItemInHand().getItemMeta().hasEnchants()) {
                                                 if (enchantment.conflictsWith(ench)) {
@@ -1003,14 +955,14 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                                             }
                                         }
                                     }
-                            
+                                    
                                     if (b == false) {
                                         ItemMeta meta = player.getInventory().getItemInHand().getItemMeta();
                                         meta.addEnchant(enchantment, num, true);
                                         player.getInventory().getItemInHand().setItemMeta(meta);
                                         b = false;
                                     }
-                            
+                                    
                                     if (b == true) {
                                         b = false;
                                     }
@@ -1019,7 +971,7 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                         }
                     }
                 }
-        
+                
                 switch (event.getCurrentItem().getType()) {
                     case BARRIER:
                         player.closeInventory();
@@ -1027,39 +979,39 @@ public class EnchantGUI extends API implements CommandExecutor, Listener, TabCom
                 }
             }
         }
-
-}
-
-public List<String> onTabComplete(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-        if (cmd.getName().equalsIgnoreCase("enchgui")) {			                             
-        	  List<String> a = Arrays.asList("1","2","3","4","5");
-        	  List<String> b = Arrays.asList("safe","unsafe");          	
-        	  
-        	  List<String> f = Lists.newArrayList();						                        			                                      
-                 if (args.length == 1) {
-                 for (String s : a) {
-                 if (s.startsWith(args[0])) f.add(s);
-                 }
-                 return f;
-                 }
-                 
-            List<String> g = Lists.newArrayList();						                        			                                      
-                if (args.length == 2) {
+        
+    }
+    
+    public List<String> onTabComplete(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+        if (cmd.getName().equalsIgnoreCase("enchgui")) {
+            List<String> a = Arrays.asList("1","2","3","4","5");
+            List<String> b = Arrays.asList("safe","unsafe");
+            
+            List<String> f = Lists.newArrayList();
+            if (args.length == 1) {
+                for (String s : a) {
+                    if (s.startsWith(args[0])) f.add(s);
+                }
+                return f;
+            }
+            
+            List<String> g = Lists.newArrayList();
+            if (args.length == 2) {
                 for (String s : b) {
-                if (s.startsWith(args[1])) g.add(s);
+                    if (s.startsWith(args[1])) g.add(s);
                 }
                 return g;
-                }
-                	 						                         
-          if (args.length > 2) {
-              ArrayList<String> noInput = new ArrayList<String>();
-                                                        
-             noInput.add("");		                                     
-             
-             return noInput;		
-          }
-  }
-	return null;
-}
+            }
+            
+            if (args.length > 2) {
+                ArrayList<String> noInput = new ArrayList<String>();
+                
+                noInput.add("");
+                
+                return noInput;
+            }
+        }
+        return null;
+    }
 }
 

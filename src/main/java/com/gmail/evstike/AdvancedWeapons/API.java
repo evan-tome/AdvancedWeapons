@@ -34,71 +34,8 @@ public class API implements InventoryHolder {
     }
     
     //VERSIONS
-    public boolean serverIs116() {
-        if (Bukkit.getVersion().contains("1.16")) {
-            return true;
-        }
-        return false;
-    }
-    
-    public boolean serverIs115() {
-        if (Bukkit.getVersion().contains("1.15") || serverIs116()) {
-            return true;
-        }
-        return false;
-    }
-    
-    public boolean serverIs114() {
-        if (Bukkit.getVersion().contains("1.14") || serverIs115()) {
-            return true;
-        }
-        return false;
-    }
-    
-    public boolean serverIs113() {
-        if (Bukkit.getVersion().contains("1.13") || serverIs114()) {
-            return true;
-        }
-        return false;
-    }
-    
-    public boolean serverIs112() {
-        if (Bukkit.getVersion().contains("1.12") || serverIs113()) {
-            return true;
-        }
-        return false;
-    }
-    
-    public boolean serverIs1111() {
-        if (Bukkit.getVersion().contains("1.11.1") || Bukkit.getVersion().contains("1.11.2") || serverIs112()) {
-            return true;
-        }
-        return false;
-    }
-    
-    public boolean serverIs111() {
-        if (Bukkit.getVersion().contains("1.11") || serverIs1111()) {
-            return true;
-        }
-        return false;
-    }
-    
-    public boolean serverIs110() {
-        if (Bukkit.getVersion().contains("1.10") || serverIs111() || serverIs1111()) {
-            return true;
-        }
-        return false;
-    }
-    
-    public boolean serverIs19() {
-        if (Bukkit.getVersion().contains("1.9") || serverIs110()) {
-            return true;
-        }
-        return false;
-    }
-    
-    public boolean serverIs18() {
-        if (Bukkit.getVersion().contains("1.8") || serverIs19()) {
+    public boolean serverIs118() {
+        if (Bukkit.getVersion().contains("1.18")) {
             return true;
         }
         return false;
@@ -159,7 +96,16 @@ public class API implements InventoryHolder {
                 .contains("pickaxe") || player.getInventory().getItemInHand().getType().toString().toLowerCase()
                 .contains("_axe") || player.getInventory().getItemInHand().getType().toString().toLowerCase()
                 .contains("shovel") || player.getInventory().getItemInHand().getType().toString().toLowerCase()
+                .contains("_hoe") || player.getInventory().getItemInHand().getType().toString().toLowerCase()
                 .contains("shears")) {
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean isBow(Player player) {
+        if (player.getInventory().getItemInHand().getType().toString().toLowerCase()
+                .contains("bow")) {
             return true;
         }
         return false;

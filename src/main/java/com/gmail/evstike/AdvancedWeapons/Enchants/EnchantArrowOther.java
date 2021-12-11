@@ -168,7 +168,7 @@ public class EnchantArrowOther extends API implements Listener {
                                                 if (function.equals("explosion")) {
                                                     Location loc = defender.getLocation();
     
-                                                    Boolean destroy = true;
+                                                    Boolean destroy = false;
                                                     int power = 1;
                                                     if (item.contains("destroy")) {
                                                         destroy = item.getBoolean("destroy");
