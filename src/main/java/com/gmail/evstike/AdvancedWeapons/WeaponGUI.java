@@ -48,7 +48,7 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
     }
     
     private void openGUI(Player player) {
-        Inventory inv = Bukkit.createInventory(null, 9, "Weapons");
+        Inventory inv = Bukkit.createInventory(null, 18, "Weapons");
         
         //Items
         ItemStack comp = new ItemStack(Material.RED_STAINED_GLASS_PANE);
@@ -71,6 +71,8 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
         ItemMeta leadMeta = lead.getItemMeta();
         ItemStack grapple = new ItemStack(Material.FISHING_ROD);
         ItemMeta grappleMeta = grapple.getItemMeta();
+        ItemStack blood = new ItemStack(Material.IRON_SWORD);
+        ItemMeta bloodMeta = blood.getItemMeta();
         
         ItemStack custom = new ItemStack(Material.CHEST);
         ItemMeta customMeta = custom.getItemMeta();
@@ -205,6 +207,18 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
         Lore8.add("§b" + num8 + "x " + "§7DUST");
         grappleMeta.setLore(Lore8);
         grapple.setItemMeta(grappleMeta);
+    
+        List<String> Lore9 = new ArrayList<String>();
+        bloodMeta.setDisplayName(ChatColor.RED + "Bloodshed Blade");
+        int num9 = plugin.getConfig().getInt(ChatColor.stripColor("weapon." +
+                bloodMeta.getDisplayName().toLowerCase().replace(" ", "-") + ".cost"));
+        Lore9.add("");
+        Lore9.add("§7This blade has been through many fierce battles,");
+        Lore9.add("§7drawing strength from the blood of its victims.");
+        Lore9.add("");
+        Lore9.add("§b" + num9 + "x " + "§7DUST");
+        bloodMeta.setLore(Lore9);
+        blood.setItemMeta(bloodMeta);
         
         List<String> LoreF = new ArrayList<String>();
         customMeta.setDisplayName(ChatColor.LIGHT_PURPLE + "More Weapons");
@@ -225,6 +239,7 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
         inv.setItem(5, snow);
         inv.setItem(6, lead);
         inv.setItem(7, grapple);
+        inv.setItem(9, blood);
         
         inv.setItem(8, custom);
         
@@ -445,26 +460,48 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
                     }
                     switch (event.getCurrentItem().getType()) {
                         case FISHING_ROD:
-                            
-                                List<String> Lore7 = new ArrayList<String>();
-                                ItemStack grapple = new ItemStack(Material.FISHING_ROD, 1);
-                                ItemMeta grappleMeta = grapple.getItemMeta();
-                                grappleMeta.setDisplayName(ChatColor.RED + "Grappling Hook");
-                                grappleMeta.setLore(Lore7);
-                                grapple.setItemMeta(grappleMeta);
-                                int num = plugin.getConfig().getInt(ChatColor.stripColor("weapon." +
-                                        grappleMeta.getDisplayName().toLowerCase().replace(" ", "-") + ".cost"));
-                                glow.setAmount(num);
-                
-                                if (player.getInventory().containsAtLeast(glow, num)) {
-                                    player.getInventory().removeItem(glow);
-                                    hasAvaliableSlot(player, grapple, s);
-                                    return;
-                                } else {
-                                    player.sendMessage(plugin.getConfig().getString("insufficient-dust-msg").replace('&', '§'));
-                                }
-                                
+    
+                            List<String> Lore7 = new ArrayList<String>();
+                            ItemStack grapple = new ItemStack(Material.FISHING_ROD, 1);
+                            ItemMeta grappleMeta = grapple.getItemMeta();
+                            grappleMeta.setDisplayName(ChatColor.RED + "Grappling Hook");
+                            grappleMeta.setLore(Lore7);
+                            grapple.setItemMeta(grappleMeta);
+                            int num = plugin.getConfig().getInt(ChatColor.stripColor("weapon." +
+                                    grappleMeta.getDisplayName().toLowerCase().replace(" ", "-") + ".cost"));
+                            glow.setAmount(num);
+    
+                            if (player.getInventory().containsAtLeast(glow, num)) {
+                                player.getInventory().removeItem(glow);
+                                hasAvaliableSlot(player, grapple, s);
+                                return;
+                            } else {
+                                player.sendMessage(plugin.getConfig().getString("insufficient-dust-msg").replace('&', '§'));
+                            }
                     }
+                    switch (event.getCurrentItem().getType()) {
+                        case IRON_SWORD:
+        
+                            List<String> Lore7 = new ArrayList<String>();
+                            ItemStack blood = new ItemStack(Material.IRON_SWORD, 1);
+                            ItemMeta bloodMeta = blood.getItemMeta();
+                            bloodMeta.setDisplayName(ChatColor.RED + "Bloodshed Blade");
+                            Lore7.add("§70/10");
+                            bloodMeta.setLore(Lore7);
+                            blood.setItemMeta(bloodMeta);
+                            int num = plugin.getConfig().getInt(ChatColor.stripColor("weapon." +
+                                    bloodMeta.getDisplayName().toLowerCase().replace(" ", "-") + ".cost"));
+                            glow.setAmount(num);
+        
+                            if (player.getInventory().containsAtLeast(glow, num)) {
+                                player.getInventory().removeItem(glow);
+                                hasAvaliableSlot(player, blood, s);
+                                return;
+                            } else {
+                                player.sendMessage(plugin.getConfig().getString("insufficient-dust-msg").replace('&', '§'));
+                            }
+                    }
+                    
                     switch (event.getCurrentItem().getType()) {
                         case CHEST:
                             File wname = plugin.createFile("customweapons.yml");

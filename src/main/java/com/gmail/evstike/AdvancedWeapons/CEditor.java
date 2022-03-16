@@ -315,7 +315,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
         c.setType(Material.GRASS_BLOCK);
         cMeta.setDisplayName("§aBlocks");
         Lore.add("§7Blocks that activate the enchantment");
-        if (!containsEvent((ench.get(player.getUniqueId())), fortune)) {
+        if (!containsEvent((ench.get(player.getUniqueId())), fortune) && !containsEvent((ench.get(player.getUniqueId())), summon)) {
             c.setType(Material.RED_STAINED_GLASS_PANE);
             Lore.add("§cNot compatible with the selected events");
         }
@@ -1125,7 +1125,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
                             break;
                         case RABBIT_FOOT:
                             hash.put(player.getUniqueId(), "chance");
-                            player.sendMessage("§aEnter an integer for the % chance");
+                            player.sendMessage("§aEnter an integer between 0-100 for the % chance");
                             player.closeInventory();
                             break;
                         case DIAMOND_SWORD:
@@ -1300,6 +1300,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
                         if (ChatColor.stripColor(ci.getItemMeta().getDisplayName()).contains("Effects")) {
                             hash.put(player.getUniqueId(), "potion");
                             player.sendMessage("§aEnter a list of effects, separated by ','");
+                            player.sendMessage("§6A list of potion effect names can be found at: §dhttps://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html");
                             player.closeInventory();
                         }
                         if (ChatColor.stripColor(ci.getItemMeta().getDisplayName()).contains("Duration")) {
@@ -1528,7 +1529,11 @@ public class CEditor extends API implements CommandExecutor, Listener {
                     if(!f3.isEmpty()) {
                         player.sendMessage("§cCould not add: "+listToString(f3).trim());
                     }
-                    plugin.getConfig().set("enchant."+enchPath(ench.get(player.getUniqueId()))+".blocks", bl);
+                    if (!bl.isEmpty()) {
+                        plugin.getConfig().set("enchant."+enchPath(ench.get(player.getUniqueId()))+".blocks", bl);
+                    } else {
+                        plugin.getConfig().set("enchant."+enchPath(ench.get(player.getUniqueId()))+".blocks", null);
+                    }
                     updateConfig();
                     hash.remove(player.getUniqueId());
                     bl.clear();

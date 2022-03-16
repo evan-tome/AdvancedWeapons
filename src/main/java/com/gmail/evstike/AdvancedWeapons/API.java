@@ -159,6 +159,25 @@ public class API implements InventoryHolder {
         }
         return 0;
     }
+    public String enchNumeral(int i) {
+        
+        if (i==1) {
+            return "I";
+        }
+        if (i==2) {
+            return "II";
+        }
+        if (i==3) {
+            return "III";
+        }
+        if (i==4) {
+            return "IV";
+        }
+        if (i==5) {
+            return "V";
+        }
+        return "0";
+    }
     
     //COMMAND
     public boolean hasCommandPerm(CommandSender sender, Command cmd, String commandLabel, FileConfiguration f) {

@@ -3,6 +3,7 @@ package com.gmail.evstike.AdvancedWeapons;
 import org.bukkit.*;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -72,15 +73,7 @@ public class WeaponFunctions extends API implements Listener {
                                 ItemStack a = new ItemStack(Material.AIR, 1);
                                 p.getInventory().setItem(p.getInventory().getHeldItemSlot(), a);
                             }
-                            if (conf.getString("weapon.the-slayer.msg").equals("actionbar")) {
-                                sendActionBar(p, ChatColor.GOLD + "THE SLAYER HAS HEALED YOU");
-                            }
-                            if (conf.getString("weapon.the-slayer.msg").equals("true")) {
-                                p.sendMessage(ChatColor.GOLD + "THE SLAYER HAS HEALED YOU");
-                            }
-                            if (conf.getString("weapon.the-slayer.msg").equals("false")) {
-                                return;
-                            }
+                            weaponMessage(conf.getString("weapon.the-slayer.msg"), p, ChatColor.GOLD + "THE SLAYER HAS HEALED YOU");
                         }
                     }
                 }
@@ -130,15 +123,7 @@ public class WeaponFunctions extends API implements Listener {
                                     }
                                 }
                             }
-                            if (conf.getString("weapon.the-dropper.msg").equals("actionbar")) {
-                                sendActionBar(p, ChatColor.GOLD + "SHOT DROPPER");
-                            }
-                            if (conf.getString("weapon.the-dropper.msg").equals("true")) {
-                                p.sendMessage(ChatColor.GOLD + "SHOT DROPPER");
-                            }
-                            if (conf.getString("weapon.the-dropper.msg").equals("false")) {
-                                return;
-                            }
+                            weaponMessage(conf.getString("weapon.the-dropper.msg"), p, ChatColor.GOLD + "SHOT DROPPER");
                         }
                     }
                 }
@@ -194,15 +179,7 @@ public class WeaponFunctions extends API implements Listener {
                                     }
                                 }
                             }
-                            if (conf.getString("weapon.fireball-launcher.msg").equals("actionbar")) {
-                                sendActionBar(p, ChatColor.GOLD + "FIREBALL");
-                            }
-                            if (conf.getString("weapon.fireball-launcher.msg").equals("true")) {
-                                p.sendMessage(ChatColor.GOLD + "FIREBALL");
-                            }
-                            if (conf.getString("weapon.fireball-launcher.msg").equals("false")) {
-                                return;
-                            }
+                            weaponMessage(conf.getString("weapon.fireball-launcher.msg"), p, ChatColor.GOLD + "FIREBALL");
                         }
                     }
                 }
@@ -313,15 +290,7 @@ public class WeaponFunctions extends API implements Listener {
                             }
                         }
                     }
-                    if (conf.getString("weapon.the-skeletal-sword.msg").equals("actionbar")) {
-                        sendActionBar(p, ChatColor.GOLD + "THE SKELETAL SWORD BRINGS DEATH");
-                    }
-                    if (conf.getString("weapon.the-skeletal-sword.msg").equals("true")) {
-                        p.sendMessage(ChatColor.RED + "THE SKELETAL SWORD BRINGS DEATH");
-                    }
-                    if (conf.getString("weapon.the-skeletal-sword.msg").equals("false")) {
-                        return;
-                    }
+                    weaponMessage(conf.getString("weapon.the-skeletal-sword.msg"), p, ChatColor.RED + "THE SKELETAL SWORD BRINGS DEATH");
                 }
             }
         }
@@ -362,15 +331,7 @@ public class WeaponFunctions extends API implements Listener {
                         e.getWorld().spawnParticle(Particle.FALLING_DUST, e.getEyeLocation(), 10, 0.3, 0.3, 0.3, fallingDustData);
                         lsnowball.remove(ent.getUniqueId());
                         
-                        if (conf.getString("weapon.ice-chunk.msg").equals("actionbar")) {
-                            sendActionBar(p, ChatColor.WHITE + "BRRRR... YOU HIT A " + e.getType().name().replace("_", " ") + " WITH AN ICE CHUNK");
-                        }
-                        if (conf.getString("weapon.ice-chunk.msg").equals("true")) {
-                            p.sendMessage(ChatColor.WHITE + "BRRRR... YOU HIT A " + e.getType().name().replace("_", " ") + " WITH AN ICE CHUNK");
-                        }
-                        if (conf.getString("weapon.ice-chunk.msg").equals("false")) {
-                            return;
-                        }
+                        weaponMessage(conf.getString("weapon.ice-chunk.msg"), p, ChatColor.WHITE + "BRRRR... YOU HIT A " + e.getType().name().replace("_", " ") + " WITH AN ICE CHUNK");
                     }
                 }
             }
@@ -419,15 +380,8 @@ public class WeaponFunctions extends API implements Listener {
                         Player p = ((Player) ((Arrow) ent).getShooter()).getPlayer();
                         
                         FileConfiguration conf = plugin.getConfig();
-                        if (conf.getString("weapon.spirit-leash.msg").equals("actionbar")) {
-                            sendActionBar(p, ChatColor.LIGHT_PURPLE + "YOU SUMMONED A " + lent.getType().name().replace("_", " "));
-                        }
-                        if (conf.getString("weapon.spirit-leash.msg").equals("true")) {
-                            p.sendMessage(ChatColor.LIGHT_PURPLE + "YOU SUMMONED A " + lent.getType().name().replace("_", " "));
-                        }
-                        if (conf.getString("weapon.spirit-leash.msg").equals("false")) {
-                            return;
-                        }
+                       
+                        weaponMessage(conf.getString("weapon.spirit-leash.msg"), p, ChatColor.LIGHT_PURPLE + "YOU SUMMONED A " + lent.getType().name().replace("_", " "));
                     }
                     lfire.remove(ent.getUniqueId());
                 }
@@ -451,22 +405,15 @@ public class WeaponFunctions extends API implements Listener {
                     p.getItemInHand().setDurability((short) (p.getItemInHand().getDurability() + 16));
                     
                     FileConfiguration conf = plugin.getConfig();
-                    if (conf.getString("weapon.grappling-hook.msg").equals("actionbar")) {
-                        sendActionBar(p, ChatColor.GOLD + "GRAPPLING");
-                    }
-                    if (conf.getString("weapon.grappling-hook.msg").equals("true")) {
-                        p.sendMessage(ChatColor.GOLD + "GRAPPLING");
-                    }
-                    if (conf.getString("weapon.grappling-hook.msg").equals("false")) {
-                        return;
-                    }
+                
+                    weaponMessage(conf.getString("weapon.grappling-hook.msg"), p, ChatColor.GOLD + "GRAPPLING");
                     
                     Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
                         @Override
                         public void run() {
                             l.setCustomNameVisible(false);
                         }
-                    }, 20L);
+                    }, 10L);
                 }
             }
         }
@@ -481,15 +428,9 @@ public class WeaponFunctions extends API implements Listener {
                     if (p.getInventory().getItemInHand().getItemMeta().getDisplayName().equals("§cGrappling Hook")) {
                         
                         FileConfiguration conf = plugin.getConfig();
-                        if (conf.getString("weapon.grappling-hook.msg").equals("actionbar")) {
-                            sendActionBar(p, ChatColor.GREEN + "HOOKED");
-                        }
-                        if (conf.getString("weapon.grappling-hook.msg").equals("true")) {
-                            p.sendMessage(ChatColor.GREEN + "HOOKED");
-                        }
-                        if (conf.getString("weapon.grappling-hook.msg").equals("false")) {
-                            return;
-                        }
+                        
+                        weaponMessage(conf.getString("weapon.grappling-hook.msg"), p, ChatColor.GREEN + "HOOKED");
+                        
                         LeashHitch l = (LeashHitch) e.getHitEntity();
                         l.setCustomName("§a§l+");
                         l.setCustomNameVisible(true);
@@ -503,6 +444,57 @@ public class WeaponFunctions extends API implements Listener {
                     }
                 }
             }
+        }
+    }
+    
+    @EventHandler
+    public void onBloodshed(EntityDeathEvent e) {
+        if (e.getEntity().getKiller() != null) {
+            Player p = e.getEntity().getKiller();
+            ItemStack i = p.getInventory().getItemInHand();
+            ItemMeta im = i.getItemMeta();
+            if (im.getDisplayName().equals("§cBloodshed Blade")) {
+                List<String> lore = im.getLore();
+                String s = ChatColor.stripColor(lore.get(0));
+                FileConfiguration conf = plugin.getConfig();
+                
+                if (s.contains("/")) {
+                    String[] str = s.split("/");
+                    int n = Integer.parseInt(str[0]);
+                    if (n==49) {
+                        s = "§7" + (150) + " §c§oKILLZ";
+                        im.addEnchant(Enchantment.FIRE_ASPECT, 1, true);
+                        int el = im.getEnchantLevel(Enchantment.DAMAGE_ALL);
+                        im.addEnchant(Enchantment.DAMAGE_ALL, el + 1, true);
+    
+                        weaponMessage(conf.getString("weapon.bloodshed-blade.msg"), p, ChatColor.DARK_RED + "§0§kX§4GO INSANE§0§kX §7[" + enchNumeral(el) + "->" + enchNumeral(el+1) + "]");
+                        
+                    } else if (n < Integer.parseInt(str[1]) - 1) {
+                        s = "§7" + (n + 1) + "/" + str[1];
+                    } else {
+                        s = "§70/" + (Integer.parseInt(str[1]) + 10);
+                        int el = im.getEnchantLevel(Enchantment.DAMAGE_ALL);
+                        im.addEnchant(Enchantment.DAMAGE_ALL, el + 1, true);
+                        
+                        weaponMessage(conf.getString("weapon.bloodshed-blade.msg"), p, ChatColor.RED + "BLOOD HAS BEEN SHED §7[" + enchNumeral(el) + "->" + enchNumeral(el+1) + "]");
+                    }
+                } else {
+                    String[] str = s.split(" ");
+                    int n = Integer.parseInt(str[0]);
+                    s = "§7"+(n+1)+" §c§oKILLZ";
+                }
+                lore.set(0,s);
+                im.setLore(lore);
+                i.setItemMeta(im);
+            }
+        }
+    }
+    public void weaponMessage(String s, Player p, String msg) {
+        if (s.equals("actionbar")) {
+            sendActionBar(p, msg);
+        }
+        if (s.equals("true")) {
+            p.sendMessage(msg);
         }
     }
 }

@@ -41,7 +41,7 @@ public class Info extends ConfigGUI implements CommandExecutor, TabCompleter {
 			List<String> a = Arrays.asList("help", "pages", "stats", "enchants", "commands", "dust", "discord", "author", "guide", "ver", "version", "download",
 					"permissions", "admin", "config", "reload", "rl");
 
-			if (args.length == 0 || args.length == 1 && args[0].equals("help")) {
+			if (args.length == 0 || args[0].equals("help")) {
 				String ver = Bukkit.getServer().getPluginManager().getPlugin("AdvancedWeapons").getDescription().getVersion();
 				String author = Bukkit.getServer().getPluginManager().getPlugin("AdvancedWeapons").getDescription().getAuthors().toString().replace("[", "");
 				sender.sendMessage(ChatColor.GOLD + ("AdvancedWeapons version §b" + ver + "§6 by §b" + author + "§a.").replace("]", ""));
@@ -51,11 +51,12 @@ public class Info extends ConfigGUI implements CommandExecutor, TabCompleter {
 				sender.sendMessage(ChatColor.GOLD + "Unknown page §c\"" + args[0] + '"' + "§6. Please specify a page.");
 				sender.sendMessage(ChatColor.GOLD + "Use §a/" + commandLabel + " pages §6for more information.");
 			}
-			if (args.length == 1) {
+			if (args.length > 0) {
 				if (args[0].equalsIgnoreCase("pages")) {
 					sender.sendMessage("§6-=AdvancedWeapons=-");
 					sender.sendMessage("§6Please specify a page");
-					sender.sendMessage("§6/" + commandLabel + " §a(page) ");
+					sender.sendMessage("§7Usage: §6/" + commandLabel + " §d{page} ");
+					sender.sendMessage("§a- §6stats");
 					sender.sendMessage("§a- §6enchants");
 					sender.sendMessage("§a- §6commands");
 					sender.sendMessage("§a- §6dust");
@@ -72,28 +73,6 @@ public class Info extends ConfigGUI implements CommandExecutor, TabCompleter {
 					}
 
 					sender.sendMessage("§6-================-");
-				}
-				if (args[0].equalsIgnoreCase("stats")) {
-					sender.sendMessage("§6-=" + sender.getName() +"'s Stats=-");
-					
-					File pfile = plugin.createFile("playerdata.yml");
-					FileConfiguration pconf = plugin.createYamlFile(pfile);
-					Player p = (Player) sender;
-					
-					ConfigurationSection item = pconf.getConfigurationSection("playerdata." + p.getUniqueId());
-					int dust = item.getInt("dust");
-					int wins = item.getInt("coinflip.wins");
-					int losses = item.getInt("coinflip.losses");
-					double wl = wins*1.0/losses;
-					sender.sendMessage("§aGeneral:");
-					sender.sendMessage("§a- §6Dust: §7" + dust);
-					sender.sendMessage("§aCoinflip:");
-					sender.sendMessage("§a- §6Wins: §7" + wins);
-					sender.sendMessage("§a- §6Losses: §7" + losses);
-					sender.sendMessage("§a- §6W/L: §7" + Math.round(wl*100)/100.0);
-					
-					sender.sendMessage("§6-================-");
-					max.clear();
 				}
 				if (args[0].equalsIgnoreCase("enchants")) {
 					sender.sendMessage("§6-=Enchants=-");
@@ -126,7 +105,7 @@ public class Info extends ConfigGUI implements CommandExecutor, TabCompleter {
 				}
 				if (args[0].equalsIgnoreCase("commands")) {
 					sender.sendMessage("§6-=Commands=-");
-					sender.sendMessage("§a- §6/advancedweapons {page} §7Plugin information.");
+					sender.sendMessage("§a- §6/advancedweapons §d{page} §7Plugin information.");
 					sender.sendMessage("§a- §6/ce §7Enchant your items with custom enchantments.");
 					sender.sendMessage("§a- §6/weapons §7Receive magical weapons.");
 					sender.sendMessage("§a- §6/machines §7Power up ancient machinery.");
@@ -135,9 +114,9 @@ public class Info extends ConfigGUI implements CommandExecutor, TabCompleter {
 					if (sender.hasPermission("advancedweapons.admin")) {
 						sender.sendMessage("§a- §b/ceditor §7Create and edit custom enchantments.");
 						sender.sendMessage("§a- §b/enchgui §7Select enchantments from a menu.");
-						sender.sendMessage("§a- §b/ignite {player} §7Ignite a player on fire.");
-						sender.sendMessage("§a- §b/hidden {option} {player} §7Completely hide yourself from players.");
-						sender.sendMessage("§a- §b/dust give {amount} {player} §7Give a player Dust.");
+						sender.sendMessage("§a- §b/ignite §d{player} §7Ignite a player on fire.");
+						sender.sendMessage("§a- §b/hidden §d{option} {player} §7Completely hide yourself from players.");
+						sender.sendMessage("§a- §b/dust give §d{amount} {player} §7Give a player Dust.");
 					}
 					sender.sendMessage("§6-================-");
 				}
@@ -145,7 +124,7 @@ public class Info extends ConfigGUI implements CommandExecutor, TabCompleter {
 					sender.sendMessage("§6-=Dust=-");
 					sender.sendMessage("§6Purchase Dust using §a/dust");
 					sender.sendMessage("§7Dust is an AdvancedWeapons currency used to");
-					sender.sendMessage("§7enchant your items and buy magical weapons");
+					sender.sendMessage("§7enchant your items and buy magical weapons.");
 					sender.sendMessage("§7Legends say that Dust can be used to power");
 					sender.sendMessage("§7ancient machinery.");
 					sender.sendMessage("§6-================-");
@@ -187,7 +166,7 @@ public class Info extends ConfigGUI implements CommandExecutor, TabCompleter {
 				}
 				if (args[0].equalsIgnoreCase("author")) {
 					sender.sendMessage("§6-=AdvancedWeapons by §aminer328§6=-");
-					sender.sendMessage("§aSupport him on SpigotMC at");
+					sender.sendMessage("§aCheck out the developer's SpigotMC profile at");
 					sender.sendMessage("§bhttps://www.spigotmc.org/members/miner328.253132/");
 					sender.sendMessage("§6-================-");
 				}
@@ -221,17 +200,10 @@ public class Info extends ConfigGUI implements CommandExecutor, TabCompleter {
 					plugin.saveYamlFile(nameconfig, filename);
 					plugin.saveYamlFile(mconfig, mname);
 					sender.sendMessage(plugin.getConfig().getString("reload-msg").replace('&', '§'));
-					System.out.println("[AdvancedWeapons] Config reloaded");
+					System.out.println(plugin.getConfig().getString("reload-msg").replace('&', '§'));
 				}
 				if ((args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("rl")) && !sender.hasPermission("advancedweapons.reload")) {
 					sender.sendMessage("§cYou don't have permission to perform this command.");
-				}
-				if ((args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("rl")) && !(sender instanceof Player)) {
-					plugin.saveDefaultConfig();
-					plugin.reloadConfig();
-					plugin.saveYamlFile(nameconfig, filename);
-					plugin.saveYamlFile(mconfig, mname);
-					System.out.println("[AdvancedWeapons] Config reloaded");
 				}
 				if (args[0].equalsIgnoreCase("config") && sender.hasPermission("advancedweapons.config")) {
 					if (sender instanceof Player) {
@@ -250,10 +222,45 @@ public class Info extends ConfigGUI implements CommandExecutor, TabCompleter {
 					sender.sendMessage("§cYou don't have permission to perform this command.");
 				}
 			}
+			if (args.length > 0) {
+				if (args[0].equalsIgnoreCase("stats")) {
+					if (sender instanceof Player) {
+						Player target = (Player) sender;
+						if (args.length == 2 && Bukkit.getPlayerExact(args[1]) != null) {
+							target = Bukkit.getPlayerExact(args[1]);
+						}
+						sender.sendMessage("§6-=" + target.getName() + "'s Stats=-");
+						
+						File pfile = plugin.createFile("playerdata.yml");
+						FileConfiguration pconf = plugin.createYamlFile(pfile);
+						Player p = (Player) sender;
+						
+						ConfigurationSection item = pconf.getConfigurationSection("playerdata." + target.getUniqueId());
+						if (item!=null) {
+							int dust = item.getInt("dust");
+							int wins = item.getInt("coinflip.wins");
+							int losses = item.getInt("coinflip.losses");
+							double wl = wins * 1.0 / losses;
+							sender.sendMessage("§aGeneral:");
+							sender.sendMessage("§a- §6Dust: §7" + dust);
+							sender.sendMessage("§aCoinflip:");
+							sender.sendMessage("§a- §6Wins: §7" + wins);
+							sender.sendMessage("§a- §6Losses: §7" + losses);
+							sender.sendMessage("§a- §6W/L: §7" + Math.round(wl * 100) / 100.0);
+							
+							sender.sendMessage("§6-================-");
+						} else {
+							sender.sendMessage("§cNo stats found for this user.");
+						}
+					} else {
+						sender.sendMessage("§cOnly players can use this command.");
+					}
+				}
+			}
 			if (plugin.getConfig().getBoolean("discord-message")) {
 				Random rand = new Random();
 				int n = rand.nextInt(100) + 1;
-				if (n <= 5) {
+				if (n <= 2) {
 					sender.sendMessage("§aNeed AdvancedWeapons support? Join our Discord:");
 					sender.sendMessage("§bhttps://discord.gg/gUKbxJm");
 				}

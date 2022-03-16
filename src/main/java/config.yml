@@ -67,6 +67,9 @@ weapon:
   grappling-hook:
     msg: actionbar
     cost: 16
+  bloodshed-blade:
+    msg: true
+    cost: 64
 # Machines
 machine:
   port-a-wall:
@@ -84,7 +87,7 @@ enchant:
       - "&7Speed I - 4s"
       - "&8{chance}% chance"
     chance: 10
-    cost: 8
+    cost: 16
     type: weapon
     events:
       - interact
@@ -100,7 +103,7 @@ enchant:
       - "&7Speed I - 6s"
       - "&8{chance}% chance"
     chance: 10
-    cost: 16
+    cost: 32
     type: weapon
     events:
       - interact
@@ -116,7 +119,7 @@ enchant:
       - "&7Speed I - 8s"
       - "&8{chance}% chance"
     chance: 10
-    cost: 32
+    cost: 64
     type: weapon
     events:
       - interact
@@ -131,8 +134,8 @@ enchant:
       - "&7Lets you jump to new heights."
       - "&7Bounce I - 4s"
       - "&8{chance}% chance"
-    chance: 1
-    cost: 8
+    chance: 10
+    cost: 16
     type: weapon
     events:
       - interact
@@ -148,7 +151,7 @@ enchant:
       - "&7Bounce I - 6s"
       - "&8{chance}% chance"
     chance: 10
-    cost: 16
+    cost: 32
     type: weapon
     events:
       - interact
@@ -164,7 +167,7 @@ enchant:
       - "&7Bounce I - 8s"
       - "&8{chance}% chance"
     chance: 10
-    cost: 32
+    cost: 64
     type: weapon
     events:
       - interact
@@ -180,7 +183,7 @@ enchant:
       - "&7Haste I - 4s"
       - "&8{chance}% chance"
     chance: 10
-    cost: 8
+    cost: 16
     type: weapon
     events:
       - interact
@@ -195,8 +198,8 @@ enchant:
       - "&7Hit faster when hyper."
       - "&7Haste I - 6s"
       - "&8{chance}% chance"
-    chance: 1
-    cost: 16
+    chance: 10
+    cost: 32
     type: weapon
     events:
       - interact
@@ -212,7 +215,7 @@ enchant:
       - "&7Haste I - 8s"
       - "&8{chance}% chance"
     chance: 10
-    cost: 32
+    cost: 64
     type: weapon
     events:
       - interact
@@ -227,8 +230,8 @@ enchant:
       - "&7Inflicts poison on your enemies."
       - "&7Poison I - 4s"
       - "&8{chance}% chance"
-    chance: 10
-    cost: 8
+    chance: 20
+    cost: 16
     type: weapon
     events:
       - attackother
@@ -245,8 +248,8 @@ enchant:
       - "&7Inflicts poison on your enemies."
       - "&7Poison I - 8s"
       - "&8{chance}% chance"
-    chance: 10
-    cost: 16
+    chance: 20
+    cost: 32
     type: weapon
     events:
       - attackother
@@ -263,8 +266,8 @@ enchant:
       - "&7Inflicts poison on your enemies."
       - "&7Poison I - 8s"
       - "&8{chance}% chance"
-    chance: 10
-    cost: 32
+    chance: 20
+    cost: 64
     type: weapon
     events:
       - attackother
@@ -283,7 +286,7 @@ enchant:
       - "&7+1 damage"
       - "&8{chance}% chance"
     chance: 100
-    cost: 8
+    cost: 16
     type: weapon
     events:
       - attackother
@@ -301,7 +304,7 @@ enchant:
       - "&7+1.5 damage"
       - "&8{chance}% chance"
     chance: 100
-    cost: 16
+    cost: 32
     type: weapon
     events:
       - attackother
@@ -319,7 +322,7 @@ enchant:
       - "&7+2 damage"
       - "&8{chance}% chance"
     chance: 100
-    cost: 32
+    cost: 64
     type: weapon
     events:
       - attackother
@@ -337,7 +340,7 @@ enchant:
       - "&7+2.5 damage"
       - "&8{chance}% chance"
     chance: 100
-    cost: 64
+    cost: 128
     type: weapon
     events:
       - attackother
@@ -355,7 +358,7 @@ enchant:
       - "&7+3 damage"
       - "&8{chance}% chance"
     chance: 100
-    cost: 128
+    cost: 256
     type: weapon
     events:
       - attackother
@@ -373,7 +376,7 @@ enchant:
       - "&7+0.5 damage"
       - "&8{chance}% chance"
     chance: 100
-    cost: 8
+    cost: 16
     type: weapon
     events:
       - attackother
@@ -396,7 +399,7 @@ enchant:
       - "&7+1 damage"
       - "&8{chance}% chance"
     chance: 100
-    cost: 16
+    cost: 32
     type: weapon
     events:
       - attackother
@@ -419,7 +422,7 @@ enchant:
       - "&7+1.5 damage"
       - "&8{chance}% chance"
     chance: 100
-    cost: 32
+    cost: 64
     type: weapon
     events:
       - attackother
@@ -442,7 +445,7 @@ enchant:
       - "&7+2 damage"
       - "&8{chance}% chance"
     chance: 100
-    cost: 64
+    cost: 128
     type: weapon
     events:
       - attackother
@@ -465,7 +468,7 @@ enchant:
       - "&7+2.5 damage"
       - "&8{chance}% chance"
     chance: 100
-    cost: 128
+    cost: 256
     type: weapon
     events:
       - attackother
@@ -488,7 +491,7 @@ enchant:
       - "&7Resistance I at 40% health - 4s"
       - "&8{chance}% chance"
     chance: 25
-    cost: 8
+    cost: 16
     type: armor
     events:
       - armorself
@@ -506,7 +509,7 @@ enchant:
       - "&7Resistance I at 40% health - 6s"
       - "&8{chance}% chance"
     chance: 25
-    cost: 16
+    cost: 32
     type: armor
     events:
       - armorself
@@ -524,7 +527,7 @@ enchant:
       - "&7Resistance I at 40% health - 8s"
       - "&8{chance}% chance"
     chance: 25
-    cost: 32
+    cost: 64
     type: armor
     events:
       - armorself
@@ -542,7 +545,7 @@ enchant:
       - "&7Saturation I - 1s"
       - "&8{chance}% chance"
     chance: 25
-    cost: 16
+    cost: 32
     type: tool
     events:
       - blockbreak
@@ -555,3 +558,30 @@ enchant:
       - SATURATION
     duration: 1
     amplifier: 0
+  cowification-i:
+    name: "&eCowification I"
+    lore:
+      - "&7Mooooo"
+      - "&8{chance}% chance"
+    chance: 100
+    cost: 16
+    type: bow
+    events:
+      - arrowland
+    function: summon
+    entity: COW
+    despawn: true
+    duration: 1
+  cannonball-i:
+    name: "&eCannonball I"
+    lore:
+      - "&7Bombs away!"
+      - "&8{chance}% chance"
+    chance: 100
+    cost: 32
+    events:
+      - arrowland
+      - attackother
+    function: explosion
+    power: 1
+    type: bow
