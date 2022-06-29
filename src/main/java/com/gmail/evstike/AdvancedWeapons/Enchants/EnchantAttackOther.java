@@ -35,9 +35,12 @@ public class EnchantAttackOther extends API implements Listener {
     
     public boolean chance(String path) {
         Random rand = new Random();
-        int n = rand.nextInt(100) + 1;
-        if (n <= (plugin.getConfig().getInt("enchant." + path + ".chance"))) {
-            return true;
+        int n;
+        if (!moduleIsDisabled("enchants", plugin.getConfig())) {
+            n = rand.nextInt(100) + 1;
+            if (n <= (plugin.getConfig().getInt("enchant." + path + ".chance"))) {
+                return true;
+            }
         }
         return false;
     }
@@ -160,7 +163,11 @@ public class EnchantAttackOther extends API implements Listener {
                                             //DAMAGE
                                             if (function.equals("damage")) {
                                                 for (Double effect : item.getDoubleList("effects")) {
-                                                    defender.damage(effect);
+                                                    if (effect >= 0) {
+                                                        defender.damage(effect);
+                                                    } else if (defender.getHealth()<defender.getMaxHealth()) {
+                                                        defender.setHealth(Math.min((defender.getHealth() + Math.abs(effect)), defender.getMaxHealth()));
+                                                    }
                                                 }
                                             }
                                             //EXPLOSION

@@ -45,99 +45,161 @@ public class MachineFunctions extends API implements Listener {
     @SuppressWarnings({"deprecation"})
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockPlace(BlockPlaceEvent event) {
+        if (!moduleIsDisabled("machines", plugin.getConfig())) {
+            File mname = plugin.createFile("machines.yml");
+            FileConfiguration mconfig = plugin.createYamlFile(mname);
+            plugin.saveYamlFile(mconfig, mname);
     
-        File mname = plugin.createFile("machines.yml");
-        FileConfiguration mconfig = plugin.createYamlFile(mname);
-        plugin.saveYamlFile(mconfig, mname);
+            Player p = event.getPlayer();
+            Block bl = event.getBlockPlaced();
+            Location l = bl.getLocation();
+            ItemStack i = p.getInventory().getItemInHand();
+            ItemMeta im = i.getItemMeta();
+            Material m;
+            Material m1;
+            Material m2;
+            Material m3;
+            Material m4;
+            String s;
     
-        Player p = event.getPlayer();
-        Block bl = event.getBlockPlaced();
-        Location l = bl.getLocation();
-        ItemStack i = p.getInventory().getItemInHand();
-        ItemMeta im = i.getItemMeta();
-        Material m;
-        Material m1;
-        Material m2;
-        Material m3;
-        Material m4;
-        String s;
+            m = Material.COBBLESTONE_WALL;
+            s = ChatColor.AQUA + "Port-a-Wall";
     
-        m = Material.COBBLESTONE_WALL;
-        s = ChatColor.AQUA + "Port-a-Wall";
-    
-        if (event.getBlockPlaced().getType().equals(Material.COBBLESTONE_WALL)) {
-            if (im.hasDisplayName()) {
-                if (im.getDisplayName().equals(s)) {
-    
-                    if (mconfig.getKeys(false).isEmpty()) {
-                        id = "0";
-                    } else {
-                        for (String key : mconfig.getKeys(false)) {
-                            a = Integer.parseInt(mconfig.getConfigurationSection(key).getName());
+            if (event.getBlockPlaced().getType().equals(Material.COBBLESTONE_WALL)) {
+                if (im.hasDisplayName()) {
+                    if (im.getDisplayName().equals(s)) {
+                
+                        if (mconfig.getKeys(false).isEmpty()) {
+                            id = "0";
+                        } else {
+                            for (String key : mconfig.getKeys(false)) {
+                                a = Integer.parseInt(mconfig.getConfigurationSection(key).getName());
+                            }
+                            id = a + 1 + "";
                         }
-                        id = a + 1 + "";
+                        if (event.isCancelled()) {
+                            return;
+                        }
+                
+                        newMachine(id, "Port-a-Wall", p, true, Material.COBBLESTONE_WALL);
+                
+                        ItemStack it = new ItemStack(Material.COBBLESTONE_WALL, 1);
+                        ItemMeta itm = it.getItemMeta();
+                        itm.setDisplayName(ChatColor.AQUA + "Port-a-Wall");
+                        it.setItemMeta(itm);
+                
+                        bl.setType(Material.AIR);
+                        blockCheck(bl, m, id, p, it);
+                        blockCheck(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 1, l.getBlockZ()), m, id, p, it);
+                        blockCheck(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 2, l.getBlockZ()), m, id, p, it);
+                
+                        if (getCardinalDirection(p).equals("N") || getCardinalDirection(p).equals("NW") ||
+                                getCardinalDirection(p).equals("S") || getCardinalDirection(p).equals("SE")) {
+                            blockCheck(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 2, l.getBlockZ() + 1), m, id, p, it);
+                            blockCheck(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 2, l.getBlockZ() + 2), m, id, p, it);
+                            blockCheck(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 2, l.getBlockZ() - 1), m, id, p, it);
+                            blockCheck(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 2, l.getBlockZ() - 2), m, id, p, it);
+                            blockCheck(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 1, l.getBlockZ() + 1), m, id, p, it);
+                            blockCheck(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 1, l.getBlockZ() + 2), m, id, p, it);
+                            blockCheck(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 1, l.getBlockZ() - 1), m, id, p, it);
+                            blockCheck(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 1, l.getBlockZ() - 2), m, id, p, it);
+                            blockCheck(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() + 1), m, id, p, it);
+                            blockCheck(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() + 2), m, id, p, it);
+                            blockCheck(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 1), m, id, p, it);
+                            blockCheck(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 2), m, id, p, it);
+                        }
+                        if (getCardinalDirection(p).equals("E") || getCardinalDirection(p).equals("NE") ||
+                                getCardinalDirection(p).equals("W") || getCardinalDirection(p).equals("SW")) {
+                            blockCheck(bl.getWorld().getBlockAt(l.getBlockX() + 1, l.getBlockY() + 2, l.getBlockZ()), m, id, p, it);
+                            blockCheck(bl.getWorld().getBlockAt(l.getBlockX() + 2, l.getBlockY() + 2, l.getBlockZ()), m, id, p, it);
+                            blockCheck(bl.getWorld().getBlockAt(l.getBlockX() - 1, l.getBlockY() + 2, l.getBlockZ()), m, id, p, it);
+                            blockCheck(bl.getWorld().getBlockAt(l.getBlockX() - 2, l.getBlockY() + 2, l.getBlockZ()), m, id, p, it);
+                            blockCheck(bl.getWorld().getBlockAt(l.getBlockX() + 1, l.getBlockY() + 1, l.getBlockZ()), m, id, p, it);
+                            blockCheck(bl.getWorld().getBlockAt(l.getBlockX() + 2, l.getBlockY() + 1, l.getBlockZ()), m, id, p, it);
+                            blockCheck(bl.getWorld().getBlockAt(l.getBlockX() - 1, l.getBlockY() + 1, l.getBlockZ()), m, id, p, it);
+                            blockCheck(bl.getWorld().getBlockAt(l.getBlockX() - 2, l.getBlockY() + 1, l.getBlockZ()), m, id, p, it);
+                            blockCheck(bl.getWorld().getBlockAt(l.getBlockX() + 1, l.getBlockY(), l.getBlockZ()), m, id, p, it);
+                            blockCheck(bl.getWorld().getBlockAt(l.getBlockX() + 2, l.getBlockY(), l.getBlockZ()), m, id, p, it);
+                            blockCheck(bl.getWorld().getBlockAt(l.getBlockX() - 1, l.getBlockY(), l.getBlockZ()), m, id, p, it);
+                            blockCheck(bl.getWorld().getBlockAt(l.getBlockX() - 2, l.getBlockY(), l.getBlockZ()), m, id, p, it);
+                        }
+                        p.getWorld().playEffect(l, Effect.MOBSPAWNER_FLAMES, 0);
                     }
-                    if (event.isCancelled()) {
-                        return;
-                    }
-    
-                    newMachine(id, "Port-a-Wall", p, true, Material.COBBLESTONE_WALL);
-    
-                    ItemStack it = new ItemStack(Material.COBBLESTONE_WALL, 1);
-                    ItemMeta itm = it.getItemMeta();
-                    itm.setDisplayName(ChatColor.AQUA + "Port-a-Wall");
-                    it.setItemMeta(itm);
-                    
-                    bl.setType(Material.AIR);
-                    blockCheck(bl, m, id, p, it);
-                    blockCheck(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 1, l.getBlockZ()), m, id, p, it);
-                    blockCheck(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 2, l.getBlockZ()), m, id, p, it);
-    
-                    if (getCardinalDirection(p).equals("N") || getCardinalDirection(p).equals("NW") ||
-                            getCardinalDirection(p).equals("S") || getCardinalDirection(p).equals("SE")) {
-                        blockCheck(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 2, l.getBlockZ() + 1), m, id, p, it);
-                        blockCheck(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 2, l.getBlockZ() + 2), m, id, p, it);
-                        blockCheck(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 2, l.getBlockZ() - 1), m, id, p, it);
-                        blockCheck(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 2, l.getBlockZ() - 2), m, id, p, it);
-                        blockCheck(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 1, l.getBlockZ() + 1), m, id, p, it);
-                        blockCheck(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 1, l.getBlockZ() + 2), m, id, p, it);
-                        blockCheck(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 1, l.getBlockZ() - 1), m, id, p, it);
-                        blockCheck(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 1, l.getBlockZ() - 2), m, id, p, it);
-                        blockCheck(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() + 1), m, id, p, it);
-                        blockCheck(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() + 2), m, id, p, it);
-                        blockCheck(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 1), m, id, p, it);
-                        blockCheck(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 2), m, id, p, it);
-                    }
-                    if (getCardinalDirection(p).equals("E") || getCardinalDirection(p).equals("NE") ||
-                            getCardinalDirection(p).equals("W") || getCardinalDirection(p).equals("SW")) {
-                        blockCheck(bl.getWorld().getBlockAt(l.getBlockX() + 1, l.getBlockY() + 2, l.getBlockZ()), m, id, p, it);
-                        blockCheck(bl.getWorld().getBlockAt(l.getBlockX() + 2, l.getBlockY() + 2, l.getBlockZ()), m, id, p, it);
-                        blockCheck(bl.getWorld().getBlockAt(l.getBlockX() - 1, l.getBlockY() + 2, l.getBlockZ()), m, id, p, it);
-                        blockCheck(bl.getWorld().getBlockAt(l.getBlockX() - 2, l.getBlockY() + 2, l.getBlockZ()), m, id, p, it);
-                        blockCheck(bl.getWorld().getBlockAt(l.getBlockX() + 1, l.getBlockY() + 1, l.getBlockZ()), m, id, p, it);
-                        blockCheck(bl.getWorld().getBlockAt(l.getBlockX() + 2, l.getBlockY() + 1, l.getBlockZ()), m, id, p, it);
-                        blockCheck(bl.getWorld().getBlockAt(l.getBlockX() - 1, l.getBlockY() + 1, l.getBlockZ()), m, id, p, it);
-                        blockCheck(bl.getWorld().getBlockAt(l.getBlockX() - 2, l.getBlockY() + 1, l.getBlockZ()), m, id, p, it);
-                        blockCheck(bl.getWorld().getBlockAt(l.getBlockX() + 1, l.getBlockY(), l.getBlockZ()), m, id, p, it);
-                        blockCheck(bl.getWorld().getBlockAt(l.getBlockX() + 2, l.getBlockY(), l.getBlockZ()), m, id, p, it);
-                        blockCheck(bl.getWorld().getBlockAt(l.getBlockX() - 1, l.getBlockY(), l.getBlockZ()), m, id, p, it);
-                        blockCheck(bl.getWorld().getBlockAt(l.getBlockX() - 2, l.getBlockY(), l.getBlockZ()), m, id, p, it);
-                    }
-                    p.getWorld().playEffect(l, Effect.MOBSPAWNER_FLAMES, 0);
                 }
             }
-        }
-        m = Material.COBBLESTONE_WALL;
-        m1 = Material.RED_STAINED_GLASS;
-        m2 = Material.BLAST_FURNACE;
-        
-        s = ChatColor.AQUA + "AutoMiner";
+            m = Material.COBBLESTONE_WALL;
+            m1 = Material.RED_STAINED_GLASS;
+            m2 = Material.BLAST_FURNACE;
     
-        if (event.getBlockPlaced().getType().equals(Material.HOPPER)) {
-            if (im.hasDisplayName()) {
-                if (im.getDisplayName().equals(s)) {
-                    if (p.getWorld().getEnvironment() == World.Environment.NORMAL) {
+            s = ChatColor.AQUA + "AutoMiner";
     
+            if (event.getBlockPlaced().getType().equals(Material.HOPPER)) {
+                if (im.hasDisplayName()) {
+                    if (im.getDisplayName().equals(s)) {
+                        if (p.getWorld().getEnvironment() == World.Environment.NORMAL) {
+                    
+                            if (mconfig.getKeys(false).isEmpty()) {
+                                id = "0";
+                            } else {
+                                for (String key : mconfig.getKeys(false)) {
+                                    a = Integer.parseInt(mconfig.getConfigurationSection(key).getName());
+                                }
+                                if (!mconfig.getKeys(false).isEmpty()) {
+                                    id = a + 1 + "";
+                                }
+                            }
+                            if (event.isCancelled()) {
+                                return;
+                            }
+                    
+                            newMachine(id, "AutoMiner", p, true, Material.HOPPER);
+                    
+                            ItemStack it = new ItemStack(Material.COBBLESTONE_WALL, 1);
+                            ItemMeta itm = it.getItemMeta();
+                            itm.setDisplayName(ChatColor.AQUA + "Port-a-Wall");
+                            it.setItemMeta(itm);
+                    
+                            bl.setType(Material.AIR);
+                            blockPlace(bl, Material.HOPPER, id, p, it);
+                            blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 1, l.getBlockZ()), Material.OAK_FENCE, id, p, it);
+                            blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 2, l.getBlockZ()), m, id, p, it);
+                    
+                            blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 1), m1, id, p, it);
+                            blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 2), m2, id, p, it);
+                            blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 3), m, id, p, it);
+                            blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 1, l.getBlockZ() - 3), m, id, p, it);
+                            blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 1, l.getBlockZ() - 2), m, id, p, it);
+                            blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 2, l.getBlockZ() - 1), m, id, p, it);
+                            blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 2, l.getBlockZ() - 2), m, id, p, it);
+                    
+                            if (verify) {
+                                Block block = bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 1);
+                                Block blocks = bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 2);
+                                setBlock(blocks, blocks.getType(), BlockFace.WEST);
+                                block.setType(Material.RED_STAINED_GLASS);
+                                setBlock(blocks, m2, BlockFace.WEST);
+                                p.getWorld().playEffect(l, Effect.MOBSPAWNER_FLAMES, 0);
+                            }
+                            if (!verify) {
+                                event.setCancelled(true);
+                                p.sendMessage("§cNot enough space to place this.");
+                                blockBreak(l);
+                            }
+                            verify = true;
+                        } else {
+                            p.sendMessage("§cThis Machine can only be placed in the Overworld.");
+                            event.getBlockPlaced().setType(Material.AIR);
+                        }
+                    }
+                }
+            }
+            //GRAPPLING POST
+            s = ChatColor.AQUA + "Grappling Post";
+    
+            if (event.getBlockPlaced().getType().equals(Material.OAK_FENCE)) {
+                if (im.hasDisplayName()) {
+                    if (im.getDisplayName().equals(s)) {
+                
                         if (mconfig.getKeys(false).isEmpty()) {
                             id = "0";
                         } else {
@@ -151,19 +213,71 @@ public class MachineFunctions extends API implements Listener {
                         if (event.isCancelled()) {
                             return;
                         }
+                
+                        newMachine(id, "Grappling Post", p, true, Material.OAK_FENCE);
+                
+                        ItemStack it = new ItemStack(Material.COBBLESTONE_WALL, 1);
+                        ItemMeta itm = it.getItemMeta();
+                        itm.setDisplayName(ChatColor.AQUA + "Grappling Post");
+                        it.setItemMeta(itm);
+                
+                        bl.setType(Material.AIR);
+                        blockPlace(bl, Material.OAK_FENCE, id, p, it);
+                        Location loc = event.getBlockPlaced().getLocation();
+                        Location loc2 = event.getBlockPlaced().getLocation();
+                        loc.setY(loc.getY() - 1);
+                        loc2.setY(loc2.getY() + 1);
+                        m = loc.getBlock().getType();
+                        m2 = loc2.getBlock().getType();
+                        loc.getBlock().setType(Material.AIR);
+                        loc2.getBlock().setType(Material.AIR);
+                
+                        LeashHitch hitch = (LeashHitch) p.getWorld().spawnEntity(event.getBlockPlaced().getLocation(), EntityType.LEASH_HITCH);
+                        Bukkit.getEntity(hitch.getUniqueId()).setPersistent(true);
+                        Bukkit.getEntity(hitch.getUniqueId()).setInvulnerable(true);
+                        loc.getBlock().setType(m);
+                        loc2.getBlock().setType(m2);
+                
+                    }
+                }
+            }
+            //OBSIDIAN CARVER
+            m = Material.GRINDSTONE;
+            m1 = Material.MAGMA_BLOCK;
+            m2 = Material.COBBLESTONE_SLAB;
     
+            s = ChatColor.AQUA + "Obsidian Carver";
+    
+            if (event.getBlockPlaced().getType().equals(Material.DRAGON_HEAD)) {
+                if (im.hasDisplayName()) {
+                    if (im.getDisplayName().equals(s)) {
+                
+                        if (mconfig.getKeys(false).isEmpty()) {
+                            id = "0";
+                        } else {
+                            for (String key : mconfig.getKeys(false)) {
+                                a = Integer.parseInt(mconfig.getConfigurationSection(key).getName());
+                            }
+                            if (!mconfig.getKeys(false).isEmpty()) {
+                                id = a + 1 + "";
+                            }
+                        }
+                        if (event.isCancelled()) {
+                            return;
+                        }
+                
                         newMachine(id, "AutoMiner", p, true, Material.HOPPER);
-    
+                
                         ItemStack it = new ItemStack(Material.COBBLESTONE_WALL, 1);
                         ItemMeta itm = it.getItemMeta();
                         itm.setDisplayName(ChatColor.AQUA + "Port-a-Wall");
                         it.setItemMeta(itm);
-                        
+                
                         bl.setType(Material.AIR);
-                        blockPlace(bl, Material.HOPPER, id, p, it);
+                        blockPlace(bl, Material.DRAGON_HEAD, id, p, it);
                         blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 1, l.getBlockZ()), Material.OAK_FENCE, id, p, it);
                         blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 2, l.getBlockZ()), m, id, p, it);
-    
+                
                         blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 1), m1, id, p, it);
                         blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 2), m2, id, p, it);
                         blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 3), m, id, p, it);
@@ -171,7 +285,7 @@ public class MachineFunctions extends API implements Listener {
                         blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 1, l.getBlockZ() - 2), m, id, p, it);
                         blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 2, l.getBlockZ() - 1), m, id, p, it);
                         blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 2, l.getBlockZ() - 2), m, id, p, it);
-    
+                
                         if (verify) {
                             Block block = bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 1);
                             Block blocks = bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 2);
@@ -182,7 +296,7 @@ public class MachineFunctions extends API implements Listener {
                         }
                         if (!verify) {
                             event.setCancelled(true);
-                            p.sendMessage("§cNot enough space to place this.");
+                            p.sendMessage("§cCould not place.");
                             blockBreak(l);
                         }
                         verify = true;
@@ -190,119 +304,6 @@ public class MachineFunctions extends API implements Listener {
                         p.sendMessage("§cThis Machine can only be placed in the Overworld.");
                         event.getBlockPlaced().setType(Material.AIR);
                     }
-                }
-            }
-        }
-        //GRAPPLING POST
-        s = ChatColor.AQUA + "Grappling Post";
-    
-        if (event.getBlockPlaced().getType().equals(Material.OAK_FENCE)) {
-            if (im.hasDisplayName()) {
-                if (im.getDisplayName().equals(s)) {
-    
-                    if (mconfig.getKeys(false).isEmpty()) {
-                        id = "0";
-                    } else {
-                        for (String key : mconfig.getKeys(false)) {
-                            a = Integer.parseInt(mconfig.getConfigurationSection(key).getName());
-                        }
-                        if (!mconfig.getKeys(false).isEmpty()) {
-                            id = a + 1 + "";
-                        }
-                    }
-                    if (event.isCancelled()) {
-                        return;
-                    }
-    
-                    newMachine(id, "Grappling Post", p, true, Material.OAK_FENCE);
-    
-                    ItemStack it = new ItemStack(Material.COBBLESTONE_WALL, 1);
-                    ItemMeta itm = it.getItemMeta();
-                    itm.setDisplayName(ChatColor.AQUA + "Grappling Post");
-                    it.setItemMeta(itm);
-    
-                    bl.setType(Material.AIR);
-                    blockPlace(bl, Material.OAK_FENCE, id, p, it);
-                    Location loc = event.getBlockPlaced().getLocation();
-                    Location loc2 = event.getBlockPlaced().getLocation();
-                    loc.setY(loc.getY() - 1);
-                    loc2.setY(loc2.getY() + 1);
-                    m = loc.getBlock().getType();
-                    m2 = loc2.getBlock().getType();
-                    loc.getBlock().setType(Material.AIR);
-                    loc2.getBlock().setType(Material.AIR);
-    
-                    LeashHitch hitch = (LeashHitch) p.getWorld().spawnEntity(event.getBlockPlaced().getLocation(), EntityType.LEASH_HITCH);
-                    Bukkit.getEntity(hitch.getUniqueId()).setPersistent(true);
-                    Bukkit.getEntity(hitch.getUniqueId()).setInvulnerable(true);
-                    loc.getBlock().setType(m);
-                    loc2.getBlock().setType(m2);
-    
-                }
-            }
-        }
-        //OBSIDIAN CARVER
-        m = Material.GRINDSTONE;
-        m1 = Material.MAGMA_BLOCK;
-        m2 = Material.COBBLESTONE_SLAB;
-    
-        s = ChatColor.AQUA + "Obsidian Carver";
-    
-        if (event.getBlockPlaced().getType().equals(Material.DRAGON_HEAD)) {
-            if (im.hasDisplayName()) {
-                if (im.getDisplayName().equals(s)) {
-    
-                    if (mconfig.getKeys(false).isEmpty()) {
-                        id = "0";
-                    } else {
-                        for (String key : mconfig.getKeys(false)) {
-                            a = Integer.parseInt(mconfig.getConfigurationSection(key).getName());
-                        }
-                        if (!mconfig.getKeys(false).isEmpty()) {
-                            id = a + 1 + "";
-                        }
-                    }
-                    if (event.isCancelled()) {
-                        return;
-                    }
-    
-                    newMachine(id, "AutoMiner", p, true, Material.HOPPER);
-    
-                    ItemStack it = new ItemStack(Material.COBBLESTONE_WALL, 1);
-                    ItemMeta itm = it.getItemMeta();
-                    itm.setDisplayName(ChatColor.AQUA + "Port-a-Wall");
-                    it.setItemMeta(itm);
-    
-                    bl.setType(Material.AIR);
-                    blockPlace(bl, Material.DRAGON_HEAD, id, p, it);
-                    blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 1, l.getBlockZ()), Material.OAK_FENCE, id, p, it);
-                    blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 2, l.getBlockZ()), m, id, p, it);
-    
-                    blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 1), m1, id, p, it);
-                    blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 2), m2, id, p, it);
-                    blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 3), m, id, p, it);
-                    blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 1, l.getBlockZ() - 3), m, id, p, it);
-                    blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 1, l.getBlockZ() - 2), m, id, p, it);
-                    blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 2, l.getBlockZ() - 1), m, id, p, it);
-                    blockPlace(bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 2, l.getBlockZ() - 2), m, id, p, it);
-    
-                    if (verify) {
-                        Block block = bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 1);
-                        Block blocks = bl.getWorld().getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ() - 2);
-                        setBlock(blocks, blocks.getType(), BlockFace.WEST);
-                        block.setType(Material.RED_STAINED_GLASS);
-                        setBlock(blocks, m2, BlockFace.WEST);
-                        p.getWorld().playEffect(l, Effect.MOBSPAWNER_FLAMES, 0);
-                    }
-                    if (!verify) {
-                        event.setCancelled(true);
-                        p.sendMessage("§cCould not place.");
-                        blockBreak(l);
-                    }
-                    verify = true;
-                } else {
-                    p.sendMessage("§cThis Machine can only be placed in the Overworld.");
-                    event.getBlockPlaced().setType(Material.AIR);
                 }
             }
         }
@@ -391,7 +392,9 @@ public class MachineFunctions extends API implements Listener {
     
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onLoad(PluginEnableEvent event) {
-        Mortis();
+        if (!moduleIsDisabled("machines", plugin.getConfig())) {
+            Mortis();
+        }
     }
 
     public void Mortis() {

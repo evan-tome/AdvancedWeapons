@@ -105,7 +105,8 @@ public class API implements InventoryHolder {
     
     public boolean isBow(Player player) {
         if (player.getInventory().getItemInHand().getType().toString().toLowerCase()
-                .contains("bow")) {
+                .contains("bow") || player.getInventory().getItemInHand().getType().toString().toLowerCase()
+                .contains("trident")) {
             return true;
         }
         return false;
@@ -188,6 +189,10 @@ public class API implements InventoryHolder {
             }
         }
         return false;
+    }
+    
+    public boolean moduleIsDisabled(String module, FileConfiguration f) {
+        return !f.getBoolean(module);
     }
     
     public static boolean isInt(String s) {

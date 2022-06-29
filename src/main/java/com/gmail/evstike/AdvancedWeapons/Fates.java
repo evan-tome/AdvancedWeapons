@@ -37,12 +37,14 @@ public class Fates extends JavaPlugin implements Listener {
 		Bukkit.getServer().getPluginManager().registerEvents(new EnchantAttackSelf(this), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new EnchantArmorOther(this), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new EnchantArmorSelf(this), this);
+		Bukkit.getServer().getPluginManager().registerEvents(new EnchantArmorEquip(this), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new EnchantItemOther(this), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new EnchantItemSelf(this), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new EnchantBlockBreak(this), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new EnchantArrowSelf(this), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new EnchantArrowOther(this), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new EnchantArrowLand(this), this);
+		Bukkit.getServer().getPluginManager().registerEvents(new EnchantEntityDeath(this), this);
 		
 		Bukkit.getServer().getPluginManager().registerEvents(new MachineGUI(this), this);
 		
@@ -80,6 +82,8 @@ public class Fates extends JavaPlugin implements Listener {
 		}
 		
 		FileConfiguration config = this.getConfig();
+		this.saveDefaultConfig();
+		
 		File name = createFile("playerdata.yml");
 		FileConfiguration nameconfig = createYamlFile(name);
 		nameconfig.options().header("AdvancedWeapons Player Data is Stored Here");
@@ -119,6 +123,7 @@ public class Fates extends JavaPlugin implements Listener {
 			this.saveConfig();
 			log.info("Converted coinflip data");
 		}
+		
 		File mname = createFile("machines.yml");
 		FileConfiguration mconfig = createYamlFile(mname);
 		File iname = createFile("machineinv.yml");
@@ -131,13 +136,12 @@ public class Fates extends JavaPlugin implements Listener {
 		saveYamlFile(iconfig, iname);
 		saveYamlFile(wconfig, wname);
 		
-		this.saveDefaultConfig();
 		
 		//UPDATER CONFIG
 
 		File update = createFile("updater.yml");
 		FileConfiguration updateconfig = createYamlFile(update);
-		
+
 		ArrayList l = new ArrayList();
 		ArrayList l2 = new ArrayList();
 		for (String key2 : updateconfig.getKeys(true)) {

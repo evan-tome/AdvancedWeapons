@@ -32,15 +32,19 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
     
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         if (hasCommandPerm(sender, cmd, commandLabel, plugin.getConfig()) == false) {
-            if (cmd.getName().equalsIgnoreCase("weapons")) {
-                if (sender instanceof Player) {
-                    Player player = (Player) sender;
-                    openGUI(player);
-                    return false;
-                }
-                if (!(sender instanceof Player)) {
-                    sender.sendMessage("§cError: §4Only Players can use this command!");
-                    return true;
+            if (moduleIsDisabled("weapons", plugin.getConfig())) {
+                sender.sendMessage(plugin.getConfig().getString("disabled-module-msg").replace('&', '§'));
+            } else {
+                if (cmd.getName().equalsIgnoreCase("weapons")) {
+                    if (sender instanceof Player) {
+                        Player player = (Player) sender;
+                        openGUI(player);
+                        return false;
+                    }
+                    if (!(sender instanceof Player)) {
+                        sender.sendMessage("§cError: §4Only Players can use this command!");
+                        return true;
+                    }
                 }
             }
         }
@@ -114,6 +118,8 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
         Lore.add("§b" + num + "x " + "§7DUST");
         destMeta.setLore(Lore);
         dest.setItemMeta(destMeta);
+        if (num<0)
+            dest.setType(Material.AIR);
         
         List<String> Lore2 = new ArrayList<String>();
         slayMeta.setDisplayName(ChatColor.RED + "The Slayer");
@@ -130,6 +136,8 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
         Lore2.add("§b" + num2 + "x " + "§7DUST");
         slayMeta.setLore(Lore2);
         slay.setItemMeta(slayMeta);
+        if (num2<0)
+            slay.setType(Material.AIR);
         
         List<String> Lore3 = new ArrayList<String>();
         dropMeta.setDisplayName(ChatColor.RED + "The Dropper");
@@ -143,6 +151,8 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
         Lore3.add("§b" + num3 + "x " + "§7DUST");
         dropMeta.setLore(Lore3);
         drop.setItemMeta(dropMeta);
+        if (num3<0)
+            drop.setType(Material.AIR);
         
         List<String> Lore4 = new ArrayList<String>();
         rodMeta.setDisplayName(ChatColor.RED + "Fireball Launcher");
@@ -156,6 +166,8 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
         Lore4.add("§b" + num4 + "x " + "§7DUST");
         rodMeta.setLore(Lore4);
         rod.setItemMeta(rodMeta);
+        if (num4<0)
+            rod.setType(Material.AIR);
         
         List<String> Lore5 = new ArrayList<String>();
         boMeta.setDisplayName(ChatColor.RED + "The Skeletal Sword");
@@ -169,6 +181,8 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
         Lore5.add("§b" + num5 + "x " + "§7DUST");
         boMeta.setLore(Lore5);
         bo.setItemMeta(boMeta);
+        if (num5<0)
+            bo.setType(Material.AIR);
         
         List<String> Lore6 = new ArrayList<String>();
         snowMeta.setDisplayName(ChatColor.RED + "Ice Chunk");
@@ -182,6 +196,8 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
         Lore6.add("§b" + num6 + "x " + "§7DUST");
         snowMeta.setLore(Lore6);
         snow.setItemMeta(snowMeta);
+        if (num6<0)
+            snow.setType(Material.AIR);
         
         List<String> Lore7 = new ArrayList<String>();
         leadMeta.setDisplayName(ChatColor.RED + "Spirit Leash");
@@ -195,6 +211,8 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
         Lore7.add("§b" + num7 + "x " + "§7DUST");
         leadMeta.setLore(Lore7);
         lead.setItemMeta(leadMeta);
+        if (num7<0)
+            lead.setType(Material.AIR);
     
         List<String> Lore8 = new ArrayList<String>();
         grappleMeta.setDisplayName(ChatColor.RED + "Grappling Hook");
@@ -207,6 +225,8 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
         Lore8.add("§b" + num8 + "x " + "§7DUST");
         grappleMeta.setLore(Lore8);
         grapple.setItemMeta(grappleMeta);
+        if (num8<0)
+            grapple.setType(Material.AIR);
     
         List<String> Lore9 = new ArrayList<String>();
         bloodMeta.setDisplayName(ChatColor.RED + "Bloodshed Blade");
@@ -219,6 +239,8 @@ public class WeaponGUI extends API implements CommandExecutor, Listener {
         Lore9.add("§b" + num9 + "x " + "§7DUST");
         bloodMeta.setLore(Lore9);
         blood.setItemMeta(bloodMeta);
+        if (num9<0)
+            blood.setType(Material.AIR);
         
         List<String> LoreF = new ArrayList<String>();
         customMeta.setDisplayName(ChatColor.LIGHT_PURPLE + "More Weapons");

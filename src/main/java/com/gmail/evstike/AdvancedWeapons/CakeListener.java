@@ -19,7 +19,7 @@ import org.bukkit.material.Cake;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CakeListener implements Listener {
+public class CakeListener extends API implements Listener {
 
     Fates plugin;
 
@@ -31,7 +31,7 @@ public class CakeListener implements Listener {
     @EventHandler
     public void onCakePlace(BlockPlaceEvent e) {
         FileConfiguration config = plugin.getConfig();
-        if (config.getBoolean("cake") == true) {
+        if (!moduleIsDisabled("cake", plugin.getConfig())) {
             Player p = e.getPlayer();
             if (p.getInventory().getItemInHand().getType().name().contains("CAKE")) {
                 Location loc = e.getBlock().getLocation();

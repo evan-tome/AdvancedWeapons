@@ -28,15 +28,19 @@ public class MachineGUI extends API implements CommandExecutor, Listener {
     
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         if (hasCommandPerm(sender, cmd, commandLabel, plugin.getConfig()) == false) {
-            if (cmd.getName().equalsIgnoreCase("machines")) {
-                if (sender instanceof Player) {
-                    Player player = (Player) sender;
-                    openGUI(player);
-                    return false;
-                }
-                if (!(sender instanceof Player)) {
-                    sender.sendMessage("§cError: §4Only Players can use this command!");
-                    return true;
+            if (moduleIsDisabled("machines", plugin.getConfig())) {
+                sender.sendMessage(plugin.getConfig().getString("disabled-module-msg").replace('&', '§'));
+            } else {
+                if (cmd.getName().equalsIgnoreCase("machines")) {
+                    if (sender instanceof Player) {
+                        Player player = (Player) sender;
+                        openGUI(player);
+                        return false;
+                    }
+                    if (!(sender instanceof Player)) {
+                        sender.sendMessage("§cError: §4Only Players can use this command!");
+                        return true;
+                    }
                 }
             }
         }
@@ -100,6 +104,8 @@ public class MachineGUI extends API implements CommandExecutor, Listener {
         wallMeta.setLore(Lore);
         wall.setItemMeta(wallMeta);
         Lore.clear();
+        if (num<0)
+            wall.setType(Material.AIR);
         
         //AutoMiner
         drillMeta.setDisplayName(ChatColor.AQUA + "AutoMiner");
@@ -113,6 +119,8 @@ public class MachineGUI extends API implements CommandExecutor, Listener {
         drillMeta.setLore(Lore);
         drill.setItemMeta(drillMeta);
         Lore.clear();
+        if (num<0)
+            drill.setType(Material.AIR);
     
         //Grappling Post
         hitchMeta.setDisplayName(ChatColor.AQUA + "Grappling Post");
@@ -125,6 +133,8 @@ public class MachineGUI extends API implements CommandExecutor, Listener {
         Lore.add("§b" + num + "x " + "§7DUST");
         hitchMeta.setLore(Lore);
         hitch.setItemMeta(hitchMeta);
+        if (num<0)
+            hitch.setType(Material.AIR);
     
         //Obsidian Carver
         obbyMeta.setDisplayName(ChatColor.AQUA + "Obsidian Carver");
@@ -137,6 +147,8 @@ public class MachineGUI extends API implements CommandExecutor, Listener {
         Lore.add("§b" + num + "x " + "§7DUST");
         obbyMeta.setLore(Lore);
         obby.setItemMeta(obbyMeta);
+        if (num<0)
+            obby.setType(Material.AIR);
         
         //Inventory set
         inv.setItem(0, wall);

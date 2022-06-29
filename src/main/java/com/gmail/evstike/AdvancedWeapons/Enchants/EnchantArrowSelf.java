@@ -9,9 +9,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -36,9 +34,12 @@ public class EnchantArrowSelf extends API implements Listener {
     
     public boolean chance(String path) {
         Random rand = new Random();
-        int n = rand.nextInt(100) + 1;
-        if (n <= (plugin.getConfig().getInt("enchant." + path + ".chance"))) {
-            return true;
+        int n;
+        if (!moduleIsDisabled("enchants", plugin.getConfig())) {
+            n = rand.nextInt(100) + 1;
+            if (n <= (plugin.getConfig().getInt("enchant." + path + ".chance"))) {
+                return true;
+            }
         }
         return false;
     }
@@ -48,10 +49,10 @@ public class EnchantArrowSelf extends API implements Listener {
     public void onArrowSelf(EntityDamageByEntityEvent e) {
         if (e.getEntity() instanceof LivingEntity) {
             LivingEntity defender = (LivingEntity) e.getEntity();
-            if (e.getDamager() instanceof Arrow) {
-                Arrow ar = (Arrow) e.getDamager();
-                if (ar.getShooter() instanceof Player) {
-                    Player attacker = (Player) ar.getShooter();
+            if (e.getDamager() instanceof Arrow || e.getDamager() instanceof Trident) {
+                Projectile proj = (Projectile) e.getDamager();
+                if (proj.getShooter() instanceof Player) {
+                    Player attacker = (Player) proj.getShooter();
                     FileConfiguration config = plugin.getConfig();
                     ItemStack i = attacker.getInventory().getItemInHand();
                     ItemMeta im = i.getItemMeta();
@@ -161,7 +162,11 @@ public class EnchantArrowSelf extends API implements Listener {
                                                 //DAMAGE
                                                 if (function.equals("damage")) {
                                                     for (Double effect : item.getDoubleList("effects")) {
-                                                        attacker.damage(effect);
+                                                        if (effect >= 0) {
+                                                            attacker.damage(effect);
+                                                        } else if (attacker.getHealth()<attacker.getMaxHealth()) {
+                                                            attacker.setHealth(Math.min((attacker.getHealth() + Math.abs(effect)), attacker.getMaxHealth()));
+                                                        }
                                                     }
                                                 }
                                                 //EXPLOSION

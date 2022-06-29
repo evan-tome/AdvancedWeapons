@@ -35,9 +35,12 @@ public class EnchantAttackSelf extends API implements Listener {
     
     public boolean chance(String path) {
         Random rand = new Random();
-        int n = rand.nextInt(100) + 1;
-        if (n <= (plugin.getConfig().getInt("enchant." + path + ".chance"))) {
-            return true;
+        int n;
+        if (!moduleIsDisabled("enchants", plugin.getConfig())) {
+            n = rand.nextInt(100) + 1;
+            if (n <= (plugin.getConfig().getInt("enchant." + path + ".chance"))) {
+                return true;
+            }
         }
         return false;
     }
@@ -160,8 +163,10 @@ public class EnchantAttackSelf extends API implements Listener {
                                             //DAMAGE
                                             if (function.equals("damage")) {
                                                 for (Double effect : item.getDoubleList("effects")) {
-                                                    if (events.contains("attackself")) {
+                                                    if (effect >= 0) {
                                                         attacker.damage(effect);
+                                                    } else if (attacker.getHealth()<attacker.getMaxHealth()) {
+                                                        attacker.setHealth(Math.min((attacker.getHealth() + Math.abs(effect)), attacker.getMaxHealth()));
                                                     }
                                                 }
                                             }

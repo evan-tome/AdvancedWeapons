@@ -36,9 +36,9 @@ public class CEditor extends API implements CommandExecutor, Listener {
     HashMap<UUID, String> hash = new HashMap<UUID, String>();
     HashMap<UUID, String> ench = new HashMap<UUID, String>();
     
-    List<String> potion = Arrays.asList("interact", "attackself", "attackother", "armorself", "armorother", "itemself", "itemother", "blockbreak", "arrowland");
-    List<String> damage = Arrays.asList("attackself", "attackother", "armorself", "armorother", "itemself", "itemother");
-    List<String> explosion = Arrays.asList("interact", "attackself", "attackother", "armorself", "armorother", "itemself", "itemother", "blockbreak", "arrowland");
+    List<String> potion = Arrays.asList("interact", "attackself", "attackother", "armorself", "armorother", "itemself", "itemother", "blockbreak", "arrowland", "entitydeath", "armorequip");
+    List<String> damage = Arrays.asList("attackself", "attackother", "armorself", "armorother", "itemself", "itemother", "entitydeath");
+    List<String> explosion = Arrays.asList("interact", "attackself", "attackother", "armorself", "armorother", "itemself", "itemother", "blockbreak", "arrowland", "entitydeath");
     List<String> fortune = Collections.singletonList("blockbreak");
     List<String> summon = Collections.singletonList("arrowland");
     
@@ -401,7 +401,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
         t.addItem(ce);
         ce.setType(Material.BOW);
         ceM.setDisplayName("§eBow");
-        Lore.add("§8Bow, Crossbow");
+        Lore.add("§8Bow, Crossbow, Trident");
         ceM.setLore(Lore);
         ce.setItemMeta(ceM);
         Lore.clear();
@@ -477,7 +477,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
         ce.setType(Material.CREEPER_HEAD);
         ceM.setDisplayName("§eThresholdOther");
         Lore.add("§7Health that the other entity must be at");
-        Lore.add("§aCurrent value: §8<= §7"+plugin.getConfig().getInt("enchant."+enchPath(s)+".thresholdsother")+"%");
+        Lore.add("§aCurrent value: §8<= §7"+plugin.getConfig().getInt("enchant."+enchPath(s)+".thresholdother")+"%");
         Lore.add("§aTarget: §7Other Entity");
         ceM.setLore(Lore);
         ce.setItemMeta(ceM);
@@ -901,6 +901,28 @@ public class CEditor extends API implements CommandExecutor, Listener {
         ceM.setDisplayName("§eArrowLand");
         Lore.add("§7Activates when an arrow lands on a block");
         Lore.add("§8Held item must contain enchantment");
+        Lore.add("§aTarget: §7User");
+        ceM.setLore(Lore);
+        ce.setItemMeta(ceM);
+        Lore.clear();
+        t.addItem(ce);
+    
+        ce.setType(Material.WITHER_ROSE);
+        ceM.setDisplayName("§eEntityDeath");
+        Lore.add("§7Activates when the user kills an entity");
+        Lore.add("§8Held item must contain enchantment");
+        Lore.add("§aTarget: §7User");
+        ceM.setLore(Lore);
+        ce.setItemMeta(ceM);
+        Lore.clear();
+        t.addItem(ce);
+    
+        ce.setType(Material.ARMOR_STAND);
+        ceM.setDisplayName("§eArmorEquip");
+        Lore.add("§7Activates when the user §aequips §7a piece of armor");
+        Lore.add("§7Deactivates when the user §cunequips §7a piece of armor");
+        Lore.add("§8Armor must contain enchantment");
+        Lore.add("§8Armor must be equipped in the inventory");
         Lore.add("§aTarget: §7User");
         ceM.setLore(Lore);
         ce.setItemMeta(ceM);
@@ -1469,11 +1491,7 @@ public class CEditor extends API implements CommandExecutor, Listener {
                     for (String ps : sp) {
                         if (isDouble(ps)) {
                             double pd = Double.parseDouble(ps);
-                            if(pd >= 0) {
-                                dl.add(pd);
-                            } else {
-                                f.add(String.valueOf(pd));
-                            }
+                            dl.add(pd);
                         } else {
                             f.add(ps);
                         }

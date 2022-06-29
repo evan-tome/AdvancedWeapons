@@ -32,16 +32,20 @@ public class CustomEnchantGUI extends API implements CommandExecutor, Listener {
     List<String> max = new ArrayList<String>();
 
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-		if (!hasCommandPerm(sender, cmd, commandLabel, plugin.getConfig())) {
-			if (cmd.getName().equalsIgnoreCase("ce")) {
-				if (sender instanceof Player) {
-					Player player = (Player) sender;
-					player.openInventory(i());
-					return false;
-				}
-				if (!(sender instanceof Player)) {
-					sender.sendMessage("§cError: §4Only Players can use this command!");
-					return true;
+		if (moduleIsDisabled("enchants", plugin.getConfig())) {
+			sender.sendMessage(plugin.getConfig().getString("disabled-module-msg").replace('&', '§'));
+		} else {
+			if (!hasCommandPerm(sender, cmd, commandLabel, plugin.getConfig())) {
+				if (cmd.getName().equalsIgnoreCase("ce")) {
+					if (sender instanceof Player) {
+						Player player = (Player) sender;
+						player.openInventory(i());
+						return false;
+					}
+					if (!(sender instanceof Player)) {
+						sender.sendMessage("§cError: §4Only Players can use this command!");
+						return true;
+					}
 				}
 			}
 		}
@@ -169,13 +173,28 @@ public class CustomEnchantGUI extends API implements CommandExecutor, Listener {
 		n.setItem(n.getSize()-1, back());
 		
 		for (String s : l) {
+			int x = 0;
+			for (String key : section.getKeys(false)) {
+				section.get(key);
+				ConfigurationSection item = section.getConfigurationSection(key);
+				
+				String i = item.getString("name".replace('&', '§'));
+				String name = ChatColor.stripColor(i);
+				String firstWord = name.substring(0, name.lastIndexOf(" "));
+				
+				if (s.contains(firstWord)) {
+					x++;
+				}
+			}
 			List<String> Lore = new ArrayList<String>();
 			ItemStack ce = new ItemStack(Material.BOOKSHELF);
 			ItemMeta ceM = ce.getItemMeta();
 			ceM.setDisplayName(s.replace('&', '§'));
+			Lore.add("§7" + x + " enchantments");
 			ceM.setLore(Lore);
 			ce.setItemMeta(ceM);
 			n.addItem(ce);
+			x = 0;
 		}
 		
 		player.openInventory(n);
@@ -187,26 +206,58 @@ public class CustomEnchantGUI extends API implements CommandExecutor, Listener {
 		
 		t.setItem(t.getSize() - 1, back());
 		
+		ConfigurationSection section = plugin.getConfig().getConfigurationSection("enchant");
 		List<String> Lore = new ArrayList<String>();
 		ItemStack ce = new ItemStack(Material.BOOKSHELF);
 		ItemMeta ceM = ce.getItemMeta();
+		int w = 0;
+		int to = 0;
+		int a = 0;
+		int b = 0;
+		
+		for (String key : section.getKeys(false)) {
+			section.get(key);
+			ConfigurationSection item = section.getConfigurationSection(key);
+			
+			String type = item.getString("type");
+			if (type.equals("weapon")) {
+				w++;
+			} else if (type.equals("tool")) {
+				to++;
+			} else if (type.equals("armor")) {
+				a++;
+			} else if (type.equals("bow")) {
+				b++;
+			}
+		}
 		
 		ceM.setDisplayName("§eWeapon");
+		Lore.add("§7" + w + " enchantments");
 		ceM.setLore(Lore);
 		ce.setItemMeta(ceM);
 		t.addItem(ce);
+		Lore.clear();
+		
 		ceM.setDisplayName("§eTool");
+		Lore.add("§7" + to + " enchantments");
 		ceM.setLore(Lore);
 		ce.setItemMeta(ceM);
 		t.addItem(ce);
+		Lore.clear();
+		
 		ceM.setDisplayName("§eArmor");
+		Lore.add("§7" + a + " enchantments");
 		ceM.setLore(Lore);
 		ce.setItemMeta(ceM);
 		t.addItem(ce);
+		Lore.clear();
+		
 		ceM.setDisplayName("§eBow");
+		Lore.add("§7" + b + " enchantments");
 		ceM.setLore(Lore);
 		ce.setItemMeta(ceM);
 		t.addItem(ce);
+		Lore.clear();
 		
 		player.openInventory(t);
 	}

@@ -38,56 +38,58 @@ public class MachineMenu extends API implements Listener {
             priority = EventPriority.HIGHEST
     )
     public void onMachineOpen(PlayerInteractEvent event) {
-        Player p = event.getPlayer();
-        if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK) && !p.isSneaking()) {
-            Block bl = event.getClickedBlock();
-            Location l = bl.getLocation();
-            ItemStack i = p.getInventory().getItemInHand();
-            
-            File mname = this.plugin.createFile("machines.yml");
-            FileConfiguration mconfig = this.plugin.createYamlFile(mname);
-            File name = this.plugin.createFile("machineinv.yml");
-            FileConfiguration config = this.plugin.createYamlFile(name);
-            
-            for (String key : mconfig.getKeys(false)) {
-                ConfigurationSection item = mconfig.getConfigurationSection(key);
-                List<String> list = item.getStringList("list");
-                if (list.contains(this.c(l))) {
-
-                    if (bl.getType().equals(Material.FURNACE) || bl.getType().equals(Material.BLAST_FURNACE)) {
-                        event.setCancelled(true);
-                        if (!config.isConfigurationSection(key)) {
-                            config.createSection(key);
-                            config.set(key + ".type", mconfig.getString(key + ".type"));
-                            config.set(key + ".location", mconfig.getStringList(key + ".list").get(4));
-                            config.set(key + ".fuel", 8);
-                            config.createSection(key + ".list");
-                            List<String> s = config.getStringList(key + ".list");
-                            s.add(this.m(0).name() + ":0");
-                            s.add(this.m(1).name() + ":0");
-                            s.add(this.m(2).name() + ":0");
-                            s.add(this.m(3).name() + ":0");
-                            config.set(key + ".list", s);
-                            this.plugin.saveYamlFile(config, name);
-                            Block block = this.str2loc(mconfig.getStringList(key + ".list").get(3), key);
-                            block.setType(Material.YELLOW_STAINED_GLASS);
-                        }
-                        boolean open = false;
-                        for (Player pl : Bukkit.getOnlinePlayers()) {
-                            if (pl.getOpenInventory().getTitle().equals(key + " - Machine")) {
-                                open = true;
+        if (!moduleIsDisabled("machines", plugin.getConfig())) {
+            Player p = event.getPlayer();
+            if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK) && !p.isSneaking()) {
+                Block bl = event.getClickedBlock();
+                Location l = bl.getLocation();
+                ItemStack i = p.getInventory().getItemInHand();
+        
+                File mname = this.plugin.createFile("machines.yml");
+                FileConfiguration mconfig = this.plugin.createYamlFile(mname);
+                File name = this.plugin.createFile("machineinv.yml");
+                FileConfiguration config = this.plugin.createYamlFile(name);
+        
+                for (String key : mconfig.getKeys(false)) {
+                    ConfigurationSection item = mconfig.getConfigurationSection(key);
+                    List<String> list = item.getStringList("list");
+                    if (list.contains(this.c(l))) {
+                
+                        if (bl.getType().equals(Material.FURNACE) || bl.getType().equals(Material.BLAST_FURNACE)) {
+                            event.setCancelled(true);
+                            if (!config.isConfigurationSection(key)) {
+                                config.createSection(key);
+                                config.set(key + ".type", mconfig.getString(key + ".type"));
+                                config.set(key + ".location", mconfig.getStringList(key + ".list").get(4));
+                                config.set(key + ".fuel", 8);
+                                config.createSection(key + ".list");
+                                List<String> s = config.getStringList(key + ".list");
+                                s.add(this.m(0).name() + ":0");
+                                s.add(this.m(1).name() + ":0");
+                                s.add(this.m(2).name() + ":0");
+                                s.add(this.m(3).name() + ":0");
+                                config.set(key + ".list", s);
+                                this.plugin.saveYamlFile(config, name);
+                                Block block = this.str2loc(mconfig.getStringList(key + ".list").get(3), key);
+                                block.setType(Material.YELLOW_STAINED_GLASS);
+                            }
+                            boolean open = false;
+                            for (Player pl : Bukkit.getOnlinePlayers()) {
+                                if (pl.getOpenInventory().getTitle().equals(key + " - Machine")) {
+                                    open = true;
+                                }
+                            }
+                            if (!open) {
+                                this.openGUI(p, key);
+                                open = false;
+                            }
+                            if (open) {
+                                p.sendMessage("§cThis Machine is currently in use.");
                             }
                         }
-                        if (!open) {
-                            this.openGUI(p, key);
-                            open = false;
+                        if (bl.getType().equals(Material.HOPPER)) {
+                            event.setCancelled(true);
                         }
-                        if (open) {
-                            p.sendMessage("§cThis Machine is currently in use.");
-                        }
-                    }
-                    if (bl.getType().equals(Material.HOPPER)) {
-                        event.setCancelled(true);
                     }
                 }
             }

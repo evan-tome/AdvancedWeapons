@@ -11,6 +11,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -35,18 +36,28 @@ public class EnchantArmorOther extends API implements Listener {
     
     public boolean chance(String path) {
         Random rand = new Random();
-        int n = rand.nextInt(100) + 1;
-        if (n <= (plugin.getConfig().getInt("enchant." + path + ".chance"))) {
-            return true;
+        int n;
+        if (!moduleIsDisabled("enchants", plugin.getConfig())) {
+            n = rand.nextInt(100) + 1;
+            if (n <= (plugin.getConfig().getInt("enchant." + path + ".chance"))) {
+                return true;
+            }
         }
         return false;
     }
+    
     @EventHandler
     public void onArmorDefend(EntityDamageByEntityEvent e) {
         if (e.getEntity() instanceof Player) {
             Player defender = (Player) e.getEntity();
-            if (e.getDamager() instanceof LivingEntity) {
-                LivingEntity attacker = (LivingEntity) e.getDamager();
+            LivingEntity attacker = null;
+            if (e.getDamager() instanceof LivingEntity || e.getDamager() instanceof Projectile) {
+        
+                if (e.getDamager() instanceof LivingEntity) {
+                    attacker = (LivingEntity) e.getDamager();
+                } else if (e.getDamager() instanceof Projectile && ((Projectile) e.getDamager()).getShooter() instanceof LivingEntity) {
+                    attacker = (LivingEntity) ((Projectile) e.getDamager()).getShooter();
+                }
                 FileConfiguration config = plugin.getConfig();
                 
                 for (ItemStack i : defender.getInventory().getArmorContents()) {
@@ -156,12 +167,12 @@ public class EnchantArmorOther extends API implements Listener {
                                                             }
                                                         }
                                                     }
-                                                    
-                                                    //DAMAGE
                                                     if (function.equals("damage")) {
                                                         for (Double effect : item.getDoubleList("effects")) {
-                                                            if (events.contains("armorother")) {
+                                                            if (effect >= 0) {
                                                                 attacker.damage(effect);
+                                                            } else if (attacker.getHealth()<attacker.getMaxHealth()) {
+                                                                attacker.setHealth(Math.min((attacker.getHealth() + Math.abs(effect)), attacker.getMaxHealth()));
                                                             }
                                                         }
                                                     }

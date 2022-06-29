@@ -33,42 +33,44 @@ public class Coinflip extends API implements CommandExecutor, Listener {
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         if (hasCommandPerm(sender, cmd, commandLabel, plugin.getConfig()) == false) {
             if (cmd.getName().equalsIgnoreCase("coinflip")) {
-                
-                if (!(sender instanceof Player)) {
-                    sender.sendMessage("§cError: §4Only Players can use this command!");
+                if (moduleIsDisabled("coinflipping", plugin.getConfig())) {
+                    sender.sendMessage(plugin.getConfig().getString("disabled-module-msg").replace('&', '§'));
+                } else {
+                    if (!(sender instanceof Player)) {
+                        sender.sendMessage("§cError: §4Only Players can use this command!");
+                        return true;
+                    }
+                    if (args.length != 1) {
+                        sender.sendMessage("§cError: §4Please specify a player.");
+                        return false;
+                    }
+                    if (args[0] == null) {
+                        sender.sendMessage("§cError: §4Player " + args[0] + " not found.");
+                        return false;
+                    }
+                    Player challenger = (Player) sender;
+                    Player target = Bukkit.getServer().getPlayerExact(args[0]);
+                    if (target == null) {
+                        challenger.sendMessage("§cError: §4Player " + args[0] + " not found.");
+                        return false;
+                        // }
+                        // if (target==sender) {
+                        // sender.sendMessage("§cError: §4You cannot coinflip with
+                        // yourself.");
+                        // return false;
+                    }
+                    if (match.containsKey(target.getUniqueId()) || match.containsValue(target.getUniqueId())) {
+                        challenger.sendMessage("§cError: §4Player " + args[0] + " is already in a match.");
+                        return true;
+                    }
+                    challenger.sendMessage("§6You have sent a coinflip request to §a" + target.getName() + ".");
+                    challenger.sendMessage("§6You are Heads");
+                    target.sendMessage("§6You have received a coinflip request from §a" + challenger.getName() + ".");
+                    target.sendMessage("§6You are Tails");
+                    match.put(target.getUniqueId(), challenger.getUniqueId());
+                    openGUI(target);
                     return true;
                 }
-                if (args.length != 1) {
-                    sender.sendMessage("§cError: §4Please specify a player.");
-                    return false;
-                }
-                if (args[0] == null) {
-                    sender.sendMessage("§cError: §4Player " + args[0] + " not found.");
-                    return false;
-                }
-                
-                Player challenger = (Player) sender;
-                Player target = Bukkit.getServer().getPlayerExact(args[0]);
-                if (target == null) {
-                    challenger.sendMessage("§cError: §4Player " + args[0] + " not found.");
-                    return false;
-                    // }
-                    // if (target==sender) {
-                    // sender.sendMessage("§cError: §4You cannot coinflip with
-                    // yourself.");
-                    // return false;
-                }
-                if (match.containsKey(target.getUniqueId()) || match.containsValue(target.getUniqueId())) {
-                    challenger.sendMessage("§cError: §4Player " + args[0] + " is already in a match.");
-                    return true;
-                }
-                challenger.sendMessage("§6You have sent a coinflip request to §a" + target.getName() + ".");
-                challenger.sendMessage("§6You are Heads");
-                target.sendMessage("§6You have received a coinflip request from §a" + challenger.getName() + ".");
-                target.sendMessage("§6You are Tails");
-                match.put(target.getUniqueId(), challenger.getUniqueId());
-                openGUI(target);
-                return true;
             }
         }
         return false;
